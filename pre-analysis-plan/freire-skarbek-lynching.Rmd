@@ -39,7 +39,7 @@ if (!require("kableExtra")) {
 }
 ```
 
-[^thanks]: We thank Rosario Aguilar, Miriam Golden, Umberto Mignozzetti, Irfan Nooruddin, Catarina Roman, and Alex Sacco for their valuable comments.
+[^thanks]: We thank Louise Araújo, Rosario Aguilar, Miriam Golden, Umberto Mignozzetti, Irfan Nooruddin, Catarina Roman, and Alex Sacco for their valuable comments.
 
 [^freire]: Postdoctoral Research Associate, The Political Theory Project, Brown University, 8 Fones Alley, Providence, RI 02912, [`danilofreire@gmail.com`](mailto:danilofreire@gmail.com), <https://danilofreire.github.io>.
 
@@ -60,9 +60,9 @@ crime and by police ineffectiveness, citizen violence has surged in the region
 [@mallen2014vigilantes]. Brazil provides a telling example. From 2011 to 2015,
 the country registered about 2,500 lynching episodes, and in 2015 alone 173
 people were killed by angry mobs, an average of one execution every two days
-[@zechmeister2014political]. According to José Martins, who has studied
-lynchings in Brazil for more than 30 years, those figures are not only the
-highest in the country's history, but also the highest in the world
+[@barbara2015vigilantes; @oliveira2016mob]. According to José Martins, who has
+studied lynchings in Brazil for more than 30 years, those figures are not only
+the highest in the country's history, but also the highest in the world
 [@pearson2018latam]. Victims are generally accused of petty theft, and many are
 beaten to death for stealing mobile phones, cooking utensils, or pairs of
 sandals [@barbara2015vigilantes]. Lynching perpetrators are often young men,
@@ -90,7 +90,7 @@ proceedings and that social control is better exerted by the people themselves
 and severity of lynchings. In Brazil, a person is rarely lynched when they
 commit a crime against males, and females that commit the same crimes as males
 also receive less punishment.[^fapesp] Moreover, there is no significant social
-difference between victims and perpetrators, nor black Brazilians are
+difference between victims and perpetrators, nor are black Brazilians 
 particularly targeted by lynch mobs [@oliveira2016mob]. These dynamics pose a
 puzzle to existing explanations for mob violence support and stand in sharp
 contrast with the American experience [@smaangs2016doing; @wood2011lynching].
@@ -104,7 +104,7 @@ do individuals justify their approval for vigilantism?; and 3) can information
 provision reduce support for mob violence? We design a set of three experiments
 to tackle these issues. Our first experiment consists of a conjoint analysis
 in which we show respondents different profiles of lynching victims and ask them
-who they believe deserve the punishment. In our second experiment, we test how
+who they believe deserve punishment. In our second experiment, we test how
 ineffective policing, slow criminal justice systems, and demand for hasher legal
 punishment affect individual propensity to support mob violence. Finally, we
 assess whether citizens become less supportive of vigilantism when they are
@@ -138,7 +138,7 @@ lynching perpetrators. The attributes and levels are displayed in table
 \small
 Gender of crime perpetrator & Male; female \\ [4pt]
 Age of crime perpetrator & Teenager; adult; elderly \\ [4pt]
-Race of crime perpetrator & Black; white; native Brazilian; Asian \\ [4pt]
+Race of crime perpetrator & Black; White; Native Brazilian; Asian \\ [4pt]
 Offense & Picks the pocket; steals the car; molests; rapes; murders \\ [4pt]
 Gender of crime victim & Male; female\\ [4pt]
 Age of crime victim & Child; teenager; adult; elderly\\ [4pt]
@@ -265,20 +265,21 @@ criminals. Below, we discuss them in further detail.
 Research shows that police ineffectiveness frequently appears as a strong
 predictor for vigilantism [@cruz2019determinants; @garcia2019anger]. The direct
 result of the weakness of police institutions is that citizens decide to take
-criminal matters "in their own hands", thus persecuting and punishing the
+criminal matters "into their own hands", thus persecuting and punishing the
 criminals by themselves. A recent statistic indicates that the police
-solves only 10% of the homicides in Brazil, what lends evidence to the link
+solve only 10% of the homicides in Brazil, what lends support to the link
 between weak law enforcement and lynchings [@pearson2018latam].
 
 Another determinant of support for vigilante justice that is suggested in the
-literature is the lack of trust in the justice system [@godoy2004justice]. This
-is often due to long criminal proceedings, which cause significant anxiety for
-the victims. In Brazil, the penal code allows the accused to appeal each
-decision several times, so it can take decades before a criminal case is closed
-[@sousa2005utilizaccao]. In this respect, citizens do not believe that, even if
-the criminal is put to trial, he/she will be punished in a timely matter. Note
-that although the police is part of the criminal justice system, we separate the
-two institutions in our experiment. 
+literature is the lack of trust in the justice system [@godoy2004justice;
+@smith2019contradictions]. This is often due to long criminal proceedings,
+which cause significant anxiety for the victims. In Brazil, the penal code
+allows the accused to appeal each decision several times, so it can take
+decades before a criminal case is closed [@sousa2005utilizaccao]. In this
+respect, citizens do not believe that, even if the criminal is put to trial,
+he/she will be punished in a timely matter. Note that although the police is
+part of the criminal justice system, we separate the two institutions in our
+experiment. 
 
 Lastly, we evaluate whether respondents think that the legal punishment
 assigned to criminals is not proportional to the severity of their crimes. In
