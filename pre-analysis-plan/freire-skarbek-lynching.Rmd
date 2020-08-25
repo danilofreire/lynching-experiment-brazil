@@ -39,7 +39,7 @@ if (!require("kableExtra")) {
 }
 ```
 
-[^thanks]: We thank Louise Araújo, Rosario Aguilar, Miriam Golden, Umberto Mignozzetti, Irfan Nooruddin, Catarina Roman, and Alex Sacco for their valuable comments.
+[^thanks]: We thank Rosario Aguilar, Louise Araújo, Miriam Golden, Umberto Mignozzetti, Irfan Nooruddin, Catarina Roman, and Alex Sacco for their valuable comments.
 
 [^freire]: Postdoctoral Research Associate, The Political Theory Project, Brown University, 8 Fones Alley, Providence, RI 02912, [`danilofreire@gmail.com`](mailto:danilofreire@gmail.com), <https://danilofreire.github.io>.
 
