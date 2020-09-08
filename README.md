@@ -8,12 +8,12 @@ This GitHub repository contains data and documented R code for ["Casting the Fir
 
 You can cite the article as: 
 
-> Freire, D., Mignozzetti, U., Skarbek, D. 2020. "Casting the First Stone: Attitudes on Lynchings in Brazil", _SocArXiv_, DOI: <https://doi.org/10.31235/osf.io/9a6ch>.
+> Freire, D. and Skarbek, D. 2020. "Casting the First Stone: Attitudes on Lynchings in Brazil", _SocArXiv_, DOI: <https://doi.org/10.31235/osf.io/9a6ch>.
 
 BibTeX entry:
 
 ```
-@misc{freire2020climategovernance,
+@misc{freire2020lynching,
   title={{Casting the First Stone: Attitudes on Lynchings in Brazil}},
   author={Freire, Danilo and Skarbek, David},
   pages={1--17},
