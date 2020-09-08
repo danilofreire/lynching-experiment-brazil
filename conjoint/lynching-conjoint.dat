@@ -1,0 +1,17 @@
+Attributes
+Gênero do(a) criminoso(a):Masculino,Feminino
+Idade do(a) criminoso(a):Adolescente,Adulto(a),Idoso(a)
+Raça do(a) criminoso(a):Branco(a),Negro(a),Indígena,Asiático(a)
+Crime:Bateu a carteira,Roubou o carro,Molestou,Estuprou,Assassinou
+Gênero da vítima:Masculino,Feminino
+Idade da vítima:Adolescente,Adulto(a),Criança,Idoso(a)
+Linchadores:Vizinhos,Família da vítima,Polícia,Gangues,Pedestres
+Weights
+Gênero do(a) criminoso(a):0.5,0.5
+Idade do(a) criminoso(a):0.3333333333333333,0.3333333333333333,0.3333333333333333
+Raça do(a) criminoso(a):0.25,0.25,0.25,0.25
+Crime:0.2,0.2,0.2,0.2,0.2
+Gênero da vítima:0.5,0.5
+Idade da vítima:0.25,0.25,0.25,0.25
+Linchadores:0.2,0.2,0.2,0.2,0.2
+Restrictions
