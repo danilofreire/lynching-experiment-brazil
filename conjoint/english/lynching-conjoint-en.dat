@@ -1,0 +1,18 @@
+Attributes
+Gender of crime perpetrator:Male,Female
+Age of crime perpetrator:Teenager,Adult,Elderly
+Race of crime perpetrator:White,Black,Native Brazilian,Asian
+Offense:Picks the pocket,Steals the car,Molests,Rapes,Murders
+Gender of crime victim:Male,Female
+Age of crime victim:Child,Teenager,Adult,Elderly
+Lynching perpetrators:Bystanders,Neighbours,Family of the victim,Gangs,Police
+Weights
+Gender of crime perpetrator:0.5,0.5
+Age of crime perpetrator:0.3333333333333333,0.3333333333333333,0.3333333333333333
+Race of crime perpetrator:0.25,0.25,0.25,0.25
+Offense:0.2,0.2,0.2,0.2,0.2
+Gender of crime victim:0.5,0.5
+Age of crime victim:0.25,0.25,0.25,0.25
+Lynching perpetrators:0.2,0.2,0.2,0.2,0.2
+Restrictions
+Gender of crime perpetrator:Female;Offense:Rapes
