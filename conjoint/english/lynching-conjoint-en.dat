@@ -16,3 +16,5 @@ Age of crime victim:0.25,0.25,0.25,0.25
 Lynching perpetrators:0.2,0.2,0.2,0.2,0.2
 Restrictions
 Gender of crime perpetrator:Female;Offense:Rapes
+Offense:Steals the car;Age of crime victim:Child
+Offense:Steals the car;Age of crime victim:Teenager

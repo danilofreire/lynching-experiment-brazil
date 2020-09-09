@@ -40,7 +40,7 @@ function weighted_randomize($prob_array, $at_key)
 
 $featurearray = array("Gender of crime perpetrator" => array("Male","Female"),"Age of crime perpetrator" => array("Teenager","Adult","Elderly"),"Race of crime perpetrator" => array("White","Black","Native Brazilian","Asian"),"Offense" => array("Picks the pocket","Steals the car","Molests","Rapes","Murders"),"Gender of crime victim" => array("Male","Female"),"Age of crime victim" => array("Child","Teenager","Adult","Elderly"),"Lynching perpetrators" => array("Bystanders","Neighbours","Family of the victim","Gangs","Police"));
 
-$restrictionarray = array(array(array("Gender of crime perpetrator","Female"),array("Offense","Rapes")));
+$restrictionarray = array(array(array("Gender of crime perpetrator","Female"),array("Offense","Rapes")),array(array("Offense","Steals the car"),array("Age of crime victim","Child")),array(array("Offense","Steals the car"),array("Age of crime victim","Teenager")));
 
 // Indicator for whether weighted randomization should be enabled or not
 $weighted = 0;

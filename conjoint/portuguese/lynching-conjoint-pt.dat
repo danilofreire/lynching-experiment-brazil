@@ -16,3 +16,5 @@ Idade da vítima:0.25,0.25,0.25,0.25
 Linchadores:0.2,0.2,0.2,0.2,0.2
 Restrictions
 Gênero do(a) criminoso(a):Feminino;Crime:Estuprou
+Crime:Roubou o carro;Idade da vítima:Criança
+Crime:Roubou o carro;Idade da vítima:Adolescente
