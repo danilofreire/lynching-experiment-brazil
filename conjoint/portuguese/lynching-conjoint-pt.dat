@@ -2,6 +2,7 @@ Attributes
 Gênero do(a) criminoso(a):Masculino,Feminino
 Idade do(a) criminoso(a):Adolescente,Adulto(a),Idoso(a)
 Raça do(a) criminoso(a):Branco(a),Negro(a),Indígena,Asiático(a)
+Residência do criminoso:Mora na vizinhança,Mora em outro bairro
 Crime:Bateu a carteira,Roubou o carro,Molestou,Estuprou,Assassinou
 Gênero da vítima:Masculino,Feminino
 Idade da vítima:Adolescente,Adulto(a),Criança,Idoso(a)
@@ -10,6 +11,7 @@ Weights
 Gênero do(a) criminoso(a):0.5,0.5
 Idade do(a) criminoso(a):0.3333333333333333,0.3333333333333333,0.3333333333333333
 Raça do(a) criminoso(a):0.25,0.25,0.25,0.25
+Residência do criminoso:0.5,0.5
 Crime:0.2,0.2,0.2,0.2,0.2
 Gênero da vítima:0.5,0.5
 Idade da vítima:0.25,0.25,0.25,0.25

@@ -38,7 +38,7 @@ function weighted_randomize($prob_array, $at_key)
 }
                     
 
-$featurearray = array("Gender of crime perpetrator" => array("Male","Female"),"Age of crime perpetrator" => array("Teenager","Adult","Elderly"),"Race of crime perpetrator" => array("White","Black","Native Brazilian","Asian"),"Offense" => array("Picks the pocket","Steals the car","Molests","Rapes","Murders"),"Gender of crime victim" => array("Male","Female"),"Age of crime victim" => array("Child","Teenager","Adult","Elderly"),"Lynching perpetrators" => array("Bystanders","Neighbours","Family of the victim","Gangs","Police"));
+$featurearray = array("Gender of crime perpetrator" => array("Male","Female"),"Age of crime perpetrator" => array("Teenager","Adult","Elderly"),"Race of crime perpetrator" => array("White","Black","Native Brazilian","Asian"),"Residency of crime perpetrator" => array("Member of the community","Outsider"),"Offense" => array("Picks the pocket","Steals the car","Molests","Rapes","Murders"),"Gender of crime victim" => array("Male","Female"),"Age of crime victim" => array("Child","Teenager","Adult","Elderly"),"Lynching perpetrators" => array("Bystanders","Neighbours","Family of the victim","Gangs","Police"));
 
 $restrictionarray = array(array(array("Gender of crime perpetrator","Female"),array("Offense","Rapes")),array(array("Offense","Steals the car"),array("Age of crime victim","Child")),array(array("Offense","Steals the car"),array("Age of crime victim","Teenager")));
 
@@ -55,9 +55,68 @@ $N = 2;
 $num_attributes = count($featurearray);
 
 
-$featureArrayNew = $featurearray;
+$attrconstraintarray = array();
 
 
+// Re-randomize the $featurearray
+
+// Place the $featurearray keys into a new array
+$featureArrayKeys = array();
+$incr = 0;
+
+foreach($featurearray as $attribute => $levels){	
+	$featureArrayKeys[$incr] = $attribute;
+	$incr = $incr + 1;
+}
+
+// Backup $featureArrayKeys
+$featureArrayKeysBackup = $featureArrayKeys;
+
+// If order randomization constraints exist, drop all of the non-free attributes
+if (count($attrconstraintarray) != 0){
+	foreach ($attrconstraintarray as $constraints){
+		if (count($constraints) > 1){
+			for ($p = 1; $p < count($constraints); $p++){
+				if (in_array($constraints[$p], $featureArrayKeys)){
+					$remkey = array_search($constraints[$p],$featureArrayKeys);
+					unset($featureArrayKeys[$remkey]);
+				}
+			}
+		}
+	}
+} 
+// Re-set the array key indices
+$featureArrayKeys = array_values($featureArrayKeys);
+// Re-randomize the $featurearray keys
+shuffle($featureArrayKeys);
+
+// Re-insert the non-free attributes constrained by $attrconstraintarray
+if (count($attrconstraintarray) != 0){
+	foreach ($attrconstraintarray as $constraints){
+		if (count($constraints) > 1){
+			$insertloc = $constraints[0];
+			if (in_array($insertloc, $featureArrayKeys)){
+				$insert_block = array($insertloc);
+				for ($p = 1; $p < count($constraints); $p++){
+					if (in_array($constraints[$p], $featureArrayKeysBackup)){
+						array_push($insert_block, $constraints[$p]);
+					}
+				}
+				
+				$begin_index = array_search($insertloc, $featureArrayKeys);
+				array_splice($featureArrayKeys, $begin_index, 1, $insert_block);
+			}
+		}
+	}
+}
+
+
+// Re-generate the new $featurearray - label it $featureArrayNew
+
+$featureArrayNew = array();
+foreach($featureArrayKeys as $key){
+	$featureArrayNew[$key] = $featurearray[$key];
+}
 // Initialize the array returned to the user
 // Naming Convention
 // Level Name: F-[task number]-[profile number]-[attribute number]

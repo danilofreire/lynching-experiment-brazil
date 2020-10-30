@@ -2,6 +2,7 @@ Attributes
 Gender of crime perpetrator:Male,Female
 Age of crime perpetrator:Teenager,Adult,Elderly
 Race of crime perpetrator:White,Black,Native Brazilian,Asian
+Residency of crime perpetrator:Member of the community,Outsider
 Offense:Picks the pocket,Steals the car,Molests,Rapes,Murders
 Gender of crime victim:Male,Female
 Age of crime victim:Child,Teenager,Adult,Elderly
@@ -10,6 +11,7 @@ Weights
 Gender of crime perpetrator:0.5,0.5
 Age of crime perpetrator:0.3333333333333333,0.3333333333333333,0.3333333333333333
 Race of crime perpetrator:0.25,0.25,0.25,0.25
+Residency of crime perpetrator:0.5,0.5
 Offense:0.2,0.2,0.2,0.2,0.2
 Gender of crime victim:0.5,0.5
 Age of crime victim:0.25,0.25,0.25,0.25

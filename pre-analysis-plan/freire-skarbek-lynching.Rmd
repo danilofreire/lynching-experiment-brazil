@@ -40,11 +40,19 @@ if (!require("kableExtra")) {
 ```
 
 [^thanks]: We thank Rosario Aguilar, Louise Araújo, Miriam Golden, Umberto
-Mignozzetti, Irfan Nooruddin, Catarina Roman, and Alex Scacco for their valuable comments.
+Mignozzetti, Irfan Nooruddin, Catarina Roman, and Alex Scacco for their
+valuable comments. This pre-analysis plan received IRB approval from Brown
+University in October 2020 (Protocol 2009002803).
 
-[^freire]: Postdoctoral Research Associate, The Political Theory Project, Brown University, 8 Fones Alley, Providence, RI 02912, [`danilofreire@gmail.com`](mailto:danilofreire@gmail.com), <https://danilofreire.github.io>.
+[^freire]: Postdoctoral Research Associate, The Political Theory Project, Brown
+University, 8 Fones Alley, Providence, RI 02912,
+[`danilofreire@gmail.com`](mailto:danilofreire@gmail.com),
+<https://danilofreire.github.io>.
 
-[^skarbek]: The Department of Political Science and the Political Theory Project, Brown University, 8 Fones Alley, Providence, RI 02912, USA, [`david_skarbek@brown.edu`](mailto:david_skarbek@brown.edu), <http://davidskarbek.com>.
+[^skarbek]: The Department of Political Science and the Political Theory
+Project, Brown University, 8 Fones Alley, Providence, RI 02912, USA,
+[`david_skarbek@brown.edu`](mailto:david_skarbek@brown.edu),
+<http://davidskarbek.com>.
 
 \newpage
 
@@ -55,75 +63,76 @@ Mignozzetti, Irfan Nooruddin, Catarina Roman, and Alex Scacco for their valuable
 
 Why do citizens endorse extralegal punishment?[^definitions] Although mob
 violence has decreased in advanced democracies, vigilantism remains widespread
-in the developing world. In particular, Latin America has been severely affected
-by a recent increase in lynchings. Motivated by growing numbers of drug-related
-crime and by police ineffectiveness, citizen violence has surged in the region
-[@mallen2014vigilantes]. Brazil provides a telling example. From 2011 to 2015,
-the country registered about 2,500 lynching episodes, and in 2015 alone 173
-people were killed by angry mobs, an average of one execution every two days
-[@barbara2015vigilantes; @oliveira2016mob]. According to José Martins, who has
-studied lynchings in Brazil for more than 30 years, those figures are not only
-the highest in the country's history, but also the highest in the world
-[@pearson2018latam]. Victims are generally accused of petty theft, and many are
-beaten to death for stealing mobile phones, cooking utensils, or pairs of
-sandals [@barbara2015vigilantes]. Lynching perpetrators are often young men,
+in the developing world. In particular, Latin America has been severely
+affected by a recent increase in lynchings. Motivated by growing numbers of
+drug-related crime and by police ineffectiveness, citizen violence has surged
+in the region [@mallen2014vigilantes]. Brazil provides a telling example. From
+2011 to 2015, the country registered about 2,500 lynching episodes, and in 2015
+alone 173 people were killed by angry mobs, an average of one execution every
+two days [@barbara2015vigilantes; @oliveira2016mob]. According to José Martins,
+who has studied lynchings in Brazil for more than 30 years, those figures are
+not only the highest in the country's history, but also the highest in the
+world [@pearson2018latam]. Victims are generally accused of petty theft, and
+many are beaten to death for stealing mobile phones, cooking utensils, or pairs
+of sandals [@barbara2015vigilantes]. Lynching perpetrators are often young men,
 but they also include female teenagers, elderly women, and even members of
 local police forces [@moura2017linchamentos; @oliveira2016mob].
 
 [^definitions]: Here we consider extralegal violence, vigilantism, lynching,
 and related terms as synonyms. We follow @moncada2017varieties [6] and define
-vigilantism as "the collective use or threat of extralegal violence in
-response to an alleged criminal act". While we focus here on vigilantism that
-directly involves physical violence, we make no distinction between lethal and
+vigilantism as "the collective use or threat of extralegal violence in response
+to an alleged criminal act". While we focus here on vigilantism that directly
+involves physical violence, we make no distinction between lethal and
 non-lethal lynching episodes.
 
 Recent research suggests that support for vigilantism in Latin America is
 associated with exposure to violence [@garcia2019anger], untrustworthy law
 enforcement [@zizumbo2017community], perceived insecurity [@ceobanu2011crime;
-@godoy2004justice], and social inequality [@arias2010violent]. However, approval
-for extrajudicial violence raises important questions about the relationship
-between states and societies in the region [@nivette2016institutional]. First,
-while vigilantism provides social order to vulnerable populations, it also
-undermines the legitimacy of state institutions [@schuberth2013challenging].
-Lynching episodes reinforce the idea that civilians should not wait for legal
-proceedings and that social control is better exerted by the people themselves
-[@black1983crime]. Second, victim characteristics greatly impact the likelihood
-and severity of lynchings. In Brazil, a person is rarely lynched when they
-commit a crime against males, and females that commit the same crimes as males
-also receive less punishment.[^fapesp] Moreover, there is no significant social
-difference between victims and perpetrators, nor are black Brazilians 
-particularly targeted by lynch mobs [@oliveira2016mob]. These dynamics pose a
-puzzle to existing explanations for mob violence support and stand in sharp
-contrast with the American experience [@smaangs2016doing; @wood2011lynching].
+@godoy2004justice], and social inequality [@arias2010violent]. However,
+approval for extrajudicial violence raises important questions about the
+relationship between states and societies in the region
+[@nivette2016institutional]. First, while vigilantism provides social order to
+vulnerable populations, it also undermines the legitimacy of state institutions
+[@schuberth2013challenging]. Lynching episodes reinforce the idea that
+civilians should not wait for legal proceedings and that social control is
+better exerted by the people themselves [@black1983crime]. Second, victim
+characteristics greatly impact the likelihood and severity of lynchings. In
+Brazil, a person is rarely lynched when they commit a crime against males, and
+females that commit the same crimes as males also receive less
+punishment.[^fapesp] Moreover, there is no significant social difference
+between victims and perpetrators, nor are black Brazilians particularly
+targeted by lynch mobs [@oliveira2016mob]. These dynamics pose a puzzle to
+existing explanations for mob violence support and stand in sharp contrast with
+the American experience [@smaangs2016doing; @wood2011lynching].
 
-[^fapesp]: See
-<https://revistapesquisa.fapesp.br/en/mob-injustice>. Access: June, 2020.
+[^fapesp]: See <https://revistapesquisa.fapesp.br/en/mob-injustice>. Access:
+June, 2020.
 
 In this study, we endeavour to answer the following questions: 1) which victim
 characteristics increase individual support for extralegal punishment?; 2) how
 do individuals justify their approval for vigilantism?; and 3) can information
 provision reduce support for mob violence? We design a set of three experiments
-to tackle these issues. Our first experiment consists of a conjoint analysis
-in which we show respondents different profiles of lynching victims and ask them
+to tackle these issues. Our first experiment consists of a conjoint analysis in
+which we show respondents different profiles of lynching victims and ask them
 who they believe deserve punishment. In our second experiment, we test how
-ineffective policing, slow criminal justice systems, and demand for hasher legal
-punishment affect individual propensity to support mob violence. Finally, we
-assess whether citizens become less supportive of vigilantism when they are
-informed about the legal consequences of lynchings, constitutional human rights,
-or the risk of _vendettas_ associated with mob violence. While in this
-pre-analysis plan we present the three experiments as described above,
-their order will be randomised in our survey to mitigate potential order bias.
+ineffective policing, slow criminal justice systems, and demand for hasher
+legal punishment affect individual propensity to support mob violence. Finally,
+we assess whether citizens become less supportive of vigilantism when they are
+informed about the legal consequences of lynchings, constitutional human
+rights, or the risk of _vendettas_ associated with mob violence. While in this
+pre-analysis plan we present the three experiments as described above, we will
+randomised their order in our survey to mitigate potential order bias.
 
 # Experiment 01
 \label{sub:exp01}
 
 We start our analysis with a choice-based conjoint experimental design. We will
 present five pairs of criminal profiles to respondents. Each profile consists
-of seven attributes: 1) gender of the crime perpetrator; 2) age of the crime
-perpetrator; 3) race of the crime perpetrator; 4) offense; 5) gender of the victim
-of the motivating crime; 6) age of the victim of the motivating crime; 7)
-lynching perpetrators. The attributes and levels are displayed in table
-\ref{tab:categories} below. 
+of eight attributes: 1) gender of the crime perpetrator; 2) age of the crime
+perpetrator; 3) race of the crime perpetrator; 4) residency of crime
+perpetrator; 5) offense; 6) gender of the victim of the motivating crime; 7)
+age of the victim of the motivating crime; 8) lynching perpetrators. The
+attributes and levels are displayed in table \ref{tab:categories} below. 
 
 \vspace{.3cm}
 
@@ -140,6 +149,7 @@ lynching perpetrators. The attributes and levels are displayed in table
 Gender of crime perpetrator & Male; female \\ [4pt]
 Age of crime perpetrator & Teenager; adult; elderly \\ [4pt]
 Race of crime perpetrator & Black; White; Native Brazilian; Asian \\ [4pt]
+Residency of crime perpetrator & Resident in the community; outsider \\ [4pt]
 Offense & Picks the pocket; steals the car; molests; rapes; murders \\ [4pt]
 Gender of crime victim & Male; female\\ [4pt]
 Age of crime victim & Child; teenager; adult; elderly\\ [4pt]
@@ -152,20 +162,19 @@ Lynching perpetrators & Bystanders; neighbours; family of the victim; gangs; pol
 \newpage
 
 Respondents have to indicate which profile they prefer for extrajudicial
-punishment. They are are also required to rate each profile on a scale from 1 to
-7, where 1 indicates they definitely believe lynching was not justified and 7
-indicates they definitely believe lynching was justified. We take this measure
-as a robustness check for our main experimental estimate.
+punishment. We will also include a qualitative textbox below each experiment
+for subjects to explain why they selected their case or whether they believe
+neither alternative is appropriate.
 
 Respondents will read the following prompt before they start the experiment:
 
-* Lynchings are often used as social punishment in Brazil. Lynchings are
-  cases in which three or more people physically attack or execute a suspected
-  criminal in public. We are interested in knowing more about how Brazilians see
-  these episodes. In the next five questions, please read the description of two
-  possible lynching victims in Brazil and indicate in which case you believe the
-  punishment is more justified. Even if you are not entirely sure, please select
-  one of the cases.[^portuguese]
+* Lynchings are often used as social punishment in Brazil. Lynchings are cases
+  in which three or more people physically attack or execute a suspected
+  criminal in public. We are interested in knowing more about how Brazilians
+  see these episodes. In the next five questions, please read the description
+  of two possible lynching victims in Brazil and indicate in which case you
+  believe the punishment is more justified. Even if you are not entirely sure,
+  please select one of the cases.[^portuguese]
 
 [^portuguese]: We will conduct the survey experiments in Portuguese. The
 translation for the first experiment is as follows: Linchamentos são às vezes
@@ -188,25 +197,25 @@ We will also include 15 questions on demographics that we believe may influence
 the results. The questions are: 1) the respondent's age, 2) gender, 3) state of
 birth, 4) state they currently live in, 5) ethnicity, 6) level of education, 7)
 religion (if any), 8) monthly family income in minimum wages, 9) political
-orientation (left to right), 10) support for death penalty, 11) whether they had
-been victimised in the last year, 12) whether they believe crime has worsened,
-13) whether they believe militias improve law and order, 14) trust in the
-police, 15) trust in the judicial system.
+orientation (left to right), 10) support for death penalty, 11) whether they
+had been victimised in the last year, 12) whether they believe crime has
+worsened, 13) whether they believe militias improve law and order, 14) trust in
+the police, 15) trust in the judicial system.
 
 ## Estimation
 \label{sub:estimation}
 
 We will estimate our models with the `cregg` package [@leeper2018cregg] for the
-R statistical language [@rstats2019]. We will report marginal means and 
-average marginal component effects (AMCEs) in our main analysis.
-However, @leeper2018subgroup show that AMCEs can be misleading in subgroup
-comparisons as model results are sensitive to the choice of reference categories in
+R statistical language [@rstats2019]. We will report marginal means and average
+marginal component effects (AMCEs) in our main analysis. However,
+@leeper2018subgroup show that AMCEs can be misleading in subgroup comparisons
+as model results are sensitive to the choice of reference categories in
 interactions. In contrast, marginal means provide a clear description of
-quantities of interest, in our case preferences towards lynching, while allowing
-for easy comparisons between groups of respondents. So while we will include
-both AMCEs and marginal means estimators in our article, we will conduct our
-subgroup analysis using only the latter. We will cluster standard errors by
-respondent.
+quantities of interest, in our case preferences towards lynching, while
+allowing for easy comparisons between groups of respondents. So while we will
+include both AMCEs and marginal means estimators in our article, we will
+conduct our subgroup analysis using only the latter. We will cluster standard
+errors by respondent.
 
 ## Hypotheses
 \label{sec:hypotheses}
@@ -217,16 +226,17 @@ the following attributes levels:
 1) Gender of crime perpetrator: male 
 2) Age of crime perpetrator: teenager
 3) Race of crime perpetrator: blacks
-4) Offense: murder
-5) Gender of victim: female 
-6) Age of victim: child
-7) Lynching perpetrators: the family of the victim
+4) Residency of crime perpetrator: outsider
+5) Offense: murder
+6) Gender of victim: female 
+7) Age of victim: child
+8) Lynching perpetrators: the family of the victim
 
 We also expect that support for extralegal punishment will be lower for females
 of any age, whites and Asians, pick pocketers, and if the victim of the
-motivating crime is male. Additionally, we expect that respondents see lynchings
-as less legitimate if they are carried out by bystanders, gangs, or the police
-forces. We have no prior beliefs about the size of each coefficient.
+motivating crime is male. Additionally, we expect that respondents see
+lynchings as less legitimate if they are carried out by bystanders, gangs, or
+the police forces. We have no prior beliefs about the size of each coefficient.
 
 ## Heterogeneous Effects
 \label{sub:het01}
@@ -267,9 +277,9 @@ Research shows that police ineffectiveness frequently appears as a strong
 predictor for vigilantism [@cruz2019determinants; @garcia2019anger]. The direct
 result of the weakness of police institutions is that citizens decide to take
 criminal matters "into their own hands", thus persecuting and punishing the
-criminals by themselves. A recent statistic indicates that the police
-solve only 10% of the homicides in Brazil, what lends support to the link
-between weak law enforcement and lynchings [@pearson2018latam].
+criminals by themselves. A recent statistic indicates that the police solve
+only 10% of the homicides in Brazil, what lends support to the link between
+weak law enforcement and lynchings [@pearson2018latam].
 
 Another determinant of support for vigilante justice that is suggested in the
 literature is the lack of trust in the justice system [@godoy2004justice;
@@ -290,22 +300,22 @@ addresses not the efficiency of the institutions, but their legitimacy
 [@nivette2016institutional]. We believe that the demand for harsher laws is on
 the rise in Brazil, and this may be a major reason why citizens justify their
 support for mob violence. In fact, Brazilians are often vocal about their
-preference for repressive legal punishment. In a recent article in
-_The Wall Street Journal_, a bar owner justified the lynching of the local thug
-who killed his son by saying that "_even if he had been put behind bars for 100
+preference for repressive legal punishment. In a recent article in _The Wall
+Street Journal_, a bar owner justified the lynching of the local thug who
+killed his son by saying that "_even if he had been put behind bars for 100
 years it wouldn't have been enough to pay for all his crimes_"
 [@pearson2018latam]. We hypothesise that many Brazilians also share this view.
 
 The experiment consists of three treatment conditions and one control group.
-Respondents will read an excerpt of a news article describing a real
-lynching case. We have slightly edited the original text so that respondents
-have no prior knowledge of the crime.[^jornal] The vignette for the control
-group includes no information about the reasons behind the lynching. We will ask
+Respondents will read an excerpt of a news article describing a real lynching
+case. We have slightly edited the original text so that respondents have no
+prior knowledge of the crime.[^jornal] The vignette for the control group
+includes no information about the reasons behind the lynching. We will ask
 respondents to show their level of support for mob violence using a 0-100
-slider, where 0 means no support and 100 means full support. Respondents in each
-of the three treatment arms will read the same piece, but with one additional
-sentence explaining the motivations behind the lynching. The vignettes are as
-follows:
+slider, where 0 means no support and 100 means full support. Respondents in
+each of the three treatment arms will read the same piece, but with one
+additional sentence explaining the motivations behind the lynching. The
+vignettes are as follows:
 
 [^jornal]: The original article is available at the following address:
 <https://jr.jor.br/2020/05/01/homem-e-linchado-na-vila-progresso>.
@@ -335,18 +345,19 @@ nunca patrulha o local".**
   Friday in Jundiaí, São Paulo. According to the neighbours, he tried to break
   into a house but was immobilised and beaten by members of the community.
   **One of the residents who took part in the lynching said they had beaten the
-  suspect because "the judicial system is too slow"**.[^treat02-exp02]
+  suspect because "the judicial system is too slow and the perpetrator is on
+  the street until the case is heard"**.[^treat02-exp02]
 
 [^treat02-exp02]: In Portuguese: Um homem foi linchado na última sexta-feira em
 Jundiaí, São Paulo. De acordo com vizinhos, ele tentou invadir uma residência
 mas foi imobilizado e agredido por membros da comunidade. **Um dos moradores
 envolvidos no linchamento disse que eles agrediram o suspeito porque "a justiça
-é muito lenta"**.
+é muito lenta e os criminosos ficam soltos até o julgamento"**.
 
 * *Treatment 03 - Demand for harsher legal punishment*: A man was lynched last
   Friday in Jundiaí, São Paulo. According to the neighbours, he tried to break
-  into a house but was immobilised and beaten by members of the community. **One
-  of the residents who took part in the lynching said they had beaten the
+  into a house but was immobilised and beaten by members of the community.
+  **One of the residents who took part in the lynching said they had beaten the
   suspect because "the judicial punishment is not harsh
   enough"**.[^treat03-exp02]
 
@@ -359,11 +370,11 @@ da justiça não é dura o suficiente"**.
 Before each vignette, respondents will read the following text:
 
 * You will be shown a news article. Please read it carefully. After you read
-  the article, we will ask one question about it.[^vig01-exp02]
+  the article, we will ask you one question about it.[^vig01-exp02]
 
-[^vig01-exp02]: In Portuguese: Uma notícia será apresentada para você. Por favor,
-leia a notícia com atenção. Após você ler o artigo, faremos uma pergunta sobre
-ele.
+[^vig01-exp02]: In Portuguese: Uma notícia será apresentada para você. Por
+favor, leia a notícia com atenção. Após você ler o artigo, faremos uma pergunta
+sobre ele.
 
 After the vignette, respondents will be presented with this question:
 
