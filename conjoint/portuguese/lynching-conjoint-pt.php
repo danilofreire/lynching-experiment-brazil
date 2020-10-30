@@ -55,7 +55,7 @@ $N = 2;
 $num_attributes = count($featurearray);
 
 
-$attrconstraintarray = array();
+$attrconstraintarray = array(array("Gênero do(a) criminoso(a)","Idade do(a) criminoso(a)","Raça do(a) criminoso(a)","Residência do criminoso","Crime","Gênero da vítima","Idade da vítima","Linchadores"));
 
 
 // Re-randomize the $featurearray
