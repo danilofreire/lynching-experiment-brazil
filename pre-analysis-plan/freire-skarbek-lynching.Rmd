@@ -23,7 +23,7 @@ output:
     citation_package: natbib
     fig_caption: yes
     number_sections: yes
-    keep_tex: no
+    keep_tex: yes
     toc: no
     toc_depth: 3
     template: template.latex
