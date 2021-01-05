@@ -383,7 +383,7 @@ conjoint_data <- conjoint_data %>%
                                               "Police" = "Polícia",
                                               "Neighbors" = "Vizinhos")) %>%
   select(-c(16, 18, 20, 22, 24, 26, 28, 30)) %>%
-  drop_na()
+  mutate(response_id = tolower(response_id))
 
 fm <- selected ~ `Gender of crime perpetrator` +
   `Age of crime perpetrator` + `Race of crime perpetrator` +
@@ -400,12 +400,9 @@ faces <- c(rep("plain", 5), "bold", # from bottom to top!
 
 plot(mm(conjoint_data, fm, id = ~response_id),
      vline = 0.5, header_fmt = "%s") +
-  theme_classic() + 
   theme(legend.position = "none",
         axis.text.y = element_text(face = faces, size = 10)) +
-  scale_colour_viridis_d(option = "inferno", end = 0.8)
-
-conjoint_data$response_id <- tolower(conjoint_data$response_id)
+  scale_colour_viridis_d(option = "inferno", end = 0.8, begin = 0.25)
 
 # Gender
 cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
@@ -414,10 +411,9 @@ cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
 cjdt$Gender <- factor(cjdt$gender)
 mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", by = ~Gender)
 plot(mm_by, group = "Gender", vline = 0.5, header_fmt = "%s") +
-  theme_classic() +
   theme(legend.position = "bottom",
         axis.text.y = element_text(face = faces, size = 10)) +
-  scale_colour_viridis_d(option = "inferno", end = 0.8)
+  scale_colour_viridis_d(option = "inferno", end = 0.8, begin = 0.25)
 
 # Education
 cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
@@ -431,10 +427,9 @@ cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
 cjdt$Education <- factor(cjdt$education2)
 mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", by = ~Education)
 plot(mm_by, group = "Education", vline = 0.5, header_fmt = "%s") +
-  theme_classic() +
   theme(legend.position = "bottom",
         axis.text.y = element_text(face = faces, size = 10)) +
-  scale_colour_viridis_d(option = "inferno", end = 0.8)
+  scale_colour_viridis_d(option = "inferno", end = 0.8, begin = 0.25)
 
 # Race
 cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
@@ -443,10 +438,9 @@ cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
 cjdt$Race <- factor(cjdt$race)
 mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", by = ~Race)
 plot(mm_by, group = "Race", vline = 0.5, header_fmt = "%s") +
-  theme_classic() +
   theme(legend.position = "bottom",
         axis.text.y = element_text(face = faces, size = 10)) +
-  scale_colour_viridis_d(option = "inferno", end = 0.8)
+  scale_colour_viridis_d(option = "inferno", end = 0.8, begin = 0.25)
 
 # Income
 cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
@@ -462,22 +456,19 @@ cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
 cjdt$Income <- factor(cjdt$household_income2)
 mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", by = ~Income)
 plot(mm_by, group = "Income", vline = 0.5, header_fmt = "%s") +
-  theme_classic() +
   theme(legend.position = "bottom",
         axis.text.y = element_text(face = faces, size = 10)) +
-  scale_colour_viridis_d(option = "inferno", end = 0.8)
+  scale_colour_viridis_d(option = "inferno", end = 0.8, begin = 0.25)
 
 # Support for Death Penalty
 cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
   drop_na(death_penalty)
 cjdt$death_penalty <- factor(cjdt$death_penalty)
-
 mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", by = ~death_penalty)
 plot(mm_by, group = "death_penalty", vline = 0.5, header_fmt = "%s") +
-  theme_classic() +
   theme(legend.position = "bottom",
         axis.text.y = element_text(face = faces, size = 10)) +
-  scale_colour_viridis_d(option = "inferno", end = 0.8)
+  scale_colour_viridis_d(option = "inferno", end = 0.8, begin = 0.25)
 
 # Opinions on Policing
 cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
@@ -487,10 +478,9 @@ cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
 cjdt$Police <- factor(cjdt$views_police2)
 mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", by = ~Police)
 plot(mm_by, group = "Police", vline = 0.5, header_fmt = "%s") +
-  theme_classic() +
   theme(legend.position = "bottom",
         axis.text.y = element_text(face = faces, size = 10)) +
-  scale_colour_viridis_d(option = "inferno", end = 0.8)
+  scale_colour_viridis_d(option = "inferno", end = 0.8, begin = 0.25)
 
 # Opinions on the Judiciary
 cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
@@ -500,10 +490,9 @@ cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
 cjdt$Judiciary <- factor(cjdt$views_justice2)
 mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", by = ~Judiciary)
 plot(mm_by, group = "Judiciary", vline = 0.5, header_fmt = "%s") +
-  theme_classic() +
   theme(legend.position = "bottom",
         axis.text.y = element_text(face = faces, size = 10)) +
-  scale_colour_viridis_d(option = "inferno", end = 0.8)
+  scale_colour_viridis_d(option = "inferno", end = 0.8, begin = 0.25)
 
 
 
