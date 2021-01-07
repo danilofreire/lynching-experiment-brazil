@@ -374,6 +374,7 @@ conjoint_data <- conjoint_data %>%
                                                " Female" = "Feminino"),
          `Age of crime victim` = fct_recode(`Age of crime victim`,
                                             " Teenager" = "Adolescente",
+                                            " Child"    = "Criança",
                                             " Adult"    = "Adulto(a)",
                                             " Elderly"  = "Idoso(a)"),
          `Lynching perpetrators` = fct_recode(`Lynching perpetrators`,
@@ -388,9 +389,11 @@ conjoint_data <- conjoint_data %>%
 fm <- selected ~ `Gender of crime perpetrator` +
   `Age of crime perpetrator` + `Race of crime perpetrator` +
   `Residency of crime perpetrator` + `Offense` +
-  `Gender of crime victim` + `Lynching perpetrators`
+  `Gender of crime victim` + `Age of crime victim` +
+  `Lynching perpetrators`
 
 faces <- c(rep("plain", 5), "bold", # from bottom to top!
+           rep("plain", 4), "bold",
            rep("plain", 2), "bold",
            rep("plain", 5), "bold",
            rep("plain", 2), "bold",
@@ -402,7 +405,9 @@ plot(mm(conjoint_data, fm, id = ~response_id),
      vline = 0.5, header_fmt = "%s") +
   theme(legend.position = "none",
         axis.text.y = element_text(face = faces, size = 10)) +
-  scale_colour_viridis_d(option = "inferno", end = 0.8, begin = 0.25)
+  scale_colour_viridis_d(option = "inferno", end = 0.8)
+
+mm(conjoint_data, fm, id = ~response_id)
 
 # Gender
 cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
@@ -413,7 +418,7 @@ mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", by = ~Gender)
 plot(mm_by, group = "Gender", vline = 0.5, header_fmt = "%s") +
   theme(legend.position = "bottom",
         axis.text.y = element_text(face = faces, size = 10)) +
-  scale_colour_viridis_d(option = "inferno", end = 0.8, begin = 0.25)
+  scale_colour_viridis_d(option = "inferno", end = 0.8)
 
 # Education
 cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
@@ -440,7 +445,7 @@ mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", by = ~Race)
 plot(mm_by, group = "Race", vline = 0.5, header_fmt = "%s") +
   theme(legend.position = "bottom",
         axis.text.y = element_text(face = faces, size = 10)) +
-  scale_colour_viridis_d(option = "inferno", end = 0.8, begin = 0.25)
+  scale_colour_viridis_d(option = "inferno", end = 0.8)
 
 # Income
 cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
@@ -458,7 +463,7 @@ mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", by = ~Income)
 plot(mm_by, group = "Income", vline = 0.5, header_fmt = "%s") +
   theme(legend.position = "bottom",
         axis.text.y = element_text(face = faces, size = 10)) +
-  scale_colour_viridis_d(option = "inferno", end = 0.8, begin = 0.25)
+  scale_colour_viridis_d(option = "inferno", end = 0.8)
 
 # Support for Death Penalty
 cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
@@ -468,7 +473,7 @@ mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", by = ~death_penalty)
 plot(mm_by, group = "death_penalty", vline = 0.5, header_fmt = "%s") +
   theme(legend.position = "bottom",
         axis.text.y = element_text(face = faces, size = 10)) +
-  scale_colour_viridis_d(option = "inferno", end = 0.8, begin = 0.25)
+  scale_colour_viridis_d(option = "inferno", end = 0.8)
 
 # Opinions on Policing
 cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
@@ -480,7 +485,7 @@ mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", by = ~Police)
 plot(mm_by, group = "Police", vline = 0.5, header_fmt = "%s") +
   theme(legend.position = "bottom",
         axis.text.y = element_text(face = faces, size = 10)) +
-  scale_colour_viridis_d(option = "inferno", end = 0.8, begin = 0.25)
+  scale_colour_viridis_d(option = "inferno", end = 0.8)
 
 # Opinions on the Judiciary
 cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
@@ -492,7 +497,7 @@ mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", by = ~Judiciary)
 plot(mm_by, group = "Judiciary", vline = 0.5, header_fmt = "%s") +
   theme(legend.position = "bottom",
         axis.text.y = element_text(face = faces, size = 10)) +
-  scale_colour_viridis_d(option = "inferno", end = 0.8, begin = 0.25)
+  scale_colour_viridis_d(option = "inferno", end = 0.8)
 
 
 
