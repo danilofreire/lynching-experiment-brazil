@@ -533,9 +533,24 @@ m4 <- lm(exp02_outcomes ~ exp02_small_punishment_treat, data = df_exp02)
 m4cov <- coeftest(m4, vcov = vcovHC(m4, type = "HC2"))
 m4se <- sqrt(diag(m4cov))
 
-stargazer(m1, m2, m3, m4,
-          se = list(m1se, m2se, m3se, m4se),
+stargazer(m2, m3, m4, m1,
+          se = list(m2se, m3se, m4se, m1se),
           align = TRUE)
+
+# Effect of covariates on basline levels
+df_exp02_group <- df_exp02 %>%
+  filter(gender == c("Female", "Male"),
+         race %in% c("Asian", "Black", "Mixed Race", "White"),
+         ideology %in% c("Center", "Center-Left", "Center-Right",
+                         "Left", "Right"))
+
+m1 <- lm(exp02_outcomes ~ gender, data = df_exp02_group)
+m2 <- lm(exp02_outcomes ~ race, data = df_exp02_group)
+m3 <- lm(exp02_outcomes ~ ideology, data = df_exp02_group)
+m4 <- lm(exp02_outcomes ~ gender + race + ideology,
+         data = df_exp02_group)
+
+stargazer(m1, m2, m3, m4, align = TRUE)
 
 ## Subgroup analysis: gender = Female
 table(df_exp02$gender)
@@ -543,16 +558,16 @@ table(df_exp02$gender)
 df_exp02_group <- df_exp02 %>% filter(gender == "Female")
 
 m1 <- lm(exp02_outcomes ~ exp02_any_treat, data = df_exp02_group)
-coeftest(m1, vcov = vcovHC(m1, type = "HC2"))
+m1se <- coeftest(m1, vcov = vcovHC(m1, type = "HC2"))
 
 m2 <- lm(exp02_outcomes ~ exp02_police_treat, data = df_exp02_group)
-coeftest(m2, vcov = vcovHC(m2, type = "HC2"))
+m2se <- coeftest(m2, vcov = vcovHC(m2, type = "HC2"))
 
 m3 <- lm(exp02_outcomes ~ exp02_slow_justice_treat, data = df_exp02_group)
-coeftest(m3, vcov = vcovHC(m3, type = "HC2"))
+m3se <- coeftest(m3, vcov = vcovHC(m3, type = "HC2"))
 
 m4 <- lm(exp02_outcomes ~ exp02_small_punishment_treat, data = df_exp02_group)
-coeftest(m4, vcov = vcovHC(m4, type = "HC2"))
+m4se <- coeftest(m4, vcov = vcovHC(m4, type = "HC2"))
 
 ## Subgroup analysis: gender = Male
 df_exp02_group <- df_exp02 %>% filter(gender == "Male")
@@ -873,8 +888,8 @@ m4 <- lm(exp03_outcomes ~ exp03_vendetta_treat, data = df_exp03)
 m4cov <- coeftest(m4, vcov = vcovHC(m4, type = "HC2"))
 m4se <- sqrt(diag(m4cov))
 
-stargazer(m1, m2, m3, m4,
-          se = list(m1se, m2se, m3se, m4se),
+stargazer(m2, m3, m4, m1,
+          se = list(m2se, m3se, m4se, m1se),
           align = TRUE)
 
 ## Subgroup analysis: gender = Female
