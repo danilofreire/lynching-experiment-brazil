@@ -258,7 +258,11 @@ ggplot(subset(df1, !is.na(age)), aes(age)) +
 ## Race
 
 The next demographic variable we show here is race. According to the [Brazilian
-Census Bureau](https://educa.ibge.gov.br/jovens/conheca-o-brasil/populacao/18319-cor-ou-raca.html), 42.7% of the Brazilian population identify as White, 46.8% as Mixed Race, 9.4% as Blacks, and 1,1% as Asians or Indigenous. As we see below, our sample includes more Whites and fewer individuals who identify as Mixed Race. The number of Blacks roughly coincide with the population statistics.
+Census Bureau](https://educa.ibge.gov.br/jovens/conheca-o-brasil/populacao/18319-cor-ou-raca.html),
+42.7% of the Brazilian population identify as White, 46.8% as Mixed Race, 9.4%
+as Blacks, and 1,1% as Asians or Indigenous. As we see below, our sample
+includes more Whites and fewer individuals who identify as Mixed Race. The
+number of Blacks roughly coincide with the population statistics.
 
 \footnotesize
 ```{r race, warning=F, error=F, cache=T}
@@ -456,6 +460,163 @@ df1 %>%
 
 # Experiment 01
 
+## Description 
+
+In our first experiments, we present five pairs of criminal profiles to
+respondents. Each profile consists of eight attributes: 1) gender of the crime
+perpetrator; 2) age of the crime perpetrator; 3) race of the crime perpetrator;
+4) residency of crime perpetrator; 5) offense; 6) gender of the victim of the
+motivating crime; 7) age of the victim of the motivating crime; 8) lynching
+perpetrators. The attributes and levels are displayed in table
+\ref{tab:categories} below. 
+
+\vspace{.3cm}
+
+\begin{table}[htpb]
+\small
+\begin{center}
+\caption{\textbf{Attributes and Levels}}
+\label{tab:categories}
+\begin{tabular}{l !{\vrule width 1pt}p{9cm}}
+\Xhline{2\arrayrulewidth}
+\textbf{Attribute} & \multicolumn{1}{c}{\textbf{Levels}} \\
+\Xhline{2\arrayrulewidth}
+\small
+Gender of crime perpetrator & Male; female \\ [4pt]
+Age of crime perpetrator & Teenager; adult; elderly \\ [4pt]
+Race of crime perpetrator & Black; White; Native Brazilian; Asian \\ [4pt]
+Residency of crime perpetrator & Resident in the community; outsider \\ [4pt]
+Offense & Picks the pocket; steals the car; molests; rapes; murders \\ [4pt]
+Gender of crime victim & Male; female\\ [4pt]
+Age of crime victim & Child; teenager; adult; elderly\\ [4pt]
+Lynching perpetrators & Bystanders; neighbours; family of the victim; gangs; police \\
+\Xhline{2\arrayrulewidth}
+\end{tabular}
+\end{center}
+\end{table}
+
+Respondents indicated which profile they preferred for extrajudicial
+punishment. They had read the following prompt prior to the experiment:
+
+* `Lynchings are often used as social punishment in Brazil. Lynchings are cases
+  in which three or more people physically attack or execute a suspected
+  criminal in public. We are interested in knowing more about how Brazilians
+  see these episodes. In the next five questions, please read the description
+  of two possible lynching victims in Brazil and indicate in which case you
+  believe the punishment is more justified. Even if you are not entirely sure,
+  please select one of the cases.`[^portuguese]
+
+[^portuguese]: Original text in Portuguese: `Linchamentos são às vezes usados
+como punição social no Brasil. Linchamentos são casos nos quais três ou mais
+pessoas agridem fisicamente ou executam em público um suspeito de um crime.
+Estamos interessados em saber mais sobre como os brasileiros vêem estes
+episódios. Nas próximas cinco questões, por favor, leia a descrição de duas
+possíveis vítimas de linchamento no Brasil e indique em quais delas você
+acredita que a punição é mais justificada. Mesmo que você não tenha certeza,
+por favor, escolha um dos casos.`
+
+## Replication Code
+
+We estimate the conjoint experiments with the `cregg` package
+[@leeper2018cregg] for the `R` statistical language [@rstats2019]. We follow
+@leeper2018subgroup and report marginal means 
+
+We will cluster standard errors by
+respondent. The code follows below.
+
+\footnotesize
+```{r conjointfull, warning=F, error=F, cache=T, fig.width=7, fig.height=6}
+conjoint_data <- read.qualtrics("../data/data-conjoint.csv",
+                                responses = c("Q13", "Q14", "Q15",
+                                              "Q16", "Q17"),
+                                covariates = c("ResponseId",
+                                               "Q1", "Q2", "Q3", "Q4",
+                                               "Q5", "Q6", "Q7",
+                                               "Q8", "Q9", "Q10",
+                                               "Q11", "Q12"),
+                                new.format = FALSE, respondentID = NULL)
+
+conjoint_data <- conjoint_data %>%
+  rename(response_id                      = ResponseId,
+         Age                              = Q2,
+         Gender                           = Q3,
+         Race                             = Q4,
+         Education                        = Q5,
+         Region                           = Q6,
+         "Household Income"               = Q7,
+         Ideology                         = Q8,
+         "Support death penalty"          = Q9,
+         "Previous Victimization"         = Q10,
+         "Offense"                        = Crime,
+         "Opinion on Policing"            = Q11,
+         "Opinion on Judiciary"           = Q12,
+         "Gender of crime victim"         = "Gênero.da.vítima",
+         "Gender of crime perpetrator"    = "Gênero.do(a).criminoso(a)",
+         "Age of crime victim"            = "Idade.da.vítima",
+         "Age of crime perpetrator"       = "Idade.do(a).criminoso(a)",
+         "Lynching perpetrators"          = "Linchadores",
+         "Race of crime perpetrator"      = "Raça.do(a).criminoso(a)",
+         "Residency of crime perpetrator" = "Residência.do.criminoso") %>%
+  mutate(`Gender of crime perpetrator` = fct_recode(`Gender of crime perpetrator`,
+                                                    "Male"   = "Masculino",
+                                                    "Female" = "Feminino"),
+         `Age of crime perpetrator` = fct_recode(`Age of crime perpetrator`,
+                                                 "Teenager" = "Adolescente",
+                                                 "Adult"    = "Adulto(a)",
+                                                 "Elderly"  = "Idoso(a)"),
+         `Race of crime perpetrator` = fct_recode(`Race of crime perpetrator`,
+                                                  "Asian"      = "Asiático(a)",
+                                                  "White"      = "Branco(a)",
+                                                  "Indigenous" = "Indígena",
+                                                  "Black"      = "Negro(a)"),
+         `Residency of crime perpetrator` = fct_recode(`Residency of crime perpetrator`,
+                                                       "Another neighborhood" = "Mora em outro bairro",
+                                                       "In the neighborhood"  = "Mora na vizinhança"),
+         `Offense` = fct_recode(`Offense`,
+                                "Murder"         = "Assassinou",
+                                "Pick-pocketing" = "Bateu a carteira",
+                                "Rape"           = "Estuprou",
+                                "Molestation"    = "Molestou",
+                                "Car theft"      = "Roubou o carro"),
+         `Gender of crime victim` = fct_recode(`Gender of crime victim`,
+                                               " Male"   = "Masculino",
+                                               " Female" = "Feminino"),
+         `Age of crime victim` = fct_recode(`Age of crime victim`,
+                                            " Teenager" = "Adolescente",
+                                            " Child"    = "Criança",
+                                            " Adult"    = "Adulto(a)",
+                                            " Elderly"  = "Idoso(a)"),
+         `Lynching perpetrators` = fct_recode(`Lynching perpetrators`,
+                                              "Family of the victim" = "Família da vítima",
+                                              "Gangs" = "Gangues",
+                                              "Bystanders" = "Pedestres",
+                                              "Police" = "Polícia",
+                                              "Neighbors" = "Vizinhos")) %>%
+  select(-c(16, 18, 20, 22, 24, 26, 28, 30)) %>%
+  mutate(response_id = tolower(response_id))
+
+fm <- selected ~ `Gender of crime perpetrator` +
+  `Age of crime perpetrator` + `Race of crime perpetrator` +
+  `Residency of crime perpetrator` + `Offense` +
+  `Gender of crime victim` + `Age of crime victim` +
+  `Lynching perpetrators`
+
+faces <- c(rep("plain", 5), "bold",
+           rep("plain", 4), "bold",
+           rep("plain", 2), "bold",
+           rep("plain", 5), "bold",
+           rep("plain", 2), "bold",
+           rep("plain", 4), "bold",
+           rep("plain", 3), "bold",
+           rep("plain", 2), "bold")
+
+plot(mm(conjoint_data, fm, id = ~response_id),
+     vline = 0.5, header_fmt = "%s") +
+  theme(legend.position = "none",
+        axis.text.y = element_text(face = faces, size = 10)) +
+  scale_colour_viridis_d(option = "inferno", end = 0.8)
+```
+\normalsize
 
 
 
