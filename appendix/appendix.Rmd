@@ -19,7 +19,8 @@ output:
     fig_caption: yes
     number_sections: yes
     toc: true
-    keep_tex: yes
+    toc_depth: 3
+    keep_tex: no
     template: template.latex
 ---
 
@@ -43,7 +44,7 @@ statistical analyses. It also translates the names of the factor variables from
 Portuguese into English.
 
 \footnotesize
-```{r loading, warning=F, error=F, cache=T}
+```{r loading, warning=F, error=F, cache=F}
 # Install and load required packages
 packages <- c("cjoint", "cregg", "kableExtra",
               "janitor", "stargazer", "tidyverse")
@@ -91,8 +92,8 @@ df <- read_csv("../data/data.csv") %>%
 # Translate factor values from Portuguese to English
 df <- df %>%
   mutate(consent = recode(consent,
-                          "concordo"     = "Agree",
-                          "não concordo" = "Disagree"),
+                          concordo     = "Agree",
+                          `não concordo` = "Disagree"),
          gender = recode(gender,
                          "feminino"              = "Female",
                          "masculino"             = "Male",
@@ -170,7 +171,7 @@ count(get_dupes(df))
 
 # Descriptive Statistics
 
-```{r samplesize, echo=F, warning=F, error=F, cache=T}
+```{r sample-size, echo=F, warning=F, error=F, message=F, cache=T}
 df1 <- df %>% filter(consent == "Agree")
 ```
 
@@ -292,8 +293,8 @@ df2 <- df1 %>%
 
 As expected, our sample is also more educated than [the Brazilian
 population](https://educa.ibge.gov.br/jovens/conheca-o-brasil/populacao/18317-educacao.html).
-About `r df2[1, 3]*100`% of the respondents have a college degree, and `r df2[3, 3]`% 
-have graduate school education. 
+About `r df2[1, 3]*100`% of the respondents have a college degree, and `r df2[3, 3]`%
+have graduate school education.
 
 \footnotesize
 ```{r education, warning=F, error=F, cache=T}
@@ -312,7 +313,7 @@ df1 %>%
 
 ## Household Income
 
-```{r incometext, echo=F, warning=F, error=F, cache=T}
+```{r income-text, echo=F, warning=F, error=F, cache=T}
 df2 <- df1 %>%
   group_by(household_income) %>%
   filter(!is.na(household_income)) %>%
@@ -323,7 +324,7 @@ df2 <- df1 %>%
 
 In terms of household income, `r df2[6, 3]*100`% of the respondents earns from
 R\$5,0001 to R\$10,000 per month (US\$920 to US\$1840 as of January 2021), which
-comprise the largest group in our sample. However, the sample also contains 
+comprise the largest group in our sample. However, the sample also contains
 `r df2[2, 3]*100`% of participants whose household income ranges between R\$1,001
 and R\$2,000 (US\$ 185 to US\$370) and `r df2[7, 3]*100`% with household incomes
 up to R\$1,000, which is roughly equivalent to Brazil's monthly minimum wage. In
@@ -359,7 +360,7 @@ We have also collected information regarding the subjects' political ideology.
 Most respondents identify themselves as right-wingers (`r df2[7, 3]*100`%),
 followed by left-wingers (`r df2[5, 3]*100`%), and centrists (`r df2[1, 3]*100`%).
 Subjects who do not know their ideology or prefer not to tell their
-political beliefs are also large in number (`r df2[4, 3]*100`% and 
+political beliefs are also large in number (`r df2[4, 3]*100`% and
 `r df2[6, 3]*100`%, respectively).
 
 \footnotesize
@@ -382,7 +383,7 @@ df1 %>%
 Below you may find how many respondents support the death penalty.
 
 \footnotesize
-```{r deathpenalty, warning=F, error=F, cache=T}
+```{r death-penalty, warning=F, error=F, cache=T}
 df1 %>%
   group_by(death_penalty) %>%
   filter(!is.na(death_penalty)) %>%
@@ -460,7 +461,7 @@ df1 %>%
 
 # Experiment 01
 
-## Description 
+## Description
 
 In our first experiments, we present five pairs of criminal profiles to
 respondents. Each profile consists of eight attributes: 1) gender of the crime
@@ -468,7 +469,7 @@ perpetrator; 2) age of the crime perpetrator; 3) race of the crime perpetrator;
 4) residency of crime perpetrator; 5) offense; 6) gender of the victim of the
 motivating crime; 7) age of the victim of the motivating crime; 8) lynching
 perpetrators. The attributes and levels are displayed in table
-\ref{tab:categories} below. 
+\ref{tab:categories} below.
 
 \vspace{.3cm}
 
@@ -495,8 +496,16 @@ Lynching perpetrators & Bystanders; neighbours; family of the victim; gangs; pol
 \end{center}
 \end{table}
 
+We added three restrictions to the conjoint design to avoid implausible
+scenarios. First, female rapists were excluded from the model, but we did
+include female molesters in the conjoint experiment. Second, when the offense
+was car theft, the victim could not be a child. Lastly, teenagers could not be
+victims of car theft either. All other combinations were allowed. We randomized
+the attributes using a `.php` script, which is available at
+<https://github.com/danilofreire/lynching-experiment-brazil/blob/master/conjoint/portuguese/lynching-conjoint-pt.php>.
+
 Respondents indicated which profile they preferred for extrajudicial
-punishment. They had read the following prompt prior to the experiment:
+punishment. Prior to the experiments, they had read the following prompt:
 
 * `Lynchings are often used as social punishment in Brazil. Lynchings are cases
   in which three or more people physically attack or execute a suspected
@@ -515,17 +524,18 @@ possíveis vítimas de linchamento no Brasil e indique em quais delas você
 acredita que a punição é mais justificada. Mesmo que você não tenha certeza,
 por favor, escolha um dos casos.`
 
-## Replication Code
+## Marginal Means Estimator
 
-We estimate the conjoint experiments with the `cregg` package
-[@leeper2018cregg] for the `R` statistical language [@rstats2019]. We follow
-@leeper2018subgroup and report marginal means 
-
-We will cluster standard errors by
-respondent. The code follows below.
+We estimate the conjoint experiment with the `cregg` package [@leeper2018cregg]
+for the `R` statistical language [@rstats2019]. We follow @leeper2020measuring
+and report marginal means as our main estimates. Marginal means are easy to
+interpret and they are not sensitive to choice of the reference category in
+subgroup analyses. The $H_0$ in all models are that the coefficient is equal to
+0.5, that is, that respondents are indifferent to the attribute level. Standard
+errors are clustered by respondent. The code follows below.
 
 \footnotesize
-```{r conjointfull, warning=F, error=F, cache=T, fig.width=7, fig.height=6}
+```{r conjoint-mm, warning=F, error=F, message=F, cache=T, fig.width=7, fig.height=6}
 conjoint_data <- read.qualtrics("../data/data-conjoint.csv",
                                 responses = c("Q13", "Q14", "Q15",
                                               "Q16", "Q17"),
@@ -588,19 +598,23 @@ conjoint_data <- conjoint_data %>%
                                             " Elderly"  = "Idoso(a)"),
          `Lynching perpetrators` = fct_recode(`Lynching perpetrators`,
                                               "Family of the victim" = "Família da vítima",
-                                              "Gangs" = "Gangues",
-                                              "Bystanders" = "Pedestres",
-                                              "Police" = "Polícia",
-                                              "Neighbors" = "Vizinhos")) %>%
+                                              "Gangs"                = "Gangues",
+                                              "Bystanders"           = "Pedestres",
+                                              "Police"               = "Polícia",
+                                              "Neighbors"            = "Vizinhos")) %>%
   select(-c(16, 18, 20, 22, 24, 26, 28, 30)) %>%
   mutate(response_id = tolower(response_id))
 
+# Model
 fm <- selected ~ `Gender of crime perpetrator` +
   `Age of crime perpetrator` + `Race of crime perpetrator` +
   `Residency of crime perpetrator` + `Offense` +
   `Gender of crime victim` + `Age of crime victim` +
   `Lynching perpetrators`
 
+mms <- mm(conjoint_data, fm, id = ~response_id, h0 = 0.5)
+
+# Plot
 faces <- c(rep("plain", 5), "bold",
            rep("plain", 4), "bold",
            rep("plain", 2), "bold",
@@ -610,19 +624,182 @@ faces <- c(rep("plain", 5), "bold",
            rep("plain", 3), "bold",
            rep("plain", 2), "bold")
 
-plot(mm(conjoint_data, fm, id = ~response_id),
-     vline = 0.5, header_fmt = "%s") +
+plot(mms, vline = 0.5, header_fmt = "%s") +
   theme(legend.position = "none",
         axis.text.y = element_text(face = faces, size = 10)) +
   scale_colour_viridis_d(option = "inferno", end = 0.8)
+
+# Table
+table_mm <- function(mms, capt) {
+dfr <- data.frame(feature = mms[, c(4)],
+                  round(mms[, c(5, 6, 8, 9, 10)], digits = 3))
+names(dfr) <- c("Feature", "Estimate", "Std. Error",
+                "P-Value", "Lower", "Upper")
+return(kbl(dfr, "latex", caption = capt, linesep = "",
+           booktabs = TRUE) %>%
+kable_styling(font_size = 12, full_width = TRUE,
+              latex_options = "hold_position") %>%
+pack_rows("Gender of crime perpetrator", 1, 2) %>%
+pack_rows("Age of crime perpetrator", 3, 5) %>%
+pack_rows("Race of crime perpetrator", 6, 9) %>%
+pack_rows("Residency of crime perpetrator", 10, 11) %>%
+pack_rows("Offense", 12, 16) %>%
+pack_rows("Gender of crime victim", 17, 18) %>%
+pack_rows("Age of crime victim", 19, 22) %>%
+pack_rows("Lynching perpetrators", 23, 27) %>%
+column_spec(1, width = "6cm"))
+}
+
+table_mm(mms, capt = "Marginal Means -- Full Model")
+```
+\normalsize
+
+\newpage
+
+## Average Marginal Component Effect (AMCE) Estimator
+
+We also estimate AMCE coefficients for our conjoint experiment. This method
+selects one reference category for each attribute and look at changes from the
+baseline level. The reference category are marked as zero in our models.
+
+\footnotesize
+```{r conjoint-amce, warning=F, error=F, message=F, cache=T, fig.width=7, fig.height=6}
+amces <- cj(conjoint_data, fm, id = ~response_id)
+
+plot(amces, vline = 0.0, header_fmt = "%s") +
+  theme(legend.position = "none",
+        axis.text.y = element_text(face = faces, size = 10)) +
+  scale_colour_viridis_d(option = "inferno", end = 0.8)
+
+table_mm(amces, capt = "Average Marginal Component Effects -- Full Model")
+```
+
+\newpage
+
+## Subgroup Analyses
+
+In this subsection, we test whether our results vary according to individual characteristics, such as gender, age, race, income, support for death penalty, and the respondents' opinions on the judicial system and the police forces. All models report marginal means.
+
+### Gender
+
+Results do not seem to vary according to the gender of the respondent. We focus
+here on the differences between males and females and exclude the 11
+observations in which respondents preferred not to say their gender or marked
+"other" in our questionnaire. Across all conjoint experiment attributes, we see
+that an overlap between the 95% confidence intervals for males and females.
+
+\footnotesize
+```{r conjoint-females, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=5.3, fig.pos = "H"}
+# Model
+cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
+  drop_na(gender) %>%
+  filter(gender == c("Male", "Female"))
+cjdt$Gender <- factor(cjdt$gender)
+mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm",
+            h0 = 0.5, by = ~Gender)
+
+# Plot
+plot(mm_by, group = "Gender", vline = 0.5, header_fmt = "%s") +
+  theme(legend.position = "bottom", axis.text.y = element_text(face = faces, size = 10)) +
+  scale_colour_viridis_d(option = "inferno", end = 0.8)
+
+# Tables
+table_mm_by <- function(mm_by, capt) {
+dfr <- data.frame(feature = mm_by[, c(5)],
+                  round(mm_by[, c(6, 7, 9, 10, 11)], digits = 3))
+names(dfr) <- c("Feature", "Estimate", "Std. Error",
+                "P-Value", "Lower", "Upper")
+return(kbl(dfr, "latex", caption = capt, linesep = "",
+           booktabs = TRUE) %>%
+kable_styling(font_size = 12, full_width = TRUE,
+              latex_options = "hold_position") %>%
+pack_rows("Gender of crime perpetrator", 1, 2) %>%
+pack_rows("Age of crime perpetrator", 3, 5) %>%
+pack_rows("Race of crime perpetrator", 6, 9) %>%
+pack_rows("Residency of crime perpetrator", 10, 11) %>%
+pack_rows("Offense", 12, 16) %>%
+pack_rows("Gender of crime victim", 17, 18) %>%
+pack_rows("Age of crime victim", 19, 22) %>%
+pack_rows("Lynching perpetrators", 23, 27) %>%
+column_spec(1, width = "6cm"))
+}
+
+mm_females <- mm_by %>% filter(BY == "Female")
+table_mm_by(mm_females, capt = "Marginal Means -- Females")
+```
+
+\newpage
+
+```{r conjoint-males, warning=F, message=F, error=F, cache=T, fig.pos = "H"}
+mm_males <- mm_by %>% filter(BY == "Male")
+table_mm_by(mm_males, capt = "Marginal Means -- Males")
+```
+\normalsize
+
+\newpage
+
+### Age
+
+As our age variable is continuous, we divide the data into three age brackets:
+18-34 years old, 35-54 years old, and 55-plus years old. The results show that
+seniors (55-plus) are more likely to select profiles that include murder as an
+offense, and less inclined to choose cases 
+
+\footnotesize
+```{r conjoint-age, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=5.5}
+# Model
+cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
+  drop_na(age) %>%
+  mutate(age2 = case_when(age >= 18 & age <= 34 ~ "18-34",
+                          age >= 35 & age <= 54 ~ "35-54",
+                          age >= 55 ~ "55 plus",
+                                TRUE ~ as.character(age)))
+cjdt$Age <- factor(cjdt$age2)
+mm_by <- cj(cjdt, fm, id = ~response_id, h0 = 0.5,
+            estimate = "mm", by = ~Age)
+
+# Plot
+plot(mm_by, group = "Age", vline = 0.5, header_fmt = "%s") +
+  theme(legend.position = "bottom", axis.text.y = element_text(face = faces, size = 10)) +
+  scale_colour_viridis_d(option = "inferno", end = 0.8, begin = 0.25)
 ```
 \normalsize
 
 
+\newpage
 
+### Race
 
+Below are our results when we disaggregate the data by race. We find that they are
+almost identical is all dimensions except for offense. Asian respondents are
+much less likely to select profiles that contain pickpocketing as a crime.
 
+\footnotesize
+```{r conjoint-race, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=7}
+# Model
+cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
+  drop_na(race) %>%
+  filter(race == c("Asian", "Black", "Mixed Race", "White"))
+cjdt$Race <- factor(cjdt$race)
+mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm",
+            h0 = 0.5, by = ~Race)
 
+# Plot
+plot(mm_by, group = "Race", vline = 0.5, header_fmt = "%s") +
+  theme(legend.position = "bottom", axis.text.y = element_text(face = faces, size = 10)) +
+  scale_colour_viridis_d(option = "inferno", end = 0.8)
+
+# Tables
+mm_asian <- mm_by %>% filter(BY == "Asian")
+table_mm_by(mm_asian, capt = "Marginal Means -- Asian")
+mm_black <- mm_by %>% filter(BY == "Black")
+table_mm_by(mm_black, capt = "Marginal Means -- Black")
+mm_mixed <- mm_by %>% filter(BY == "Mixed Race")
+table_mm_by(mm_mixed, capt = "Marginal Means -- Mixed Race")
+mm_white <- mm_by %>% filter(BY == "White")
+table_mm_by(mm_white, capt = "Marginal Means -- White")
+```
+\normalsize
 
 
 
