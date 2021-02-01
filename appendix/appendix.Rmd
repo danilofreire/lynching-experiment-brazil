@@ -325,10 +325,10 @@ df2 <- df1 %>%
 ```
 
 In terms of household income, `r df2[6, 3]*100`% of the respondents earns from
-R\$5,0001 to R\$10,000 per month (US\$920 to US\$1840 as of January 2021), which
+R\$5,0001 to R\$10,000 per month (US\$915 to US\$1830 as of January 2021), which
 comprise the largest group in our sample. However, the sample also contains
 `r df2[2, 3]*100`% of participants whose household income ranges between R\$1,001
-and R\$2,000 (US\$ 185 to US\$370) and `r df2[7, 3]*100`% with household incomes
+and R\$2,000 (US\$ 184 to US\$368) and `r df2[7, 3]*100`% with household incomes
 up to R\$1,000, which is roughly equivalent to Brazil's monthly minimum wage. In
 this respect, we have reached participants from all social classes.
 
@@ -680,7 +680,10 @@ table_mm(amces, capt = "Average Marginal Component Effects -- Full Model")
 
 ## Subgroup Analyses
 
-In this subsection, we test whether our results vary according to individual characteristics, such as gender, age, race, income, support for death penalty, and the respondents' opinions on the judicial system and the police forces. All models report marginal means.
+In this subsection, we test whether our results vary according to individual
+characteristics, such as gender, age, race, income, support for death penalty,
+and the respondents' opinions on the judicial system and the police forces. All
+models report marginal means.
 
 ### Gender
 
@@ -853,6 +856,11 @@ table_mm_by(mm_grad, capt = "Marginal Means -- Graduate School Degree")
 mm_high <- mm_by %>% filter(BY == "High School")
 table_mm_by(mm_high, capt = "Marginal Means -- High School Degree")
 mm_pri_sec <- mm_by %>% filter(BY == "Primary or Secondary School")
+```
+
+\newpage 
+
+```{r conjoint-degree, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=6, fig.pos="H"}
 table_mm_by(mm_pri_sec, capt = "Marginal Means -- Primary or Secondary School Degree")
 ```
 \normalsize
@@ -861,11 +869,14 @@ table_mm_by(mm_pri_sec, capt = "Marginal Means -- Primary or Secondary School De
 
 ### Household Income
 
-
-
+We also disaggregate the results by monthly household income. As some
+categories have few respondents, we group them into three categories: (i) up to
+R\$3,000 (US\$550); (ii) from R\$3,001 to R\$5,000 (US\$550-915); and (iii)
+above R\$5,000 (US\$915+). The levels roughly represent low, middle, and
+high-income households. We find no considerable difference amongst them. 
 
 \footnotesize
-```{r conjoint-income, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=6, fig.pos="H"}
+```{r conjoint-income, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=5, fig.pos="H"}
 # Model
 cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
   drop_na(household_income) %>%
@@ -898,8 +909,181 @@ table_mm_by(mm_abv5k, capt = "Marginal Means -- Above 5,000 BRL")
 
 \newpage
 
+### Support for Death Penalty
 
+Here we assess whether subjects who support the death penalty have different
+preferences towards lynching victims. There are fewer respondents who answered
+"Don't Know" or "Rather Not Say" to our question, so the confidence intervals
+from their estimates are larger than the for the other two categories. The
+estimates largely overlap across the four groups, although those who answered "Rather Not Say" are less favorable to lynching Indigenous criminals.
 
+\footnotesize
+```{r conjoint-penalty, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=6, fig.pos="H"}
+# Model
+cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
+  drop_na(death_penalty)
+cjdt$death_penalty <- factor(cjdt$death_penalty)
+mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm",
+            h0 = 0.5, by = ~death_penalty)
+
+plot(mm_by, group = "death_penalty", vline = 0.5, header_fmt = "%s") +
+  theme(legend.position = "bottom", axis.text.y = element_text(face = faces, size = 10)) +
+  scale_colour_viridis_d(option = "inferno", end = 0.8)
+
+# Tables
+mm_dk <- mm_by %>% filter(BY == "Don't Know")
+table_mm_by(mm_dk, capt = "Marginal Means -- Support for Death Penalty: Do Not Know")
+mm_no <- mm_by %>% filter(BY == "No")
+table_mm_by(mm_no, capt = "Marginal Means -- Support for Death Penalty: No")
+```
+
+\newpage 
+
+```{r conjoint-deathrns, warning=F, message=F, error=F, cache=T, fig.pos = "H"}
+mm_rns <- mm_by %>% filter(BY == "Rather Not Say")
+table_mm_by(mm_rns, capt = "Marginal Means -- Support for Death Penalty: Rather Not Say")
+```
+
+\newpage
+
+```{r conjoint-deathyes, warning=F, message=F, error=F, cache=T, fig.pos = "H"}
+mm_yes <- mm_by %>% filter(BY == "Yes")
+table_mm_by(mm_yes, capt = "Marginal Means -- Support for Death Penalty: Yes")
+```
+
+\normalsize
+
+\newpage
+
+### Previous Victimization
+
+Respondents who had been victimized in the past 12 months also do not have
+different preferences towards lynchings victim profiles. The results are
+virtually identical for both groups, as one can see below.
+
+```{r conjoint-victimization, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=6, fig.pos="H"}
+# Model
+cjdt <- full_join(conjoint_data, df1, by = "response_id")
+cjdt$Previous_Victim <- factor(cjdt$previous_victim_dummy)
+
+mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm",
+            h0 = 0.5, by = ~Previous_Victim)
+
+# Plot
+plot(mm_by, group = "Previous_Victim", vline = 0.5, header_fmt = "%s") +
+  theme(legend.position = "bottom", axis.text.y = element_text(face = faces, size = 10)) +
+  scale_colour_viridis_d(option = "inferno", end = 0.8)
+
+# Tables
+mm_no <- mm_by %>% filter(BY == "No")
+table_mm_by(mm_no, capt = "Marginal Means -- Support for Death Penalty: No")
+```
+
+\newpage 
+
+```{r conjoint-victimizationyes, warning=F, message=F, error=F, cache=T, fig.pos = "H"}
+mm_yes <- mm_by %>% filter(BY == "Yes")
+table_mm_by(mm_yes, capt = "Marginal Means -- Support for Death Penalty: Rather Not Say")
+```
+\normalsize
+
+\newpage
+
+### Opinion on the Police
+
+Experimental results do not change when we break the responses according to how
+subjects view the police forces.
+
+\footnotesize
+```{r conjoint-policing, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=6, fig.pos="H"}
+# Model
+cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
+  mutate(views_police2 = case_when(views_police == "Rather Not Say" ~ NA_character_,
+                                   views_police == "Don't Know" ~ NA_character_,
+                                   TRUE ~ views_police)) %>% drop_na(views_police2)
+cjdt$Police <- factor(cjdt$views_police2)
+mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm",
+            h0 = 0.5, by = ~Police)
+
+# Plot
+plot(mm_by, group = "Police", vline = 0.5, header_fmt = "%s") +
+  theme(legend.position = "bottom", axis.text.y = element_text(face = faces, size = 10)) +
+  scale_colour_viridis_d(option = "inferno", end = 0.8)
+
+# Tables
+mm_bad <- mm_by %>% filter(BY == "Bad")
+table_mm_by(mm_bad, capt = "Marginal Means -- Opinion on the Police: Bad")
+mm_good <- mm_by %>% filter(BY == "Good")
+table_mm_by(mm_good, capt = "Marginal Means -- Opinion on the Police: Good")
+mm_regular <- mm_by %>% filter(BY == "Regular")
+table_mm_by(mm_regular, capt = "Marginal Means -- Opinion on the Police: Regular")
+```
+
+\newpage
+
+```{r conjoint-polvbad, warning=F, message=F, error=F, cache=T, fig.pos = "H"}
+mm_vbad <- mm_by %>% filter(BY == "Very Bad")
+table_mm_by(mm_vbad, capt = "Marginal Means -- Opinion on the Police: Very Bad")
+```
+\newpage
+
+```{r conjoint-polvgood, warning=F, message=F, error=F, cache=T, fig.pos = "H"}
+mm_vgood <- mm_by %>% filter(BY == "Very Good")
+table_mm_by(mm_vgood, capt = "Marginal Means -- Opinion on the Police: Very Good")
+```
+\normalsize
+
+\newpage
+
+### Opinion on the Judicial System
+
+Lastly, we analyze whether personal beliefs about the judicial system affect
+the type of lynching victim respondents select. 
+
+\footnotesize
+```{r conjoint-justice, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=6, fig.pos="H"}
+# Model
+cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
+  mutate(views_justice2 = case_when(views_justice == "Rather Not Say" ~ NA_character_,
+                                   views_justice == "Don't Know" ~ NA_character_,
+                                   TRUE ~ views_justice)) %>% drop_na(views_justice2)
+cjdt$Judiciary <- factor(cjdt$views_justice2)
+
+mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", 
+            h0 = 0.5, by = ~Judiciary)
+
+# Plot
+plot(mm_by, group = "Judiciary", vline = 0.5, header_fmt = "%s") +
+  theme(legend.position = "bottom", axis.text.y = element_text(face = faces, size = 10)) +
+  scale_colour_viridis_d(option = "inferno", end = 0.8)
+
+# Tables
+mm_bad <- mm_by %>% filter(BY == "Bad")
+table_mm_by(mm_bad, capt = "Marginal Means -- Opinion on the Judicial System: Bad")
+mm_good <- mm_by %>% filter(BY == "Good")
+table_mm_by(mm_good, capt = "Marginal Means -- Opinion on the Judicial System: Good")
+mm_regular <- mm_by %>% filter(BY == "Regular")
+table_mm_by(mm_regular, capt = "Marginal Means -- Opinion on the Judicial System: Regular")
+```
+
+\newpage
+
+```{r conjoint-justicevbad, warning=F, message=F, error=F, cache=T, fig.pos = "H"}
+mm_vbad <- mm_by %>% filter(BY == "Very Bad")
+table_mm_by(mm_vbad, capt = "Marginal Means -- Opinion on the Judicial System: Very Bad")
+```
+
+\newpage
+
+```{r conjoint-justicevgood, warning=F, message=F, error=F, cache=T, fig.pos = "H"}
+mm_vgood <- mm_by %>% filter(BY == "Very Good")
+table_mm_by(mm_vgood, capt = "Marginal Means -- Opinion on the Judicial System: Very Good")
+```
+\normalsize
+
+\newpage
+
+# Experiment 02
 
 
 
