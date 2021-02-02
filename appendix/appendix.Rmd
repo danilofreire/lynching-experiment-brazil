@@ -311,7 +311,7 @@ df1 %>%
 ```
 \normalsize
 
-\newpage 
+\newpage
 
 ## Household Income
 
@@ -465,7 +465,7 @@ df1 %>%
 
 ## Description
 
-In our first experiments, we present five pairs of criminal profiles to
+In our first experiment, we present five pairs of criminal profiles to
 respondents. Each profile consists of eight attributes: 1) gender of the crime
 perpetrator; 2) age of the crime perpetrator; 3) race of the crime perpetrator;
 4) residency of crime perpetrator; 5) offense; 6) gender of the victim of the
@@ -509,22 +509,22 @@ the attributes using a `.php` script, which is available at
 Respondents indicated which profile they preferred for extrajudicial
 punishment. Prior to the experiments, they had read the following prompt:
 
-* `Lynchings are often used as social punishment in Brazil. Lynchings are cases
+* Lynchings are often used as social punishment in Brazil. Lynchings are cases
   in which three or more people physically attack or execute a suspected
   criminal in public. We are interested in knowing more about how Brazilians
   see these episodes. In the next five questions, please read the description
   of two possible lynching victims in Brazil and indicate in which case you
   believe the punishment is more justified. Even if you are not entirely sure,
-  please select one of the cases.`[^portuguese]
+  please select one of the cases.[^portuguese]
 
-[^portuguese]: Original text in Portuguese: `Linchamentos são às vezes usados
+[^portuguese]: Original text in Portuguese: Linchamentos são às vezes usados
 como punição social no Brasil. Linchamentos são casos nos quais três ou mais
 pessoas agridem fisicamente ou executam em público um suspeito de um crime.
 Estamos interessados em saber mais sobre como os brasileiros vêem estes
 episódios. Nas próximas cinco questões, por favor, leia a descrição de duas
 possíveis vítimas de linchamento no Brasil e indique em quais delas você
 acredita que a punição é mais justificada. Mesmo que você não tenha certeza,
-por favor, escolha um dos casos.`
+por favor, escolha um dos casos.
 
 ## Marginal Means Estimator
 
@@ -700,8 +700,7 @@ cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
   drop_na(gender) %>%
   filter(gender == c("Male", "Female"))
 cjdt$Gender <- factor(cjdt$gender)
-mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm",
-            h0 = 0.5, by = ~Gender)
+mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", h0 = 0.5, by = ~Gender)
 
 # Plot
 plot(mm_by, group = "Gender", vline = 0.5, header_fmt = "%s") +
@@ -731,17 +730,12 @@ column_spec(1, width = "6cm"))
 
 mm_females <- mm_by %>% filter(BY == "Female")
 table_mm_by(mm_females, capt = "Marginal Means -- Females")
-```
-
-\newpage
-
-```{r conjoint-males, warning=F, message=F, error=F, cache=T, fig.pos = "H"}
 mm_males <- mm_by %>% filter(BY == "Male")
 table_mm_by(mm_males, capt = "Marginal Means -- Males")
 ```
 \normalsize
 
-\newpage
+\clearpage
 
 ### Age
 
@@ -752,17 +746,14 @@ offense, and less inclined to choose cases involving molestation. The remaining
 attributes show little variation.
 
 \footnotesize
-```{r conjoint-age, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=6, fig.pos="H"}
+```{r conjoint-age, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=5.2, fig.pos="H"}
 # Model
 cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
   drop_na(age) %>%
-  mutate(age2 = case_when(age >= 18 & age <= 34 ~ "18-34",
-                          age >= 35 & age <= 54 ~ "35-54",
-                          age >= 55 ~ "55 plus",
-                          TRUE ~ as.character(age)))
+  mutate(age2 = case_when(age >= 18 & age <= 34 ~ "18-34", age >= 35 & age <= 54 ~ "35-54",
+                          age >= 55 ~ "55 plus", TRUE ~ as.character(age)))
 cjdt$Age <- factor(cjdt$age2)
-mm_by <- cj(cjdt, fm, id = ~response_id, h0 = 0.5,
-            estimate = "mm", by = ~Age)
+mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", h0 = 0.5, by = ~Age)
 
 # Plot
 plot(mm_by, group = "Age", vline = 0.5, header_fmt = "%s") +
@@ -779,7 +770,7 @@ table_mm_by(mm_senior, capt = "Marginal Means -- 55+ Years Old")
 ```
 \normalsize
 
-\newpage
+\clearpage
 
 ### Race
 
@@ -788,14 +779,13 @@ almost identical is all dimensions except for offense. Asian respondents are
 much less likely to select profiles that contain pickpocketing as a crime.
 
 \footnotesize
-```{r conjoint-race, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=7, fig.pos="H"}
+```{r conjoint-race, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=5.4, fig.pos="H"}
 # Model
 cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
   drop_na(race) %>%
   filter(race == c("Asian", "Black", "Mixed Race", "White"))
 cjdt$Race <- factor(cjdt$race)
-mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm",
-            h0 = 0.5, by = ~Race)
+mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", h0 = 0.5, by = ~Race)
 
 # Plot
 plot(mm_by, group = "Race", vline = 0.5, header_fmt = "%s") +
@@ -809,17 +799,12 @@ mm_black <- mm_by %>% filter(BY == "Black")
 table_mm_by(mm_black, capt = "Marginal Means -- Black")
 mm_mixed <- mm_by %>% filter(BY == "Mixed Race")
 table_mm_by(mm_mixed, capt = "Marginal Means -- Mixed Race")
-```
-
-\newpage
-
-```{r conjoint-white, warning=F, message=F, error=F, cache=T, fig.pos="H"}
 mm_white <- mm_by %>% filter(BY == "White")
 table_mm_by(mm_white, capt = "Marginal Means -- White")
 ```
 \normalsize
 
-\newpage 
+\clearpage
 
 ### Education
 
@@ -829,7 +814,7 @@ them into a single category, while the other levels (high school, college, and
 graduate school) remain the same as in our questionnaire.
 
 \footnotesize
-```{r conjoint-education, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=5.6, fig.pos="H"}
+```{r conjoint-education, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=5.7, fig.pos="H"}
 # Model
 cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
   drop_na(education) %>%
@@ -840,8 +825,7 @@ cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
                                 education == "Secondary School" ~ "Primary or Secondary School",
                                 TRUE ~ education))
 cjdt$Education <- factor(cjdt$education2)
-mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm",
-            h0 = 0.5, by = ~Education)
+mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", h0 = 0.5, by = ~Education)
 
 # Plot
 plot(mm_by, group = "Education", vline = 0.5, header_fmt = "%s") +
@@ -856,16 +840,11 @@ table_mm_by(mm_grad, capt = "Marginal Means -- Graduate School Degree")
 mm_high <- mm_by %>% filter(BY == "High School")
 table_mm_by(mm_high, capt = "Marginal Means -- High School Degree")
 mm_pri_sec <- mm_by %>% filter(BY == "Primary or Secondary School")
-```
-
-\newpage 
-
-```{r conjoint-degree, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=6, fig.pos="H"}
 table_mm_by(mm_pri_sec, capt = "Marginal Means -- Primary or Secondary School Degree")
 ```
 \normalsize
 
-\newpage 
+\clearpage
 
 ### Household Income
 
@@ -873,10 +852,10 @@ We also disaggregate the results by monthly household income. As some
 categories have few respondents, we group them into three categories: (i) up to
 R\$3,000 (US\$550); (ii) from R\$3,001 to R\$5,000 (US\$550-915); and (iii)
 above R\$5,000 (US\$915+). The levels roughly represent low, middle, and
-high-income households. We find no considerable difference amongst them. 
+high-income households. We find no considerable difference amongst them.
 
 \footnotesize
-```{r conjoint-income, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=5, fig.pos="H"}
+```{r conjoint-income, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=5.7, fig.pos="H"}
 # Model
 cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
   drop_na(household_income) %>%
@@ -889,8 +868,7 @@ cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
                                        household_income == "Above R$20,000" ~ "Above R$5,000",
                                        TRUE ~ NA_character_))
 cjdt$Income <- factor(cjdt$household_income2)
-mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm",
-            h0 = 0.5, by = ~Income)
+mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", h0 = 0.5, by = ~Income)
 
 # Plot
 plot(mm_by, group = "Income", vline = 0.5, header_fmt = "%s") +
@@ -907,7 +885,7 @@ table_mm_by(mm_abv5k, capt = "Marginal Means -- Above 5,000 BRL")
 ```
 \normalsize
 
-\newpage
+\clearpage
 
 ### Support for Death Penalty
 
@@ -918,15 +896,15 @@ from their estimates are larger than the for the other two categories. The
 estimates largely overlap across the four groups, although those who answered "Rather Not Say" are less favorable to lynching Indigenous criminals.
 
 \footnotesize
-```{r conjoint-penalty, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=6, fig.pos="H"}
+```{r conjoint-penalty, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=5.3, fig.pos="H"}
 # Model
 cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
   drop_na(death_penalty)
-cjdt$death_penalty <- factor(cjdt$death_penalty)
-mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm",
-            h0 = 0.5, by = ~death_penalty)
+cjdt$Death_Penalty <- factor(cjdt$death_penalty)
+mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", h0 = 0.5, by = ~Death_Penalty)
 
-plot(mm_by, group = "death_penalty", vline = 0.5, header_fmt = "%s") +
+# Plot
+plot(mm_by, group = "Death_Penalty", vline = 0.5, header_fmt = "%s") +
   theme(legend.position = "bottom", axis.text.y = element_text(face = faces, size = 10)) +
   scale_colour_viridis_d(option = "inferno", end = 0.8)
 
@@ -935,25 +913,14 @@ mm_dk <- mm_by %>% filter(BY == "Don't Know")
 table_mm_by(mm_dk, capt = "Marginal Means -- Support for Death Penalty: Do Not Know")
 mm_no <- mm_by %>% filter(BY == "No")
 table_mm_by(mm_no, capt = "Marginal Means -- Support for Death Penalty: No")
-```
-
-\newpage 
-
-```{r conjoint-deathrns, warning=F, message=F, error=F, cache=T, fig.pos = "H"}
 mm_rns <- mm_by %>% filter(BY == "Rather Not Say")
 table_mm_by(mm_rns, capt = "Marginal Means -- Support for Death Penalty: Rather Not Say")
-```
-
-\newpage
-
-```{r conjoint-deathyes, warning=F, message=F, error=F, cache=T, fig.pos = "H"}
 mm_yes <- mm_by %>% filter(BY == "Yes")
 table_mm_by(mm_yes, capt = "Marginal Means -- Support for Death Penalty: Yes")
 ```
-
 \normalsize
 
-\newpage
+\clearpage
 
 ### Previous Victimization
 
@@ -961,13 +928,12 @@ Respondents who had been victimized in the past 12 months also do not have
 different preferences towards lynchings victim profiles. The results are
 virtually identical for both groups, as one can see below.
 
-```{r conjoint-victimization, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=6, fig.pos="H"}
+\footnotesize
+```{r conjoint-victimization, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=5.6, fig.pos="H"}
 # Model
 cjdt <- full_join(conjoint_data, df1, by = "response_id")
 cjdt$Previous_Victim <- factor(cjdt$previous_victim_dummy)
-
-mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm",
-            h0 = 0.5, by = ~Previous_Victim)
+mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", h0 = 0.5, by = ~Previous_Victim)
 
 # Plot
 plot(mm_by, group = "Previous_Victim", vline = 0.5, header_fmt = "%s") +
@@ -976,18 +942,13 @@ plot(mm_by, group = "Previous_Victim", vline = 0.5, header_fmt = "%s") +
 
 # Tables
 mm_no <- mm_by %>% filter(BY == "No")
-table_mm_by(mm_no, capt = "Marginal Means -- Support for Death Penalty: No")
-```
-
-\newpage 
-
-```{r conjoint-victimizationyes, warning=F, message=F, error=F, cache=T, fig.pos = "H"}
+table_mm_by(mm_no, capt = "Marginal Means -- Previous Victimization (12 Months): No")
 mm_yes <- mm_by %>% filter(BY == "Yes")
-table_mm_by(mm_yes, capt = "Marginal Means -- Support for Death Penalty: Rather Not Say")
+table_mm_by(mm_yes, capt = "Marginal Means -- Previous Victimization (12 Months): Yes")
 ```
 \normalsize
 
-\newpage
+\clearpage
 
 ### Opinion on the Police
 
@@ -995,15 +956,14 @@ Experimental results do not change when we break the responses according to how
 subjects view the police forces.
 
 \footnotesize
-```{r conjoint-policing, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=6, fig.pos="H"}
+```{r conjoint-policing, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=5.7, fig.pos="H"}
 # Model
 cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
   mutate(views_police2 = case_when(views_police == "Rather Not Say" ~ NA_character_,
                                    views_police == "Don't Know" ~ NA_character_,
                                    TRUE ~ views_police)) %>% drop_na(views_police2)
 cjdt$Police <- factor(cjdt$views_police2)
-mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm",
-            h0 = 0.5, by = ~Police)
+mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", h0 = 0.5, by = ~Police)
 
 # Plot
 plot(mm_by, group = "Police", vline = 0.5, header_fmt = "%s") +
@@ -1017,40 +977,29 @@ mm_good <- mm_by %>% filter(BY == "Good")
 table_mm_by(mm_good, capt = "Marginal Means -- Opinion on the Police: Good")
 mm_regular <- mm_by %>% filter(BY == "Regular")
 table_mm_by(mm_regular, capt = "Marginal Means -- Opinion on the Police: Regular")
-```
-
-\newpage
-
-```{r conjoint-polvbad, warning=F, message=F, error=F, cache=T, fig.pos = "H"}
 mm_vbad <- mm_by %>% filter(BY == "Very Bad")
 table_mm_by(mm_vbad, capt = "Marginal Means -- Opinion on the Police: Very Bad")
-```
-\newpage
-
-```{r conjoint-polvgood, warning=F, message=F, error=F, cache=T, fig.pos = "H"}
 mm_vgood <- mm_by %>% filter(BY == "Very Good")
 table_mm_by(mm_vgood, capt = "Marginal Means -- Opinion on the Police: Very Good")
 ```
 \normalsize
 
-\newpage
+\clearpage
 
 ### Opinion on the Judicial System
 
 Lastly, we analyze whether personal beliefs about the judicial system affect
-the type of lynching victim respondents select. 
+the type of lynching victim respondents select.
 
 \footnotesize
-```{r conjoint-justice, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=6, fig.pos="H"}
+```{r conjoint-justice, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=5.6, fig.pos="H"}
 # Model
 cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
   mutate(views_justice2 = case_when(views_justice == "Rather Not Say" ~ NA_character_,
-                                   views_justice == "Don't Know" ~ NA_character_,
+                                    views_justice == "Don't Know" ~ NA_character_,
                                    TRUE ~ views_justice)) %>% drop_na(views_justice2)
 cjdt$Judiciary <- factor(cjdt$views_justice2)
-
-mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", 
-            h0 = 0.5, by = ~Judiciary)
+mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", h0 = 0.5, by = ~Judiciary)
 
 # Plot
 plot(mm_by, group = "Judiciary", vline = 0.5, header_fmt = "%s") +
@@ -1064,28 +1013,182 @@ mm_good <- mm_by %>% filter(BY == "Good")
 table_mm_by(mm_good, capt = "Marginal Means -- Opinion on the Judicial System: Good")
 mm_regular <- mm_by %>% filter(BY == "Regular")
 table_mm_by(mm_regular, capt = "Marginal Means -- Opinion on the Judicial System: Regular")
-```
-
-\newpage
-
-```{r conjoint-justicevbad, warning=F, message=F, error=F, cache=T, fig.pos = "H"}
 mm_vbad <- mm_by %>% filter(BY == "Very Bad")
 table_mm_by(mm_vbad, capt = "Marginal Means -- Opinion on the Judicial System: Very Bad")
-```
-
-\newpage
-
-```{r conjoint-justicevgood, warning=F, message=F, error=F, cache=T, fig.pos = "H"}
 mm_vgood <- mm_by %>% filter(BY == "Very Good")
 table_mm_by(mm_vgood, capt = "Marginal Means -- Opinion on the Judicial System: Very Good")
 ```
 \normalsize
 
-\newpage
+\clearpage
 
 # Experiment 02
 
+## Description
 
+In our second experiment, we analyze how respondents justify their preferences
+towards extralegal violence. We assess the impact of three factors that have
+been cited as major drivers of lynchings: 1) police ineffectiveness; 2) slow
+criminal justice; 3) demand for harsher punishment for criminals. Below, we
+discuss them in further detail.
+
+Research shows that police ineffectiveness frequently appears as a strong
+predictor of vigilantism [@cruz2019determinants; @garcia2019anger]. The direct
+result of the weakness of police institutions is that citizens decide to take
+criminal matters "into their own hands", thus persecuting and punishing the
+criminals by themselves. A recent statistic indicates that the police solves
+only 10% of the homicides in Brazil, which lends support to the link between
+weak law enforcement and lynchings [@pearson2018latam].
+
+Another possible determinant of lynching support is lack of trust in the
+justice system [@godoy2004justice; @smith2019contradictions]. This is often due
+to long criminal proceedings, which cause significant anxiety for the victims.
+In Brazil, the penal code allows the accused to appeal each decision several
+times, so it can take decades before a criminal case is closed
+[@sousa2005utilizaccao]. In this respect, citizens do not believe that, even if
+the criminal is put to trial, he/she will be punished in a timely matter. Note
+that although the police is technically part of the criminal justice system, we
+analyze the two institutions separately in our experiment.
+
+Lastly, we evaluate whether respondents think that the legal punishment
+assigned to criminals is not proportional to the severity of their crimes. In
+particular, we intend to gauge the demand for iron-fisted criminal justice in
+Brazil. Although this treatment arm is related to the previous ones, it
+addresses not the efficiency of the institutions, but their legitimacy
+[@nivette2016institutional]. In fact, Brazilians are often vocal about their
+preference for repressive legal punishment. In a recent article in _The Wall
+Street Journal_, a bar owner justified the lynching of the local thug who
+killed his son by saying that "_even if he had been put behind bars for 100
+years it wouldn't have been enough to pay for all his crimes_"
+[@pearson2018latam]. We hypothesize that many Brazilians also share this view.
+
+The experiment consists of three treatment conditions and one control group.
+Respondents read an excerpt of a news article describing a real lynching case.
+We have slightly edited the original text so that respondents have no prior
+knowledge of the crime.[^jornal] The vignette for the control group includes no
+information about the reasons behind the lynching. We ask respondents to show
+their level of lynching support using a 0-100 slider, where 0 means no support
+and 100 means full support. Respondents in each of the three treatment arms
+read the same piece, but with one additional sentence explaining the
+motivations behind the lynching. The vignettes are as follows:
+
+[^jornal]: The original article is available at the following address:
+<https://jr.jor.br/2020/05/01/homem-e-linchado-na-vila-progresso>.
+Access: August 2020.
+
+* *Control group*: A man was lynched last Friday in Jundiaí, São Paulo.
+  According to the neighbours, he tried to break into a house but was
+  immobilised and beaten by members of the community.[^control-exp02]
+
+[^control-exp02]: In Portuguese: Um homem foi linchado na última sexta-feira em
+Jundiaí, São Paulo. De acordo com vizinhos, ele tentou invadir uma residência
+mas foi imobilizado e agredido por membros da comunidade.
+
+* *Treatment 01 - Police ineffectiveness*: A man was lynched last Friday in
+  Jundiaí, São Paulo. According to the neighbours, he tried to break into a
+  house but was immobilised and beaten by members of the community. **One of
+  the residents who took part in the lynching said they had beaten the suspect
+  because "the police never patrols the area"**.[^treat01-exp02]
+
+[^treat01-exp02]: In Portuguese: Um homem foi linchado na última sexta-feira em
+Jundiaí, São Paulo. De acordo com vizinhos, ele tentou invadir uma residência
+mas foi imobilizado e agredido por membros da comunidade. **Um dos moradores
+envolvidos no linchamento disse que eles agrediram o suspeito porque "a polícia
+nunca patrulha o local".**
+
+* *Treatment 02 - Criminal justice ineffectiveness*: A man was lynched last
+  Friday in Jundiaí, São Paulo. According to the neighbours, he tried to break
+  into a house but was immobilised and beaten by members of the community.
+  **One of the residents who took part in the lynching said they had beaten the
+  suspect because "the judicial system is too slow and the perpetrator is on
+  the street until the case is heard"**.[^treat02-exp02]
+
+[^treat02-exp02]: In Portuguese: Um homem foi linchado na última sexta-feira em
+Jundiaí, São Paulo. De acordo com vizinhos, ele tentou invadir uma residência
+mas foi imobilizado e agredido por membros da comunidade. **Um dos moradores
+envolvidos no linchamento disse que eles agrediram o suspeito porque "a justiça
+é muito lenta e os criminosos ficam soltos até o julgamento"**.
+
+* *Treatment 03 - Demand for harsher legal punishment*: A man was lynched last
+  Friday in Jundiaí, São Paulo. According to the neighbours, he tried to break
+  into a house but was immobilised and beaten by members of the community.
+  **One of the residents who took part in the lynching said they had beaten the
+  suspect because "the judicial punishment is not harsh
+  enough"**.[^treat03-exp02]
+
+[^treat03-exp02]: In Portuguese: Um homem foi linchado na última sexta-feira em
+Jundiaí, São Paulo. De acordo com vizinhos, ele tentou invadir uma residência
+mas foi imobilizado e agredido por membros da comunidade. **Um dos moradores
+envolvidos no linchamento disse que eles agrediram o suspeito porque "a punição
+da justiça não é dura o suficiente"**.
+
+Before each vignette, respondents will read the following text:
+
+* You will be shown a news article. Please read it carefully. After you read
+  the article, we will ask you one question about it.[^vig01-exp02]
+
+[^vig01-exp02]: In Portuguese: Uma notícia será apresentada para você. Por
+favor, leia a notícia com atenção. Após você ler o artigo, faremos uma pergunta
+sobre ele.
+
+After the vignette, respondents will be presented with this question:
+
+* Would you think that the lynching was justified? Please use the slider below
+  to indicate your opinion. For disagreement, use 0 to 49; for agreement,
+  use 51 to 100. Please use 50 if you neither agree nor
+  disagree.[^vig02-exp02]
+
+[^vig02-exp02]: In Portuguese: Você acha que o linchamento foi correto? Por
+favor, use a barra abaixo para indicar sua opinião. Para discordar, use de 0 a
+49; para concordar, use de 51 a 100. Por favor, use 50 para não concordar nem
+discordar.
+
+## Main Results
+
+Table \ref{tab:exp02main} summarizes our results.
+
+\footnotesize
+```{r exp02-main, warning=F, message=F, error=F, cache=T, fig.pos="H", results='asis'}
+df_exp02 <- df1 %>%
+  mutate(exp02_outcomes = coalesce(exp02_control, exp02_police,
+                                   exp02_slow_justice, exp02_small_punishment),
+  exp02_any_treat = case_when(!is.na(exp02_control) ~ "0",
+                              !is.na(exp02_police) ~ "1",
+                              !is.na(exp02_slow_justice) ~ "1",
+                              !is.na(exp02_small_punishment) ~ "1",
+                              TRUE ~ NA_character_),
+         exp02_police_treat = case_when(!is.na(exp02_control) ~ "0",
+                                        !is.na(exp02_police) ~ "1"),
+         exp02_slow_justice_treat = case_when(!is.na(exp02_control) ~ "0",
+                                              !is.na(exp02_slow_justice) ~ "1"),
+         exp02_small_punishment_treat = case_when(!is.na(exp02_control) ~ "0",
+                                                  !is.na(exp02_small_punishment) ~ "1"))
+
+m1 <- lm(exp02_outcomes ~ exp02_police_treat, data = df_exp02)
+m1cov <- coeftest(m1, vcov = vcovHC(m1, type = "HC2"))
+m1se <- sqrt(diag(m1cov))
+
+m2 <- lm(exp02_outcomes ~ exp02_slow_justice_treat, data = df_exp02)
+m2cov <- coeftest(m2, vcov = vcovHC(m2, type = "HC2"))
+m2se <- sqrt(diag(m2cov))
+
+m3 <- lm(exp02_outcomes ~ exp02_small_punishment_treat, data = df_exp02)
+m3cov <- coeftest(m3, vcov = vcovHC(m3, type = "HC2"))
+m3se <- sqrt(diag(m3cov))
+
+m4 <- lm(exp02_outcomes ~ exp02_any_treat, data = df_exp02)
+m4cov <- coeftest(m4, vcov = vcovHC(m4, type = "HC2"))
+m4se <- sqrt(diag(m4cov))
+
+stargazer(m1, m2, m3, m4, se = list(m1se, m2se, m3se, m4se), header = FALSE,
+title = "Experiment 02 -- Main Results", align = TRUE, label = "tab:exp02main",
+dep.var.caption = "\\textit{Dependent Variable}", dep.var.labels = "Lynching Support",
+covariate.labels = c("Police does not patrol area", "Justice too slow",
+"Punishment not harsh enough", "Combined treatments"),
+column.sep.width = "3pt", notes = "Robust standard error in parentheses.",
+keep.stat = c("n", "rsq"), no.space = TRUE)
+```
+\normalsize
 
 
 
@@ -1115,6 +1218,10 @@ table_mm_by(mm_vgood, capt = "Marginal Means -- Opinion on the Judicial System: 
 # Session Information
 \label{sec:session-info}
 
+\footnotesize
 ```{r session, cache=TRUE}
 sessionInfo()
 ```
+\normalsize
+
+\clearpage
