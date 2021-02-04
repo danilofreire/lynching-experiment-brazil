@@ -517,6 +517,10 @@ df_exp02 <- df1 %>%
          exp02_small_punishment_treat = case_when(!is.na(exp02_control) ~ "0",
                                                   !is.na(exp02_small_punishment) ~ "1"))
 
+df_exp02 <- df_exp02 %>% mutate(dummy = case_when(exp02_outcomes >= 50 ~ 1,
+                                                  exp02_outcomes < 50 ~ 0,
+                                                  TRUE ~ NA_real_))
+
 m1 <- lm(exp02_outcomes ~ exp02_any_treat, data = df_exp02)
 m1cov <- coeftest(m1, vcov = vcovHC(m1, type = "HC2"))
 m1se <- sqrt(diag(m1cov))

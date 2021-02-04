@@ -92,7 +92,7 @@ df <- read_csv("../data/data.csv") %>%
 # Translate factor values from Portuguese to English
 df <- df %>%
   mutate(consent = recode(consent,
-                          concordo     = "Agree",
+                          concordo       = "Agree",
                           `não concordo` = "Disagree"),
          gender = recode(gender,
                          "feminino"              = "Female",
@@ -107,6 +107,7 @@ df <- df %>%
                        "parda"                 = "Mixed Race",
                        "prefiro não responder" = "Rather Not Say",
                        "preta"                 = "Black"),
+         race = fct_relevel(race, "Other", "Rather Not Say", after = Inf),
          education = recode(education,
                             "da 1ª à 4ª série do ensino fundamental (antigo primário)" = "Primary School",
                             "da 5ª à 8ª série do ensino fundamental (antigo ginásio)"  = "Secondary School",
@@ -114,6 +115,8 @@ df <- df %>%
                             "ensino superior"                                          = "College",
                             "mestrado ou doutorado"                                    = "Graduate School",
                             "não sei"                                                  = "Don't Know"),
+         education = fct_relevel(education, "Primary School", "Secondary School", "High School",
+                                 "College", "Graduate School", "Don't Know"),
          region = recode(region,
                          "centro-oeste" = "Center-West",
                          "nordeste"     = "Northeast",
@@ -128,6 +131,10 @@ df <- df %>%
                                    "de r$ 2.001 a r$ 3.000"   = "From R$2,001 to R$3,000",
                                    "de r$ 3.001 a r$ 5.000"   = "From R$3,001 to R$5,000",
                                    "de r$ 5.001 a r$ 10.000"  = "From R$5,001 to R$10,000"),
+         household_income = fct_relevel(household_income, "Up to R$1,000",
+                                        "From R$1,001 to R$2,000", "From R$2,001 to R$3,000",
+                                        "From R$3,001 to R$5,000", "From R$5,001 to R$10,000",
+                                        "From R$10,001 to R$20,000", "Above R$20,000"),
          ideology = recode(ideology,
                            "centro"                = "Center",
                            "centro-direita"        = "Center-Right",
@@ -136,11 +143,16 @@ df <- df %>%
                            "esquerda"              = "Left",
                            "não sei"               = "Don't Know",
                            "prefiro não responder" = "Rather Not Say"),
+         ideology = fct_relevel(ideology, "Left", "Center-Left", "Center",
+                                "Center-Right", "Right", "Don't Know",
+                                "Rather Not Say"),
          death_penalty = recode(death_penalty,
                                 "não"                   = "No",
                                 "não sei"               = "Don't Know",
                                 "prefiro não responder" = "Rather Not Say",
                                 "sim"                   = "Yes"),
+         death_penalty = fct_relevel(death_penalty, "Don't Know",
+                                     "Rather Not Say", after = Inf),
          views_police = recode(views_police,
                                "boa"                   = "Good",
                                "muito boa"             = "Very Good",
@@ -149,6 +161,8 @@ df <- df %>%
                                "prefiro não responder" = "Rather Not Say",
                                "regular"               = "Regular",
                                "ruim"                  = "Bad"),
+         views_police = fct_relevel(views_police, "Very Good", "Good", "Regular",
+                                    "Bad", "Very Bad", "Don't Know", "Rather Not Say"),
          views_justice = recode(views_justice,
                                 "boa"                   = "Good",
                                 "muito boa"             = "Very Good",
@@ -157,6 +171,8 @@ df <- df %>%
                                 "prefiro não responder" = "Rather Not Say",
                                 "regular"               = "Regular",
                                 "ruim"                  = "Bad"),
+         views_justice = fct_relevel(views_justice, "Very Good", "Good", "Regular",
+                                    "Bad", "Very Bad", "Don't Know", "Rather Not Say"),
          previous_victim_dummy = recode(previous_victim,
                                         "nenhum" = "No",
                                         .missing = NA_character_,
@@ -273,6 +289,7 @@ df1 %>%
   summarise(N = n()) %>%
   mutate(Frequency = round(N / sum(N), 3)) %>%
   rename(Race = race) %>%
+  mutate(Race = fct_relevel(Race, "Other", "Rather Not Say", after = Inf)) %>%
   kbl(., booktabs = TRUE,  linesep = "",
       caption = "Race") %>%
   row_spec(0, bold = TRUE) %>%
@@ -293,7 +310,7 @@ df2 <- df1 %>%
 
 As expected, our sample is also more educated than [the Brazilian
 population](https://educa.ibge.gov.br/jovens/conheca-o-brasil/populacao/18317-educacao.html).
-About `r df2[1, 3]*100`% of the respondents have a college degree, and `r df2[3, 3]`%
+About `r df2[4, 3]*100`% of the respondents have a college degree, and `r df2[5, 3]`%
 have graduate school education.
 
 \footnotesize
@@ -324,11 +341,11 @@ df2 <- df1 %>%
   rename(`Household Income` = household_income)
 ```
 
-In terms of household income, `r df2[6, 3]*100`% of the respondents earns from
+In terms of household income, `r df2[5, 3]*100`% of the respondents earn from
 R\$5,0001 to R\$10,000 per month (US\$915 to US\$1830 as of January 2021), which
 comprise the largest group in our sample. However, the sample also contains
 `r df2[2, 3]*100`% of participants whose household income ranges between R\$1,001
-and R\$2,000 (US\$ 184 to US\$368) and `r df2[7, 3]*100`% with household incomes
+and R\$2,000 (US\$ 184 to US\$368) and `r df2[1, 3]*100`% with household incomes
 up to R\$1,000, which is roughly equivalent to Brazil's monthly minimum wage. In
 this respect, we have reached participants from all social classes.
 
@@ -359,11 +376,11 @@ df2 <- df1 %>%
 ```
 
 We have also collected information regarding the subjects' political ideology.
-Most respondents identify themselves as right-wingers (`r df2[7, 3]*100`%),
-followed by left-wingers (`r df2[5, 3]*100`%), and centrists (`r df2[1, 3]*100`%).
+Most respondents identify themselves as right-wingers (`r df2[5, 3]*100`%),
+followed by left-wingers (`r df2[1, 3]*100`%), and centrists (`r df2[3, 3]*100`%).
 Subjects who do not know their ideology or prefer not to tell their
-political beliefs are also large in number (`r df2[4, 3]*100`% and
-`r df2[6, 3]*100`%, respectively).
+political beliefs are also large in number (`r df2[6, 3]*100`% and
+`r df2[7, 3]*100`%, respectively).
 
 \footnotesize
 ```{r ideology, warning=F, error=F, cache=T}
@@ -814,7 +831,7 @@ them into a single category, while the other levels (high school, college, and
 graduate school) remain the same as in our questionnaire.
 
 \footnotesize
-```{r conjoint-education, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=5.7, fig.pos="H"}
+```{r conjoint-education, warning=F, message=F, error=F, cache=T, fig.width=8, fig.height=6, fig.pos="H"}
 # Model
 cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
   drop_na(education) %>%
@@ -823,7 +840,9 @@ cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
                         "High School")) %>%
   mutate(education2 = case_when(education == "Primary School" ~ "Primary or Secondary School",
                                 education == "Secondary School" ~ "Primary or Secondary School",
-                                TRUE ~ education))
+                                TRUE ~ education),
+         education2 = fct_relevel(education2, "Primary or Secondary School",
+                                  "High School", "College", "Graduate School"))
 cjdt$Education <- factor(cjdt$education2)
 mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", h0 = 0.5, by = ~Education)
 
@@ -833,14 +852,14 @@ plot(mm_by, group = "Education", vline = 0.5, header_fmt = "%s") +
   scale_colour_viridis_d(option = "inferno", end = 0.8, begin = 0.25)
 
 # Tables
+mm_pri_sec <- mm_by %>% filter(BY == "Primary or Secondary School")
+table_mm_by(mm_pri_sec, capt = "Marginal Means -- Primary or Secondary School Degree")
+mm_high <- mm_by %>% filter(BY == "High School")
+table_mm_by(mm_high, capt = "Marginal Means -- High School Degree")
 mm_college <- mm_by %>% filter(BY == "College")
 table_mm_by(mm_college, capt = "Marginal Means -- College Degree")
 mm_grad <- mm_by %>% filter(BY == "Graduate School")
 table_mm_by(mm_grad, capt = "Marginal Means -- Graduate School Degree")
-mm_high <- mm_by %>% filter(BY == "High School")
-table_mm_by(mm_high, capt = "Marginal Means -- High School Degree")
-mm_pri_sec <- mm_by %>% filter(BY == "Primary or Secondary School")
-table_mm_by(mm_pri_sec, capt = "Marginal Means -- Primary or Secondary School Degree")
 ```
 \normalsize
 
@@ -855,7 +874,7 @@ above R\$5,000 (US\$915+). The levels roughly represent low, middle, and
 high-income households. We find no considerable difference amongst them.
 
 \footnotesize
-```{r conjoint-income, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=5.7, fig.pos="H"}
+```{r conjoint-income, warning=F, message=F, error=F, cache=T, fig.width=8, fig.height=6, fig.pos="H"}
 # Model
 cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
   drop_na(household_income) %>%
@@ -866,7 +885,9 @@ cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
                                        household_income == "From R$5,001 to R$10,000" ~ "Above R$5,000",
                                        household_income == "From R$10,001 to R$20,000" ~ "Above R$5,000",
                                        household_income == "Above R$20,000" ~ "Above R$5,000",
-                                       TRUE ~ NA_character_))
+                                       TRUE ~ NA_character_),
+         household_income2 = fct_relevel(household_income2, "Up to R$3,000", "From R$3,001 to R$5,000",
+                                         "Above R$5,000"))
 cjdt$Income <- factor(cjdt$household_income2)
 mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", h0 = 0.5, by = ~Income)
 
@@ -893,13 +914,16 @@ Here we assess whether subjects who support the death penalty have different
 preferences towards lynching victims. There are fewer respondents who answered
 "Don't Know" or "Rather Not Say" to our question, so the confidence intervals
 from their estimates are larger than the for the other two categories. The
-estimates largely overlap across the four groups, although those who answered "Rather Not Say" are less favorable to lynching Indigenous criminals.
+estimates largely overlap across the four groups, although those who answered
+"Rather Not Say" are less favorable to lynching Indigenous criminals.
 
 \footnotesize
 ```{r conjoint-penalty, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=5.3, fig.pos="H"}
 # Model
 cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
-  drop_na(death_penalty)
+  drop_na(death_penalty) %>%
+  mutate(death_penalty = fct_relevel(death_penalty, "Yes", "No",
+                                     "Don't Know", "Rather Not Say"))
 cjdt$Death_Penalty <- factor(cjdt$death_penalty)
 mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", h0 = 0.5, by = ~Death_Penalty)
 
@@ -909,14 +933,14 @@ plot(mm_by, group = "Death_Penalty", vline = 0.5, header_fmt = "%s") +
   scale_colour_viridis_d(option = "inferno", end = 0.8)
 
 # Tables
-mm_dk <- mm_by %>% filter(BY == "Don't Know")
-table_mm_by(mm_dk, capt = "Marginal Means -- Support for Death Penalty: Do Not Know")
-mm_no <- mm_by %>% filter(BY == "No")
-table_mm_by(mm_no, capt = "Marginal Means -- Support for Death Penalty: No")
-mm_rns <- mm_by %>% filter(BY == "Rather Not Say")
-table_mm_by(mm_rns, capt = "Marginal Means -- Support for Death Penalty: Rather Not Say")
 mm_yes <- mm_by %>% filter(BY == "Yes")
 table_mm_by(mm_yes, capt = "Marginal Means -- Support for Death Penalty: Yes")
+mm_no <- mm_by %>% filter(BY == "No")
+table_mm_by(mm_no, capt = "Marginal Means -- Support for Death Penalty: No")
+mm_dk <- mm_by %>% filter(BY == "Don't Know")
+table_mm_by(mm_dk, capt = "Marginal Means -- Support for Death Penalty: Do Not Know")
+mm_rns <- mm_by %>% filter(BY == "Rather Not Say")
+table_mm_by(mm_rns, capt = "Marginal Means -- Support for Death Penalty: Rather Not Say")
 ```
 \normalsize
 
@@ -931,7 +955,8 @@ virtually identical for both groups, as one can see below.
 \footnotesize
 ```{r conjoint-victimization, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=5.6, fig.pos="H"}
 # Model
-cjdt <- full_join(conjoint_data, df1, by = "response_id")
+cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
+  mutate(previous_victim_dummy, "Yes", "No")
 cjdt$Previous_Victim <- factor(cjdt$previous_victim_dummy)
 mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", h0 = 0.5, by = ~Previous_Victim)
 
@@ -941,10 +966,10 @@ plot(mm_by, group = "Previous_Victim", vline = 0.5, header_fmt = "%s") +
   scale_colour_viridis_d(option = "inferno", end = 0.8)
 
 # Tables
-mm_no <- mm_by %>% filter(BY == "No")
-table_mm_by(mm_no, capt = "Marginal Means -- Previous Victimization (12 Months): No")
 mm_yes <- mm_by %>% filter(BY == "Yes")
 table_mm_by(mm_yes, capt = "Marginal Means -- Previous Victimization (12 Months): Yes")
+mm_no <- mm_by %>% filter(BY == "No")
+table_mm_by(mm_no, capt = "Marginal Means -- Previous Victimization (12 Months): No")
 ```
 \normalsize
 
@@ -956,12 +981,15 @@ Experimental results do not change when we break the responses according to how
 subjects view the police forces.
 
 \footnotesize
-```{r conjoint-policing, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=5.7, fig.pos="H"}
+```{r conjoint-policing, warning=F, message=F, error=F, cache=T, fig.width=8, fig.height=6, fig.pos="H"}
 # Model
 cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
   mutate(views_police2 = case_when(views_police == "Rather Not Say" ~ NA_character_,
                                    views_police == "Don't Know" ~ NA_character_,
-                                   TRUE ~ views_police)) %>% drop_na(views_police2)
+                                   TRUE ~ views_police),
+         views_police2 = fct_relevel(views_police2, "Very Good", "Good",
+                                     "Regular", "Bad", "Very Bad")) %>%
+  drop_na(views_police2)
 cjdt$Police <- factor(cjdt$views_police2)
 mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", h0 = 0.5, by = ~Police)
 
@@ -971,16 +999,16 @@ plot(mm_by, group = "Police", vline = 0.5, header_fmt = "%s") +
   scale_colour_viridis_d(option = "inferno", end = 0.8)
 
 # Tables
-mm_bad <- mm_by %>% filter(BY == "Bad")
-table_mm_by(mm_bad, capt = "Marginal Means -- Opinion on the Police: Bad")
+mm_vgood <- mm_by %>% filter(BY == "Very Good")
+table_mm_by(mm_vgood, capt = "Marginal Means -- Opinion on the Police: Very Good")
 mm_good <- mm_by %>% filter(BY == "Good")
 table_mm_by(mm_good, capt = "Marginal Means -- Opinion on the Police: Good")
 mm_regular <- mm_by %>% filter(BY == "Regular")
 table_mm_by(mm_regular, capt = "Marginal Means -- Opinion on the Police: Regular")
+mm_bad <- mm_by %>% filter(BY == "Bad")
+table_mm_by(mm_bad, capt = "Marginal Means -- Opinion on the Police: Bad")
 mm_vbad <- mm_by %>% filter(BY == "Very Bad")
 table_mm_by(mm_vbad, capt = "Marginal Means -- Opinion on the Police: Very Bad")
-mm_vgood <- mm_by %>% filter(BY == "Very Good")
-table_mm_by(mm_vgood, capt = "Marginal Means -- Opinion on the Police: Very Good")
 ```
 \normalsize
 
@@ -992,12 +1020,15 @@ Lastly, we analyze whether personal beliefs about the judicial system affect
 the type of lynching victim respondents select.
 
 \footnotesize
-```{r conjoint-justice, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=5.6, fig.pos="H"}
+```{r conjoint-justice, warning=F, message=F, error=F, cache=T, fig.width=8, fig.height=5.6, fig.pos="H"}
 # Model
 cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
   mutate(views_justice2 = case_when(views_justice == "Rather Not Say" ~ NA_character_,
                                     views_justice == "Don't Know" ~ NA_character_,
-                                   TRUE ~ views_justice)) %>% drop_na(views_justice2)
+                                   TRUE ~ views_justice),
+         views_justice2 = fct_relevel(views_justice2, "Very Good", "Good",
+                                      "Regular", "Bad", "Very Bad")) %>%
+  drop_na(views_justice2)
 cjdt$Judiciary <- factor(cjdt$views_justice2)
 mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", h0 = 0.5, by = ~Judiciary)
 
@@ -1007,20 +1038,22 @@ plot(mm_by, group = "Judiciary", vline = 0.5, header_fmt = "%s") +
   scale_colour_viridis_d(option = "inferno", end = 0.8)
 
 # Tables
-mm_bad <- mm_by %>% filter(BY == "Bad")
-table_mm_by(mm_bad, capt = "Marginal Means -- Opinion on the Judicial System: Bad")
+mm_vgood <- mm_by %>% filter(BY == "Very Good")
+table_mm_by(mm_vgood, capt = "Marginal Means -- Opinion on the Judicial System: Very Good")
 mm_good <- mm_by %>% filter(BY == "Good")
 table_mm_by(mm_good, capt = "Marginal Means -- Opinion on the Judicial System: Good")
 mm_regular <- mm_by %>% filter(BY == "Regular")
 table_mm_by(mm_regular, capt = "Marginal Means -- Opinion on the Judicial System: Regular")
+mm_bad <- mm_by %>% filter(BY == "Bad")
+table_mm_by(mm_bad, capt = "Marginal Means -- Opinion on the Judicial System: Bad")
 mm_vbad <- mm_by %>% filter(BY == "Very Bad")
 table_mm_by(mm_vbad, capt = "Marginal Means -- Opinion on the Judicial System: Very Bad")
-mm_vgood <- mm_by %>% filter(BY == "Very Good")
-table_mm_by(mm_vgood, capt = "Marginal Means -- Opinion on the Judicial System: Very Good")
 ```
 \normalsize
 
 \clearpage
+
+
 
 # Experiment 02
 
@@ -1145,7 +1178,10 @@ discordar.
 
 ## Main Results
 
-Table \ref{tab:exp02main} summarizes our results.
+Table \ref{tab:exp02main} summarizes our results. As we see, none of the
+treatment effects are statistically significant at conventional levels. This
+indicates that institutional factors do not affect lynching support in our
+sample.
 
 \footnotesize
 ```{r exp02-main, warning=F, message=F, error=F, cache=T, fig.pos="H", results='asis'}
@@ -1165,31 +1201,109 @@ df_exp02 <- df1 %>%
                                                   !is.na(exp02_small_punishment) ~ "1"))
 
 m1 <- lm(exp02_outcomes ~ exp02_police_treat, data = df_exp02)
-m1cov <- coeftest(m1, vcov = vcovHC(m1, type = "HC2"))
+m1cov <- coeftest(m1, vcov = vcovHC(m1, type = "HC1"))
 m1se <- sqrt(diag(m1cov))
 
 m2 <- lm(exp02_outcomes ~ exp02_slow_justice_treat, data = df_exp02)
-m2cov <- coeftest(m2, vcov = vcovHC(m2, type = "HC2"))
+m2cov <- coeftest(m2, vcov = vcovHC(m2, type = "HC1"))
 m2se <- sqrt(diag(m2cov))
 
 m3 <- lm(exp02_outcomes ~ exp02_small_punishment_treat, data = df_exp02)
-m3cov <- coeftest(m3, vcov = vcovHC(m3, type = "HC2"))
+m3cov <- coeftest(m3, vcov = vcovHC(m3, type = "HC1"))
 m3se <- sqrt(diag(m3cov))
 
 m4 <- lm(exp02_outcomes ~ exp02_any_treat, data = df_exp02)
-m4cov <- coeftest(m4, vcov = vcovHC(m4, type = "HC2"))
+m4cov <- coeftest(m4, vcov = vcovHC(m4, type = "HC1"))
 m4se <- sqrt(diag(m4cov))
 
 stargazer(m1, m2, m3, m4, se = list(m1se, m2se, m3se, m4se), header = FALSE,
-title = "Experiment 02 -- Main Results", align = TRUE, label = "tab:exp02main",
-dep.var.caption = "\\textit{Dependent Variable}", dep.var.labels = "Lynching Support",
-covariate.labels = c("Police does not patrol area", "Justice too slow",
-"Punishment not harsh enough", "Combined treatments"),
-column.sep.width = "3pt", notes = "Robust standard error in parentheses.",
-keep.stat = c("n", "rsq"), no.space = TRUE)
+          title = "Experiment 02 -- Main Results", align = TRUE, label = "tab:exp02main",
+          dep.var.caption = "\\textit{Dependent Variable}", dep.var.labels = "Lynching Support",
+          covariate.labels = c("Police does not patrol area", "Justice too slow",
+                               "Punishment not harsh enough", "Combined treatments"),
+          column.sep.width = "3pt", notes = "Robust standard error in parentheses.",
+          keep.stat = c("n", "rsq"), no.space = TRUE, font.size = "footnotesize")
 ```
 \normalsize
 
+\clearpage
+
+## Demographic Characteristics and Lynching Support
+
+Here we evaluate the impact of individual characteristics on lynching support.
+We combine all treatment and control groups and measure whether demographic
+information, which we collected in our questionnaire, changes baseline levels.
+
+```{r exp02-demographics, warning=F, message=F, error=F, cache=T, fig.pos="H", results='asis'}
+df_exp02_group <- df_exp02 %>%
+  filter(gender == c("Female", "Male"),
+         race %in% c("Asian", "Black", "Mixed Race", "White"),
+         education %in% c("College", "Graduate School",
+                          "Primary School", "Secondary School", "High School")) %>%
+  mutate(education2 = case_when(education == "Primary School" ~ "Primary or Secondary School",
+                                education == "Secondary School" ~ "Primary or Secondary School",
+                                TRUE ~ as.character(education))) %>%
+  mutate(household_income2 = case_when(household_income == "Up to R$1,000" ~ "Up to R$3,000",
+                                       household_income == "From R$1,001 to R$2,000" ~ "Up to R$3,000",
+                                       household_income == "From R$2,001 to R$3,000" ~ "Up to R$3,000",
+                                       household_income == "From R$3,001 to R$5,000" ~ "From R$3,001 to R$5,000",
+                                       household_income == "From R$5,001 to R$10,000" ~ "Above R$5,000",
+                                       household_income == "From R$10,001 to R$20,000" ~ "Above R$5,000",
+                                       household_income == "Above R$20,000" ~ "Above R$5,000",
+                                       TRUE ~ NA_character_))
+
+m1 <- lm(exp02_outcomes ~ gender, data = df_exp02_group)
+m1cov <- coeftest(m1, vcov = vcovHC(m1, type = "HC1"))
+m1se <- sqrt(diag(m1cov))
+
+m2 <- lm(exp02_outcomes ~ age, data = df_exp02_group)
+m2cov <- coeftest(m2, vcov = vcovHC(m2, type = "HC1"))
+m2se <- sqrt(diag(m2cov))
+
+m3 <- lm(exp02_outcomes ~ race, data = df_exp02_group)
+m3cov <- coeftest(m3, vcov = vcovHC(m3, type = "HC1"))
+m3se <- sqrt(diag(m3cov))
+
+m4 <- lm(exp02_outcomes ~ education2, data = df_exp02_group)
+m4cov <- coeftest(m4, vcov = vcovHC(m4, type = "HC1"))
+m4se <- sqrt(diag(m4cov))
+
+m5 <- lm(exp02_outcomes ~ household_income2, data = df_exp02_group)
+m5cov <- coeftest(m5, vcov = vcovHC(m5, type = "HC1"))
+m5se <- sqrt(diag(m5cov))
+
+m6 <- lm(exp02_outcomes ~ ideology, data = df_exp02_group)
+m6cov <- coeftest(m6, vcov = vcovHC(m6, type = "HC1"))
+m6se <- sqrt(diag(m6cov))
+
+m7 <- lm(exp02_outcomes ~ previous_victim_dummy, data = df_exp02_group)
+m7cov <- coeftest(m7, vcov = vcovHC(m7, type = "HC1"))
+m7se <- sqrt(diag(m7cov))
+
+m8 <- lm(exp02_outcomes ~ views_police, data = df_exp02_group)
+m8cov <- coeftest(m8, vcov = vcovHC(m8, type = "HC1"))
+m8se <- sqrt(diag(m8cov))
+
+m9 <- lm(exp02_outcomes ~ views_justice, data = df_exp02_group)
+m9cov <- coeftest(m9, vcov = vcovHC(m9, type = "HC1"))
+m9se <- sqrt(diag(m9cov))
+
+stargazer(m1, m2, m3, m4, m5, se = list(m1se, m2se, m3se, m4se, m5se), header = FALSE,
+          align = TRUE, label = "exp02demo1",
+          title = "Experiment 02 -- Effect of Demographic Characteristics on Lynching Support", 
+          dep.var.caption = "\\textit{Dependent Variable}", dep.var.labels = "Lynching Support",
+          covariate.labels = c("Male", "Age (years)", "Black", "Mixed Race",
+                               "White", "Graduate School", "High School",
+                               "Primary or Secondary School", ""),
+          column.sep.width = "3pt", notes = "Robust standard error in parentheses.",
+          keep.stat = c("n", "rsq"), no.space = TRUE)
+
+stargazer(m6, m7, m8, m9, se = list(m6se, m7se, m8se, m9se), header = FALSE,
+          title = "Experiment 02 -- Effect of Demographic Characteristics on Lynching Support", 
+dep.var.caption = "\\textit{Dependent Variable}", dep.var.labels = "Lynching Support",
+column.sep.width = "3pt", notes = "Robust standard error in parentheses.",
+keep.stat = c("n", "rsq"), no.space = TRUE)
+```
 
 
 
