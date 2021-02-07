@@ -46,7 +46,7 @@ Portuguese into English.
 \footnotesize
 ```{r loading, warning=F, message=F, error=F, cache=T}
 # Install and load required packages
-packages <- c("cjoint", "cregg", "kableExtra",
+packages <- c("cjoint", "cregg", "estimatr", "kableExtra",
               "janitor", "stargazer", "tidyverse")
 installed_packages <- packages %in% rownames(installed.packages())
 if (any(installed_packages == FALSE)) {
@@ -177,8 +177,8 @@ df <- df %>%
                                         "nenhum" = "No",
                                         .missing = NA_character_,
                                         .default = "Yes")) %>%
-relocate(response_id:previous_victim, previous_victim_dummy,
-         previous_victim_text:f_5_2_8)
+  relocate(response_id:previous_victim, previous_victim_dummy,
+           previous_victim_text:f_5_2_8)
 
 # Check for duplicated values
 count(get_dupes(df))
@@ -1188,11 +1188,11 @@ sample.
 df_exp02 <- df1 %>%
   mutate(exp02_outcomes = coalesce(exp02_control, exp02_police,
                                    exp02_slow_justice, exp02_small_punishment),
-  exp02_any_treat = case_when(!is.na(exp02_control) ~ "0",
-                              !is.na(exp02_police) ~ "1",
-                              !is.na(exp02_slow_justice) ~ "1",
-                              !is.na(exp02_small_punishment) ~ "1",
-                              TRUE ~ NA_character_),
+         exp02_any_treat = case_when(!is.na(exp02_control) ~ "0",
+                                     !is.na(exp02_police) ~ "1",
+                                     !is.na(exp02_slow_justice) ~ "1",
+                                     !is.na(exp02_small_punishment) ~ "1",
+                                     TRUE ~ NA_character_),
          exp02_police_treat = case_when(!is.na(exp02_control) ~ "0",
                                         !is.na(exp02_police) ~ "1"),
          exp02_slow_justice_treat = case_when(!is.na(exp02_control) ~ "0",
@@ -1201,32 +1201,25 @@ df_exp02 <- df1 %>%
                                                   !is.na(exp02_small_punishment) ~ "1"))
 
 m1 <- lm(exp02_outcomes ~ exp02_police_treat, data = df_exp02)
-m1cov <- coeftest(m1, vcov = vcovHC(m1, type = "HC1"))
-m1se <- sqrt(diag(m1cov))
-
 m2 <- lm(exp02_outcomes ~ exp02_slow_justice_treat, data = df_exp02)
-m2cov <- coeftest(m2, vcov = vcovHC(m2, type = "HC1"))
-m2se <- sqrt(diag(m2cov))
-
 m3 <- lm(exp02_outcomes ~ exp02_small_punishment_treat, data = df_exp02)
-m3cov <- coeftest(m3, vcov = vcovHC(m3, type = "HC1"))
-m3se <- sqrt(diag(m3cov))
-
 m4 <- lm(exp02_outcomes ~ exp02_any_treat, data = df_exp02)
-m4cov <- coeftest(m4, vcov = vcovHC(m4, type = "HC1"))
-m4se <- sqrt(diag(m4cov))
 
-stargazer(m1, m2, m3, m4, se = list(m1se, m2se, m3se, m4se), header = FALSE,
-          title = "Experiment 02 -- Main Results", align = TRUE, label = "tab:exp02main",
-          dep.var.caption = "\\textit{Dependent Variable}", dep.var.labels = "Lynching Support",
+stargazer(m1, m2, m3, m4, se = starprep(m1, m2, m3, m4),
+          p = starprep(m1, m2, m3, m4, se_type = "HC2", stat = "p.value"),
+          header = FALSE, align = TRUE, label = "exp02main",
+          title = "Experiment 02 -- Main Results", style = "apsr",
+          dep.var.labels = "Lynching Support",
           covariate.labels = c("Police does not patrol area", "Justice too slow",
                                "Punishment not harsh enough", "Combined treatments"),
-          column.sep.width = "3pt", notes = "Robust standard error in parentheses.",
-          keep.stat = c("n", "rsq"), no.space = TRUE, font.size = "footnotesize")
+          column.sep.width = "3pt", notes = "Robust standard errors in parentheses.",
+          keep.stat = "n", no.space = TRUE, font.size = "footnotesize")
 ```
 \normalsize
 
 \clearpage
+
+## Subgroup Analyses
 
 ## Demographic Characteristics and Lynching Support
 
@@ -1234,15 +1227,27 @@ Here we evaluate the impact of individual characteristics on lynching support.
 We combine all treatment and control groups and measure whether demographic
 information, which we collected in our questionnaire, changes baseline levels.
 
+\footnotesize
 ```{r exp02-demographics, warning=F, message=F, error=F, cache=T, fig.pos="H", results='asis'}
 df_exp02_group <- df_exp02 %>%
   filter(gender == c("Female", "Male"),
-         race %in% c("Asian", "Black", "Mixed Race", "White"),
-         education %in% c("College", "Graduate School",
-                          "Primary School", "Secondary School", "High School")) %>%
+         race %in% c("Asian", "Black", "Mixed Race", "White", "Indigenous"),
+         education %in% c("College", "Graduate School", "Primary School",
+                          "Secondary School", "High School")) %>%
+  mutate(race = fct_relevel(race, "White", "Black", "Mixed Race", "Asian",
+                            "Indigenous")) %>%
   mutate(education2 = case_when(education == "Primary School" ~ "Primary or Secondary School",
                                 education == "Secondary School" ~ "Primary or Secondary School",
-                                TRUE ~ as.character(education))) %>%
+                                TRUE ~ as.character(education)),
+         education2 = fct_relevel(education2, "Primary or Secondary School",
+                                  "High School", "College", "Graduate School")) %>%
+  mutate(views_police = fct_relevel(views_police, "Regular", "Very Good", "Good",
+                                    "Bad", "Very Bad")) %>%
+  mutate(views_justice = fct_relevel(views_justice, "Regular", "Very Good", "Good", 
+                                    "Bad", "Very Bad")) %>%
+  mutate(ideology = fct_relevel(ideology, "Center", "Left", "Center-Left",
+                                "Center-Right", "Right", "Don't Know",
+                                "Rather Not Say")) %>%
   mutate(household_income2 = case_when(household_income == "Up to R$1,000" ~ "Up to R$3,000",
                                        household_income == "From R$1,001 to R$2,000" ~ "Up to R$3,000",
                                        household_income == "From R$2,001 to R$3,000" ~ "Up to R$3,000",
@@ -1250,60 +1255,47 @@ df_exp02_group <- df_exp02 %>%
                                        household_income == "From R$5,001 to R$10,000" ~ "Above R$5,000",
                                        household_income == "From R$10,001 to R$20,000" ~ "Above R$5,000",
                                        household_income == "Above R$20,000" ~ "Above R$5,000",
-                                       TRUE ~ NA_character_))
+                                       TRUE ~ NA_character_),
+  household_income2 = fct_relevel(household_income2, "Up to R$3,000", "From R$3,001 to R$5,000",
+                                  "Above R$5,000"))
 
+# Models
 m1 <- lm(exp02_outcomes ~ gender, data = df_exp02_group)
-m1cov <- coeftest(m1, vcov = vcovHC(m1, type = "HC1"))
-m1se <- sqrt(diag(m1cov))
-
 m2 <- lm(exp02_outcomes ~ age, data = df_exp02_group)
-m2cov <- coeftest(m2, vcov = vcovHC(m2, type = "HC1"))
-m2se <- sqrt(diag(m2cov))
-
 m3 <- lm(exp02_outcomes ~ race, data = df_exp02_group)
-m3cov <- coeftest(m3, vcov = vcovHC(m3, type = "HC1"))
-m3se <- sqrt(diag(m3cov))
-
 m4 <- lm(exp02_outcomes ~ education2, data = df_exp02_group)
-m4cov <- coeftest(m4, vcov = vcovHC(m4, type = "HC1"))
-m4se <- sqrt(diag(m4cov))
-
 m5 <- lm(exp02_outcomes ~ household_income2, data = df_exp02_group)
-m5cov <- coeftest(m5, vcov = vcovHC(m5, type = "HC1"))
-m5se <- sqrt(diag(m5cov))
-
 m6 <- lm(exp02_outcomes ~ ideology, data = df_exp02_group)
-m6cov <- coeftest(m6, vcov = vcovHC(m6, type = "HC1"))
-m6se <- sqrt(diag(m6cov))
-
 m7 <- lm(exp02_outcomes ~ previous_victim_dummy, data = df_exp02_group)
-m7cov <- coeftest(m7, vcov = vcovHC(m7, type = "HC1"))
-m7se <- sqrt(diag(m7cov))
-
 m8 <- lm(exp02_outcomes ~ views_police, data = df_exp02_group)
-m8cov <- coeftest(m8, vcov = vcovHC(m8, type = "HC1"))
-m8se <- sqrt(diag(m8cov))
-
 m9 <- lm(exp02_outcomes ~ views_justice, data = df_exp02_group)
-m9cov <- coeftest(m9, vcov = vcovHC(m9, type = "HC1"))
-m9se <- sqrt(diag(m9cov))
 
-stargazer(m1, m2, m3, m4, m5, se = list(m1se, m2se, m3se, m4se, m5se), header = FALSE,
-          align = TRUE, label = "exp02demo1",
-          title = "Experiment 02 -- Effect of Demographic Characteristics on Lynching Support", 
-          dep.var.caption = "\\textit{Dependent Variable}", dep.var.labels = "Lynching Support",
-          covariate.labels = c("Male", "Age (years)", "Black", "Mixed Race",
-                               "White", "Graduate School", "High School",
-                               "Primary or Secondary School", ""),
-          column.sep.width = "3pt", notes = "Robust standard error in parentheses.",
-          keep.stat = c("n", "rsq"), no.space = TRUE)
+# Tables (robust standard errors from estimatr)
+stargazer(m1, m2, m3, m4, m5, se = starprep(m1, m2, m3, m4, m5),
+          p = starprep(m1, m2, m3, m4, m5, se_type = "HC1", stat = "p.value"),
+          header = FALSE, align = TRUE, label = "exp02demo1",
+          title = "Experiment 02 -- Demographic Characteristics and Lynching Support",
+          dep.var.labels = "Lynching Support",
+          covariate.labels = c("Male", "Age (years)", "Black", "Mixed race",
+                               "Asian", "Indigenous", "High school", "College",
+                               "Graduate school", "3,001 to 5,000 BRL",
+                               "5,000+ BRL"), style = "apsr",
+          column.sep.width = "2pt", notes = c("Reference categories: Model 1: Female; 
+                                              Model 3: White; Model 4: Primary or secondary school;",
+                                              "Model 5: Up to 3,000 BRL. Robust standard errors in
+                                              parentheses."),
+          keep.stat = "n", no.space = TRUE, font.size = "footnotesize")
 
-stargazer(m6, m7, m8, m9, se = list(m6se, m7se, m8se, m9se), header = FALSE,
-          title = "Experiment 02 -- Effect of Demographic Characteristics on Lynching Support", 
-dep.var.caption = "\\textit{Dependent Variable}", dep.var.labels = "Lynching Support",
-column.sep.width = "3pt", notes = "Robust standard error in parentheses.",
-keep.stat = c("n", "rsq"), no.space = TRUE)
+stargazer(m6, m7, m8, m9, se = starprep(m6, m7, m8, m9),
+          p = starprep(m6, m7, m8, m9, se_type = "HC2", stat = "p.value"),
+          header = FALSE, align = TRUE, label = "exp02demo2",
+          title = "Experiment 02 -- Demographic Characteristics and Lynching Support",
+          dep.var.labels = "Lynching Support", style = "apsr",
+          covariate.labels = c("Left", "Center-Left", "Center-Right", "Right")
+          column.sep.width = "2pt", notes = "Robust standard error in parentheses.",
+          keep.stat = c("n", "rsq"), no.space = TRUE, font.size = "footnotesize")
 ```
+\normalsize
 
 
 
