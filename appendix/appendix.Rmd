@@ -46,8 +46,8 @@ Portuguese into English.
 \footnotesize
 ```{r loading, warning=F, message=F, error=F, cache=T}
 # Install and load required packages
-packages <- c("cjoint", "cregg", "estimatr", "kableExtra",
-              "janitor", "stargazer", "tidyverse")
+packages <- c("cjoint", "cregg", "estimatr", "grf", "kableExtra", "janitor",
+              "quanteda", "seededlda", "stargazer", "tidyverse")
 installed_packages <- packages %in% rownames(installed.packages())
 if (any(installed_packages == FALSE)) {
   install.packages(packages[!installed_packages])
@@ -673,7 +673,7 @@ table_mm(mms, capt = "Marginal Means -- Full Model")
 ```
 \normalsize
 
-\newpage
+\clearpage
 
 ## Average Marginal Component Effect (AMCE) Estimator
 
@@ -692,15 +692,17 @@ plot(amces, vline = 0.0, header_fmt = "%s") +
 
 table_mm(amces, capt = "Average Marginal Component Effects -- Full Model")
 ```
+\normalsize
 
-\newpage
+\clearpage
 
 ## Subgroup Analyses
 
 In this subsection, we test whether our results vary according to individual
 characteristics, such as gender, age, race, income, support for death penalty,
 and the respondents' opinions on the judicial system and the police forces. All
-models report marginal means.
+models report marginal means. As we shall see, the results are very robust
+across all model specifications.
 
 ### Gender
 
@@ -1053,6 +1055,107 @@ table_mm_by(mm_vbad, capt = "Marginal Means -- Opinion on the Judicial System: V
 
 \clearpage
 
+## Text Analysis
+
+In addition to the conjoint experiments, we also asked respondents to justify
+their profile choices. We added a textbook after each conjoint and informed
+subjects that their responses were optional. However, we obtained `r (nrow(df1) - sum(is.na(df1$q13_text))) + (nrow(df1) - sum(is.na(df1$q14_text))) + (nrow(df1) - sum(is.na(df1$q15_text))) + (nrow(df1) - sum(is.na(df1$q16_text))) + (nrow(df1) - sum(is.na(df1$q17_text)))` responses
+in our survey, which we analyze here.
+
+First, we concatenate all text responses into a single vector. Then we tokenize
+the sentences, remove Portuguese stop words and punctuation, and select the
+words that appear most frequently in the texts. 
+
+The graphs shows that _crime_ (same as in English), _porque_ (because),
+_linchamento_ (lynching), and _caso_ (case) are the words respondents use most
+often. This is expected as subjects were asked to justify their choices. The
+next words in the list are related to victim or crime characteristics, such as
+_criança_ (child), _estupro_ (rape), _assassinato_ (murder), and _vítima_
+(victim). Indeed, they provide evidence our previous findings and confirm that
+respondents select lynching victim profiles according to these two factors.
+Criminal characteristics, such as age or race, do not seem to be particularly
+relevant, as respondents do not mention them as much. The next words are
+_nenhum_ (none), _contra_ (against), _acho_ (I think), _casos_ (cases), _ter_
+(have to), and _justiça_ (justice). We believe these words correspond to cases
+where respondents wanted to affirm they do not have any preference regarding
+the lynching profiles, or that they would rather not have chosen any of the
+alternatives.
+
+\footnotesize
+```{r conjoint-text, warning=F, message=F, error=F, cache=T, fig.width=8, fig.height=5.6, fig.pos="H", fig.cap = "Words respondents use most frequently when justifying their choices of lynching profiles"}
+dfmat <- df1 %>%
+  select(q13_text, q14_text, q15_text, q16_text, q17_text) %>%
+  gather() %>%
+  drop_na() %>%
+  corpus(text_field = "value") %>%
+  tokens(remove_punct = TRUE, remove_numbers = TRUE,
+         remove_symbol = TRUE) %>%
+  dfm() %>%
+  dfm_remove(., pattern = c(stopwords("pt", source = "snowball"),
+                            "é", "ser"))
+
+# Plot
+dfmat %>%
+  textstat_frequency(n = 15) %>%
+  ggplot(aes(x = reorder(feature, frequency), y = frequency)) +
+  geom_point(colour = "#152238") +
+  coord_flip() +
+  labs(x = NULL, y = "Frequency") +
+  theme_minimal()
+```
+\normalsize
+
+We also construct a feature co-occurrence matrix (FCM) that shows which words
+appear together in the responses we collected. Again, the results confirm the
+findings of the conjoint experiment. As suggested in the previous graph, we see
+a central cluster that describe crime and victim characteristics and includes
+the words _linchamentos_ (lynchings), _caso_ (case), _estupro_ (rape),
+_criança_ (child), _assassinato_ (murder), and _vítima_ (victim). This
+highlights that these are the most important reasons why respondents choose
+lynching profiles.
+
+We also note that there is another word cluster on the left. It contains words
+that indicate that some respondents do not support lynchings, such as _não_
+(no), _opção_ (choice), _nada_ (nothing), _justifica_ (justifies),
+_justificável_ (justifiable), and _escolher_ (choose). 
+
+\footnotesize
+```{r conjoint-fcm, warning=F, message=F, error=F, cache=T, fig.width=8, fig.height=5.6, fig.pos="H", fig.cap = "Semantic network analysis"}
+fcmat <- fcm(dfmat)
+feat <- names(topfeatures(fcmat, 70))
+fcmat_select <- fcm_select(fcmat, pattern = feat, selection = "keep")
+size <- log(colSums(dfm_select(dfmat, feat, selection = "keep")))
+
+# Plot
+set.seed(144)
+textplot_network(fcmat_select, min_freq = 0.8, vertex_size = size / max(size) * 3, max.overlaps = 30)
+```
+\normalsize
+
+Lastly, we estimate a latent Dirichlet allocation (LDA) model to identify the
+three most important topics in our corpus. The first topic includes words that
+describes lynching perpetrators, as it contains the words like _polícia_
+(police), _pessoas_ (people), and _família_ (family). The second topic
+identifies the same words we associate with respondents who are against
+lynchings, such as _nenhum_ (none), _opção_ (choice), _não_ (no), and _contra_
+(against). The last topic, in contrast, refer to victim and crime
+characteristics, which have also appeared in our previous estimations. Some of
+the most common words in this group are _crime_ (crime), _criança_ (child),
+_estupro_ (rape), _vítima_ (victim), _porque_ (because), _idoso_ (elderly),
+_grave_ (serious), and _molestar_ (molest).
+
+As our results show, respondents decide which individual deserves punishment
+based on factors related to the crime he/she committed, specially the crime
+victim. There is also a group of respondents that oppose lynchings in
+principle, who affirm that lynchings are not justified. 
+
+\footnotesize
+```{r conjoint-lda, warning=F, message=F, error=F, cache=T, fig.width=8, fig.height=5.6, fig.pos="H"}
+# Latent Dirichlet allocation
+tmod_lda <- textmodel_lda(dfmat, k = 3)
+terms(tmod_lda, 10)
+```
+\normalsize
 
 
 # Experiment 02
@@ -1207,9 +1310,9 @@ m4 <- lm(exp02_outcomes ~ exp02_any_treat, data = df_exp02)
 
 stargazer(m1, m2, m3, m4, se = starprep(m1, m2, m3, m4),
           p = starprep(m1, m2, m3, m4, se_type = "HC2", stat = "p.value"),
-          header = FALSE, align = TRUE, label = "exp02main",
+          header = FALSE, align = TRUE, label = "tab:exp02main",
           title = "Experiment 02 -- Main Results", style = "apsr",
-          dep.var.labels = "Lynching Support",
+          dep.var.labels = "\\textbf{Lynching Support}\\vspace{.5cm}",
           covariate.labels = c("Police does not patrol area", "Justice too slow",
                                "Punishment not harsh enough", "Combined treatments"),
           column.sep.width = "3pt", notes = "Robust standard errors in parentheses.",
@@ -1218,8 +1321,6 @@ stargazer(m1, m2, m3, m4, se = starprep(m1, m2, m3, m4),
 \normalsize
 
 \clearpage
-
-## Subgroup Analyses
 
 ## Demographic Characteristics and Lynching Support
 
@@ -1230,7 +1331,7 @@ information, which we collected in our questionnaire, changes baseline levels.
 \footnotesize
 ```{r exp02-demographics, warning=F, message=F, error=F, cache=T, fig.pos="H", results='asis'}
 df_exp02_group <- df_exp02 %>%
-  filter(gender == c("Female", "Male"),
+  filter(gender %in% c("Female", "Male"),
          race %in% c("Asian", "Black", "Mixed Race", "White", "Indigenous"),
          education %in% c("College", "Graduate School", "Primary School",
                           "Secondary School", "High School")) %>%
@@ -1243,7 +1344,7 @@ df_exp02_group <- df_exp02 %>%
                                   "High School", "College", "Graduate School")) %>%
   mutate(views_police = fct_relevel(views_police, "Regular", "Very Good", "Good",
                                     "Bad", "Very Bad")) %>%
-  mutate(views_justice = fct_relevel(views_justice, "Regular", "Very Good", "Good", 
+  mutate(views_justice = fct_relevel(views_justice, "Regular", "Very Good", "Good",
                                     "Bad", "Very Bad")) %>%
   mutate(ideology = fct_relevel(ideology, "Center", "Left", "Center-Left",
                                 "Center-Right", "Right", "Don't Know",
@@ -1273,30 +1374,111 @@ m9 <- lm(exp02_outcomes ~ views_justice, data = df_exp02_group)
 # Tables (robust standard errors from estimatr)
 stargazer(m1, m2, m3, m4, m5, se = starprep(m1, m2, m3, m4, m5),
           p = starprep(m1, m2, m3, m4, m5, se_type = "HC1", stat = "p.value"),
-          header = FALSE, align = TRUE, label = "exp02demo1",
+          header = FALSE, align = TRUE, label = "tab:exp02demo1",
           title = "Experiment 02 -- Demographic Characteristics and Lynching Support",
-          dep.var.labels = "Lynching Support",
-          covariate.labels = c("Male", "Age (years)", "Black", "Mixed race",
-                               "Asian", "Indigenous", "High school", "College",
-                               "Graduate school", "3,001 to 5,000 BRL",
-                               "5,000+ BRL"), style = "apsr",
-          column.sep.width = "2pt", notes = c("Reference categories: Model 1: Female; 
+          dep.var.labels = "\\textbf{Lynching Support}\\vspace{.5cm}", style = "apsr",
+          column.labels = c("Gender", "Age", "Race", "Education", "Income"),
+          covariate.labels = c("Male", "Years", "Black", "Mixed Race",
+                               "Asian", "Indigenous", "High School", "College",
+                               "Graduate School", "3,001 to 5,000 BRL", "5,000+ BRL"),
+          column.sep.width = "2pt", notes = c("Reference categories: Model 1: Female;
                                               Model 3: White; Model 4: Primary or secondary school;",
                                               "Model 5: Up to 3,000 BRL. Robust standard errors in
                                               parentheses."),
           keep.stat = "n", no.space = TRUE, font.size = "footnotesize")
 
+```
+\clearpage
+
+```{r exp02-demographics2, warning=F, message=F, error=F, cache=T, fig.pos="H", results='asis'}
 stargazer(m6, m7, m8, m9, se = starprep(m6, m7, m8, m9),
           p = starprep(m6, m7, m8, m9, se_type = "HC2", stat = "p.value"),
-          header = FALSE, align = TRUE, label = "exp02demo2",
+          header = FALSE, align = TRUE, label = "tab:exp02demo2",
           title = "Experiment 02 -- Demographic Characteristics and Lynching Support",
-          dep.var.labels = "Lynching Support", style = "apsr",
-          covariate.labels = c("Left", "Center-Left", "Center-Right", "Right")
-          column.sep.width = "2pt", notes = "Robust standard error in parentheses.",
-          keep.stat = c("n", "rsq"), no.space = TRUE, font.size = "footnotesize")
+          dep.var.labels = "\\textbf{Lynching Support}\\vspace{.5cm}", style = "apsr",
+          column.labels = c("Ideology", "Previous Victimization", "Police",
+                            "Judiciary"),
+          covariate.labels = c("Left", "Center-Left", "Center-Right", "Right",
+                               "Don't Know", "Rather Not Say", "Yes",
+                               "Very Good", "Good", "Bad", "Very Bad",
+                               "Don't Know", "Rather Not Say",
+                               "Very Good", "Good", "Bad", "Very Bad",
+                               "Don't Know", "Rather Not Say"),
+          column.sep.width = "2pt", notes = c("Reference categories: Model 1: Center;
+                                              Model 2: No; Model 3: Regular; Model 4: Regular.",
+                                              "Robust standard errors in parentheses."),
+          keep.stat = "n", no.space = TRUE, font.size = "footnotesize")
 ```
 \normalsize
 
+## Subgroup Analyses
+
+\footnotesize
+```{r exp02-forest, warning=F, error=F, message=F, cache=T, fig.width=7, fig.height=6, eval=F}
+df_exp02_police <- df_exp02_group %>%
+  select(exp02_outcomes, exp02_police_treat, gender, age, race, education, household_income2, ideology, views_police, views_justice) %>%
+  mutate(exp02_police_treat = as.numeric(exp02_police_treat))
+
+  drop_na()
+
+library(FindIt)
+F1 <-FindIt(model.treat = exp02_outcomes ~ exp02_police_treat,
+            model.main = ~ race,
+            model.int = ~ race,
+            data = df_exp02_police,
+            type = "binary",
+            treat.type = "single")
+
+F1 <-FindIt(model.treat= outcome ~ treat,
+            model.main= ~ age+educ+black+hisp+white+marr+nodegr+log.re75+u75,
+            model.int= ~ age+educ+black+hisp+white+marr+nodegr+log.re75+u75, data = LaLonde, type="binary", treat.type="single")
+
+
+cases <- sample(seq_len(nrow(df_exp02_police)), round(nrow(df_exp02_police) * .6))
+train <- df_exp02_police[cases, ]
+test <- df_exp02_police[-cases, ]
+
+x <- c("age")
+g <- c("gender", "race", "education", "household_income2",
+"ideology", "views_police", "views_justice")
+X2 <- model.matrix(~ 0 + ., train[c(x, g)])
+
+cf <- causal_forest(
+  X = X2,
+  Y = as.numeric(train$exp02_outcomes),
+  W = as.integer(train$exp02_police_treat),
+  num.trees = 1000,
+  seed = 1839
+)
+
+cf %>%
+  variable_importance() %>%
+  as.data.frame() %>%
+  mutate(variable = colnames(cf$X.orig)) %>%
+  arrange(desc(V1))
+
+preds <- predict(
+  object = cf,
+  newdata = model.matrix(~ ., data = test[, 3:ncol(train)]),
+  estimate.variance = TRUE
+)
+
+test$preds <- preds$predictions
+
+ggplot(test, aes(x = views_justice, y = preds)) +
+  geom_point() +
+  geom_smooth(method = "loess", span = 1) +
+  theme_light()
+
+average_treatment_effect(cf, target.sample = "all")
+tree <- get_tree(cf, 1)
+plot(tree)
+
+dr_scores <- double_robust_scores(cf)
+tree <- policy_tree(X2, dr_scores, 3)
+plot(tree)
+plot_htes(preds, ci = TRUE)
+```
 
 
 
