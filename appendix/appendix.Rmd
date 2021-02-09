@@ -46,8 +46,8 @@ Portuguese into English.
 \footnotesize
 ```{r loading, warning=F, message=F, error=F, cache=T}
 # Install and load required packages
-packages <- c("cjoint", "cregg", "estimatr", "grf", "kableExtra", "janitor",
-              "quanteda", "seededlda", "stargazer", "tidyverse")
+packages <- c("bartCause", "cjoint", "cregg", "estimatr", "kableExtra",
+              "janitor", "quanteda", "seededlda", "stargazer", "tidyverse")
 installed_packages <- packages %in% rownames(installed.packages())
 if (any(installed_packages == FALSE)) {
   install.packages(packages[!installed_packages])
@@ -327,8 +327,6 @@ df1 %>%
   kable_styling(latex_options = "hold_position")
 ```
 \normalsize
-
-\newpage
 
 ## Household Income
 
@@ -1064,7 +1062,7 @@ in our survey, which we analyze here.
 
 First, we concatenate all text responses into a single vector. Then we tokenize
 the sentences, remove Portuguese stop words and punctuation, and select the
-words that appear most frequently in the texts. 
+words that appear most frequently in the texts.
 
 The graphs shows that _crime_ (same as in English), _porque_ (because),
 _linchamento_ (lynching), and _caso_ (case) are the words respondents use most
@@ -1114,10 +1112,10 @@ _criança_ (child), _assassinato_ (murder), and _vítima_ (victim). This
 highlights that these are the most important reasons why respondents choose
 lynching profiles.
 
-We also note that there is another word cluster on the left. It contains words
+We note that there is another word cluster on the left. It contains words
 that indicate that some respondents do not support lynchings, such as _não_
 (no), _opção_ (choice), _nada_ (nothing), _justifica_ (justifies),
-_justificável_ (justifiable), and _escolher_ (choose). 
+_justificável_ (justifiable), and _escolher_ (choose).
 
 \footnotesize
 ```{r conjoint-fcm, warning=F, message=F, error=F, cache=T, fig.width=8, fig.height=5.6, fig.pos="H", fig.cap = "Semantic network analysis"}
@@ -1132,7 +1130,7 @@ textplot_network(fcmat_select, min_freq = 0.8, vertex_size = size / max(size) * 
 ```
 \normalsize
 
-Lastly, we estimate a latent Dirichlet allocation (LDA) model to identify the
+We estimate a latent Dirichlet allocation (LDA) model to identify the
 three most important topics in our corpus. The first topic includes words that
 describes lynching perpetrators, as it contains the words like _polícia_
 (police), _pessoas_ (people), and _família_ (family). The second topic
@@ -1147,7 +1145,7 @@ _grave_ (serious), and _molestar_ (molest).
 As our results show, respondents decide which individual deserves punishment
 based on factors related to the crime he/she committed, specially the crime
 victim. There is also a group of respondents that oppose lynchings in
-principle, who affirm that lynchings are not justified. 
+principle, who affirm that lynchings are not justified.
 
 \footnotesize
 ```{r conjoint-lda, warning=F, message=F, error=F, cache=T, fig.width=8, fig.height=5.6, fig.pos="H"}
@@ -1303,11 +1301,13 @@ df_exp02 <- df1 %>%
          exp02_small_punishment_treat = case_when(!is.na(exp02_control) ~ "0",
                                                   !is.na(exp02_small_punishment) ~ "1"))
 
+# Models
 m1 <- lm(exp02_outcomes ~ exp02_police_treat, data = df_exp02)
 m2 <- lm(exp02_outcomes ~ exp02_slow_justice_treat, data = df_exp02)
 m3 <- lm(exp02_outcomes ~ exp02_small_punishment_treat, data = df_exp02)
 m4 <- lm(exp02_outcomes ~ exp02_any_treat, data = df_exp02)
 
+# Table
 stargazer(m1, m2, m3, m4, se = starprep(m1, m2, m3, m4),
           p = starprep(m1, m2, m3, m4, se_type = "HC2", stat = "p.value"),
           header = FALSE, align = TRUE, label = "tab:exp02main",
@@ -1316,192 +1316,291 @@ stargazer(m1, m2, m3, m4, se = starprep(m1, m2, m3, m4),
           covariate.labels = c("Police does not patrol area", "Justice too slow",
                                "Punishment not harsh enough", "Combined treatments"),
           column.sep.width = "3pt", notes = "Robust standard errors in parentheses.",
-          keep.stat = "n", no.space = TRUE, font.size = "footnotesize")
+          keep.stat = "n", no.space = TRUE)
 ```
 \normalsize
-
-\clearpage
-
-## Demographic Characteristics and Lynching Support
-
-Here we evaluate the impact of individual characteristics on lynching support.
-We combine all treatment and control groups and measure whether demographic
-information, which we collected in our questionnaire, changes baseline levels.
-
-\footnotesize
-```{r exp02-demographics, warning=F, message=F, error=F, cache=T, fig.pos="H", results='asis'}
-df_exp02_group <- df_exp02 %>%
-  filter(gender %in% c("Female", "Male"),
-         race %in% c("Asian", "Black", "Mixed Race", "White", "Indigenous"),
-         education %in% c("College", "Graduate School", "Primary School",
-                          "Secondary School", "High School")) %>%
-  mutate(race = fct_relevel(race, "White", "Black", "Mixed Race", "Asian",
-                            "Indigenous")) %>%
-  mutate(education2 = case_when(education == "Primary School" ~ "Primary or Secondary School",
-                                education == "Secondary School" ~ "Primary or Secondary School",
-                                TRUE ~ as.character(education)),
-         education2 = fct_relevel(education2, "Primary or Secondary School",
-                                  "High School", "College", "Graduate School")) %>%
-  mutate(views_police = fct_relevel(views_police, "Regular", "Very Good", "Good",
-                                    "Bad", "Very Bad")) %>%
-  mutate(views_justice = fct_relevel(views_justice, "Regular", "Very Good", "Good",
-                                    "Bad", "Very Bad")) %>%
-  mutate(ideology = fct_relevel(ideology, "Center", "Left", "Center-Left",
-                                "Center-Right", "Right", "Don't Know",
-                                "Rather Not Say")) %>%
-  mutate(household_income2 = case_when(household_income == "Up to R$1,000" ~ "Up to R$3,000",
-                                       household_income == "From R$1,001 to R$2,000" ~ "Up to R$3,000",
-                                       household_income == "From R$2,001 to R$3,000" ~ "Up to R$3,000",
-                                       household_income == "From R$3,001 to R$5,000" ~ "From R$3,001 to R$5,000",
-                                       household_income == "From R$5,001 to R$10,000" ~ "Above R$5,000",
-                                       household_income == "From R$10,001 to R$20,000" ~ "Above R$5,000",
-                                       household_income == "Above R$20,000" ~ "Above R$5,000",
-                                       TRUE ~ NA_character_),
-  household_income2 = fct_relevel(household_income2, "Up to R$3,000", "From R$3,001 to R$5,000",
-                                  "Above R$5,000"))
-
-# Models
-m1 <- lm(exp02_outcomes ~ gender, data = df_exp02_group)
-m2 <- lm(exp02_outcomes ~ age, data = df_exp02_group)
-m3 <- lm(exp02_outcomes ~ race, data = df_exp02_group)
-m4 <- lm(exp02_outcomes ~ education2, data = df_exp02_group)
-m5 <- lm(exp02_outcomes ~ household_income2, data = df_exp02_group)
-m6 <- lm(exp02_outcomes ~ ideology, data = df_exp02_group)
-m7 <- lm(exp02_outcomes ~ previous_victim_dummy, data = df_exp02_group)
-m8 <- lm(exp02_outcomes ~ views_police, data = df_exp02_group)
-m9 <- lm(exp02_outcomes ~ views_justice, data = df_exp02_group)
-
-# Tables (robust standard errors from estimatr)
-stargazer(m1, m2, m3, m4, m5, se = starprep(m1, m2, m3, m4, m5),
-          p = starprep(m1, m2, m3, m4, m5, se_type = "HC1", stat = "p.value"),
-          header = FALSE, align = TRUE, label = "tab:exp02demo1",
-          title = "Experiment 02 -- Demographic Characteristics and Lynching Support",
-          dep.var.labels = "\\textbf{Lynching Support}\\vspace{.5cm}", style = "apsr",
-          column.labels = c("Gender", "Age", "Race", "Education", "Income"),
-          covariate.labels = c("Male", "Years", "Black", "Mixed Race",
-                               "Asian", "Indigenous", "High School", "College",
-                               "Graduate School", "3,001 to 5,000 BRL", "5,000+ BRL"),
-          column.sep.width = "2pt", notes = c("Reference categories: Model 1: Female;
-                                              Model 3: White; Model 4: Primary or secondary school;",
-                                              "Model 5: Up to 3,000 BRL. Robust standard errors in
-                                              parentheses."),
-          keep.stat = "n", no.space = TRUE, font.size = "footnotesize")
-
-```
-\clearpage
-
-```{r exp02-demographics2, warning=F, message=F, error=F, cache=T, fig.pos="H", results='asis'}
-stargazer(m6, m7, m8, m9, se = starprep(m6, m7, m8, m9),
-          p = starprep(m6, m7, m8, m9, se_type = "HC2", stat = "p.value"),
-          header = FALSE, align = TRUE, label = "tab:exp02demo2",
-          title = "Experiment 02 -- Demographic Characteristics and Lynching Support",
-          dep.var.labels = "\\textbf{Lynching Support}\\vspace{.5cm}", style = "apsr",
-          column.labels = c("Ideology", "Previous Victimization", "Police",
-                            "Judiciary"),
-          covariate.labels = c("Left", "Center-Left", "Center-Right", "Right",
-                               "Don't Know", "Rather Not Say", "Yes",
-                               "Very Good", "Good", "Bad", "Very Bad",
-                               "Don't Know", "Rather Not Say",
-                               "Very Good", "Good", "Bad", "Very Bad",
-                               "Don't Know", "Rather Not Say"),
-          column.sep.width = "2pt", notes = c("Reference categories: Model 1: Center;
-                                              Model 2: No; Model 3: Regular; Model 4: Regular.",
-                                              "Robust standard errors in parentheses."),
-          keep.stat = "n", no.space = TRUE, font.size = "footnotesize")
-```
-\normalsize
-
-## Subgroup Analyses
-
-\footnotesize
-```{r exp02-forest, warning=F, error=F, message=F, cache=T, fig.width=7, fig.height=6, eval=F}
-df_exp02_police <- df_exp02_group %>%
-  select(exp02_outcomes, exp02_police_treat, gender, age, race, education, household_income2, ideology, views_police, views_justice) %>%
-  mutate(exp02_police_treat = as.numeric(exp02_police_treat))
-
-  drop_na()
-
-library(FindIt)
-F1 <-FindIt(model.treat = exp02_outcomes ~ exp02_police_treat,
-            model.main = ~ race,
-            model.int = ~ race,
-            data = df_exp02_police,
-            type = "binary",
-            treat.type = "single")
-
-F1 <-FindIt(model.treat= outcome ~ treat,
-            model.main= ~ age+educ+black+hisp+white+marr+nodegr+log.re75+u75,
-            model.int= ~ age+educ+black+hisp+white+marr+nodegr+log.re75+u75, data = LaLonde, type="binary", treat.type="single")
-
-
-cases <- sample(seq_len(nrow(df_exp02_police)), round(nrow(df_exp02_police) * .6))
-train <- df_exp02_police[cases, ]
-test <- df_exp02_police[-cases, ]
-
-x <- c("age")
-g <- c("gender", "race", "education", "household_income2",
-"ideology", "views_police", "views_justice")
-X2 <- model.matrix(~ 0 + ., train[c(x, g)])
-
-cf <- causal_forest(
-  X = X2,
-  Y = as.numeric(train$exp02_outcomes),
-  W = as.integer(train$exp02_police_treat),
-  num.trees = 1000,
-  seed = 1839
-)
-
-cf %>%
-  variable_importance() %>%
-  as.data.frame() %>%
-  mutate(variable = colnames(cf$X.orig)) %>%
-  arrange(desc(V1))
-
-preds <- predict(
-  object = cf,
-  newdata = model.matrix(~ ., data = test[, 3:ncol(train)]),
-  estimate.variance = TRUE
-)
-
-test$preds <- preds$predictions
-
-ggplot(test, aes(x = views_justice, y = preds)) +
-  geom_point() +
-  geom_smooth(method = "loess", span = 1) +
-  theme_light()
-
-average_treatment_effect(cf, target.sample = "all")
-tree <- get_tree(cf, 1)
-plot(tree)
-
-dr_scores <- double_robust_scores(cf)
-tree <- policy_tree(X2, dr_scores, 3)
-plot(tree)
-plot_htes(preds, ci = TRUE)
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 \newpage
+
+## Heterogeneous Effects
+
+We estimate heterogeneous effects for our experiment using Bayesian Additive
+Regression Trees (BART) [@chipman2010bart; @hill2011bayesian]. BART methods
+allow users to detect non-linear interactions and are insensitive to the choice
+of tuning parameters, so they are well-suited to analyze observational and
+experimental data [@green2012modeling]. More specifically, we employ the
+`bartCause` package, which is designed to estimate causal inference models.
+
+### Treatment 01: Police Ineffectiveness
+
+Our results indicate that the effects for this treatment arm is null in every
+model specification. We find no evidence of heterogeneous effects.
+
+\footnotesize
+```{r exp02-bart01, warning=F, error=F, message=F, cache=T}
+df_exp02_het <- df_exp02 %>%
+  filter(gender %in% c("Female", "Male")) %>%
+  mutate(race = fct_relevel(race, "White", "Black", "Mixed Race", "Asian",
+                            "Indigenous"),
+         education = fct_relevel(education, "Primary School", "Secondary School",
+                                  "High School", "College", "Graduate School"),
+         views_police = fct_relevel(views_police, "Regular", "Very Good", "Good",
+                                    "Bad", "Very Bad"),
+         views_justice = fct_relevel(views_justice, "Regular", "Very Good", "Good",
+                                     "Bad", "Very Bad"),
+         ideology = fct_relevel(ideology, "Center", "Left", "Center-Left",
+                                "Center-Right", "Right", "Don't Know", "Rather Not Say"),
+         household_income = fct_relevel(household_income, "Up to R$1,000", "From R$1,001 to R$2,000",
+                                         "From R$2,001 to R$3,000", "From R$3,001 to R$5,000",
+                                         "From R$5,001 to R$10,000", "From R$10,001 to R$20,000",
+                                         "Above R$20,000"),
+         previous_victim_dummy = fct_relevel(previous_victim_dummy, "Yes", "No"),
+         death_penalty = fct_relevel(death_penalty, "Yes", "No"))
+
+df_exp02_police <- df_exp02_het %>%
+  mutate(exp02_police_treat = as.numeric(exp02_police_treat)) %>%
+  drop_na(exp02_police_treat)
+
+# Gender
+summary(bartc(exp02_outcomes, exp02_police_treat, gender,
+              group.by = gender, group.effects = TRUE, data = df_exp02_police,
+              n.chains = 5L, seed = 144))
+
+# Race
+summary(bartc(exp02_outcomes, exp02_police_treat, race,
+              group.by = race, group.effects = TRUE, data = df_exp02_police,
+              n.chains = 5L, seed = 144))
+
+# Education
+summary(bartc(exp02_outcomes, exp02_police_treat, education,
+              group.by = education, group.effects = TRUE, data = df_exp02_police,
+              n.chains = 5L, seed = 144))
+
+# Household Income
+summary(bartc(exp02_outcomes, exp02_police_treat, household_income,
+              group.by = household_income, group.effects = TRUE, data = df_exp02_police,
+              n.chains = 5L, seed = 144))
+
+# Political Ideology
+summary(bartc(exp02_outcomes, exp02_police_treat, ideology,
+              group.by = ideology, group.effects = TRUE, data = df_exp02_police,
+              n.chains = 5L, seed = 144))
+
+# Support for Death Penalty
+summary(bartc(exp02_outcomes, exp02_police_treat, death_penalty,
+              group.by = death_penalty, group.effects = TRUE, data = df_exp02_police,
+              n.chains = 5L, seed = 144))
+
+# Opinion on the Police
+summary(bartc(exp02_outcomes, exp02_police_treat, views_police,
+              group.by = views_police, group.effects = TRUE, data = df_exp02_police,
+              n.chains = 5L, seed = 144))
+
+# Opinion on the Judicial System
+summary(bartc(exp02_outcomes, exp02_police_treat, views_justice,
+              group.by = views_police, group.effects = TRUE, data = df_exp02_police,
+              n.chains = 5L, seed = 144))
+```
+\normalsize
+
+### Treatment 02: Criminal Justice Ineffectiveness
+
+We do not find any evidence of heterogeneous treatment effects in this
+condition either.
+
+\footnotesize
+```{r exp02-bart02, warning=F, error=F, message=F, cache=T}
+df_exp02_slow_justice <- df_exp02_het %>%
+  mutate(exp02_slow_justice_treat = as.numeric(exp02_slow_justice_treat)) %>%
+  drop_na(exp02_slow_justice_treat)
+
+# Gender
+summary(bartc(exp02_outcomes, exp02_slow_justice_treat, gender,
+              group.by = gender, group.effects = TRUE, data = df_exp02_slow_justice,
+              n.chains = 5L, seed = 144))
+
+# Race
+# summary(bartc(exp02_outcomes, exp02_slow_justice_treat, race,
+              # group.by = race, group.effects = TRUE, data = df_exp02_slow_justice,
+              # n.chains = 5L, seed = 144))
+
+# Education
+summary(bartc(exp02_outcomes, exp02_slow_justice_treat, education,
+              group.by = education, group.effects = TRUE, data = df_exp02_slow_justice,
+              n.chains = 5L, seed = 144))
+
+# Household Income
+summary(bartc(exp02_outcomes, exp02_slow_justice_treat, household_income,
+              group.by = household_income, group.effects = TRUE, data = df_exp02_slow_justice,
+              n.chains = 5L, seed = 144))
+
+# Political Ideology
+summary(bartc(exp02_outcomes, exp02_slow_justice_treat, ideology,
+              group.by = ideology, group.effects = TRUE, data = df_exp02_slow_justice,
+              n.chains = 5L, seed = 144))
+
+# Support for Death Penalty
+summary(bartc(exp02_outcomes, exp02_slow_justice_treat, death_penalty,
+              group.by = death_penalty, group.effects = TRUE, data = df_exp02_slow_justice,
+              n.chains = 5L, seed = 144))
+
+# Opinion on the Police
+summary(bartc(exp02_outcomes, exp02_slow_justice_treat, views_police,
+              group.by = views_police, group.effects = TRUE, data = df_exp02_slow_justice,
+              n.chains = 5L, seed = 144))
+
+# Opinion on the Judicial System
+summary(bartc(exp02_outcomes, exp02_slow_justice_treat, views_justice,
+              group.by = views_police, group.effects = TRUE, data = df_exp02_slow_justice,
+              n.chains = 5L, seed = 144))
+```
+\normalsize
+
+### Treatment 03: Demand for Harsher Legal Punishment
+
+As in the last two series of models, our results show no evidence of
+heterogeneous treatment effects.
+
+\footnotesize
+```{r exp02-bart03, warning=F, error=F, message=F, cache=T}
+df_exp02_small_punishment <- df_exp02_het %>%
+  mutate(exp02_small_punishment_treat = as.numeric(exp02_small_punishment_treat)) %>%
+  drop_na(exp02_small_punishment_treat)
+
+# Gender
+summary(bartc(exp02_outcomes, exp02_small_punishment_treat, gender,
+              group.by = gender, group.effects = TRUE, data = df_exp02_small_punishment,
+              n.chains = 5L, seed = 144))
+
+# Race
+summary(bartc(exp02_outcomes, exp02_small_punishment_treat, race,
+              group.by = race, group.effects = TRUE, data = df_exp02_small_punishment,
+              n.chains = 5L, seed = 144))
+
+# Education
+summary(bartc(exp02_outcomes, exp02_small_punishment_treat, education,
+              group.by = education, group.effects = TRUE, data = df_exp02_small_punishment,
+              n.chains = 5L, seed = 144))
+
+# Household Income
+summary(bartc(exp02_outcomes, exp02_small_punishment_treat, household_income2,
+              group.by = household_income2, group.effects = TRUE, data = df_exp02_small_punishment,
+              n.chains = 5L, seed = 144))
+
+# Political Ideology
+summary(bartc(exp02_outcomes, exp02_small_punishment_treat, ideology,
+              group.by = ideology, group.effects = TRUE, data = df_exp02_small_punishment,
+              n.chains = 5L, seed = 144))
+
+# Support for Death Penalty
+summary(bartc(exp02_outcomes, exp02_small_punishment_treat, death_penalty,
+              group.by = death_penalty, group.effects = TRUE, data = df_exp02_small_punishment,
+              n.chains = 5L, seed = 144))
+
+# Opinion on the Police
+summary(bartc(exp02_outcomes, exp02_small_punishment_treat, views_police,
+              group.by = views_police, group.effects = TRUE, data = df_exp02_small_punishment,
+              n.chains = 5L, seed = 144))
+
+# Opinion on the Judicial System
+summary(bartc(exp02_outcomes, exp02_small_punishment_treat, views_justice,
+              group.by = views_police, group.effects = TRUE, data = df_exp02_small_punishment,
+              n.chains = 5L, seed = 144))
+```
+\normalsize
+
+# Experiment 03
+
+## Description
+
+Our last experiment measures the effect of information provision on attitudes
+about lynching. In particular, we test whether reminding respondents
+about the legal and social consequences of vigilante justice reduces the
+subjects' level of support for such practice.
+
+The experiment has three treatment conditions and a control group. In all of
+them we present respondents with a short statement affirming that some
+Brazilians support vigilantism under certain conditions. Respondents were asked
+to use 0 to 49 if they disagree, 50 if they neither agree nor disagree, and
+50-100 if they agree with the sentence.
+
+Each of the three treatment groups received a different message about the
+legal or social consequences of lynching in Brazil. In the first treatment
+arm, we informed subjects about how the Brazilian constitution and penal code
+punishes civilian violence. The second treatment group was notified about
+the human rights guarantees enshrined in Brazil's legal framework. The last
+group read a vignette that mentions how lynchings can spark _vendettas_ and
+initiate a cycle of violence in the community. Subjects in the control group
+received no information about the consequences of lynchings. The text shown
+to the control and treatment groups can be read below.
+
+* *Control group*: In Brazil, some people believe that lynching may be
+  justified under certain conditions. To what degree do you agree or disagree
+  that lynching can be justified? Please use the slider below to indicate your
+  preference. For disagreement, use 0 to 49; for agreement, use 51 to 100.
+  Please use 50 if you neither agree nor disagree.[^control-exp03]
+
+[^control-exp03]: In Portuguese: No Brasil, algumas pessoas acreditam que
+linchamentos são justificados sob certas condições. O quanto você concorda ou
+discorda que linchamentos podem ser justificados? Por favor, use a barra abaixo
+para indicar sua preferência. Para indicar que discorda, use de 0 a 49; para
+concordar, use de 51 a 100. Por favor, use 50 caso você não concorde nem
+discorde.
+
+* *Treatment 01 - Legal punishment for lynching perpetrators*: In Brazil,
+  some people believe that lynching may be justified under certain conditions.
+  **However, the Brazilian constitution and penal code strictly forbid
+  lynching and those involved can be accused of torture or murder**. To what
+  degree do you agree or disagree that lynching can be justified? Please use
+  the slider below to indicate your preference. For disagreement, use 0 to 49;
+  for agreement, use 51 to 100. Please use 50 if you neither agree nor
+  disagree.[^treat01-exp03]
+
+[^treat01-exp03]: In Portuguese: No Brasil, algumas pessoas acreditam que
+linchamentos são justificados sob certas condições. **Entretanto, a
+constituição e o código penal do Brasil proíbem estritamente os linchamentos e
+os envolvidos podem ser acusados de tortura ou assassinato.** O quanto você
+concorda ou discorda que linchamentos podem ser justificados? Por favor, use a
+barra abaixo para indicar sua preferência. Para indicar que discorda, use de 0
+a 49; para concordar, use de 51 a 100. Por favor, use 50 caso você não concorde
+nem discorde.
+
+* *Treatment 02 - Human rights*: In Brazil, some people believe that lynching
+  may be justified under certain conditions. **However, the Brazilian
+  constitution states that all individuals have the right of not being
+  tortured, including criminals**. To what degree do you agree or disagree that
+  lynching can be justified? Please use the slider below to indicate your
+  preference. For disagreement, use 0 to 49; for agreement, use 51 to 100.
+  Please use 50 if you neither agree nor disagree.[^treat02-exp03]
+
+[^treat02-exp03]: In Portuguese: No Brasil, algumas pessoas acreditam que
+linchamentos são justificados sob certas condições. **Entretanto, a
+constituição do Brasil afirma que todos os indivíduos têm o direito de não
+serem torturados, inclusive criminosos**. O quanto você concorda ou discorda que
+linchamentos podem ser justificados? Por favor, use a barra abaixo para indicar
+sua preferência. Para indicar que discorda, use de 0 a 49; para concordar, use
+de 51 a 100. Por favor, use 50 caso você não concorde nem discorde.
+
+* *Treatment 03 - Vendettas*: In Brazil, some people believe that lynching
+  may be justified under certain conditions. **However, lynchings can trigger
+  a new cycle of violence as the family or friends of the victim may retaliate
+  the community**. To what degree do you agree or disagree that lynching can be
+  justified? Please use the slider below to indicate your preference. For
+  disagreement, use 0 to 49; for agreement, use 51 to 100. Please use 50 if you
+  neither agree nor disagree.[^treat03-exp03]
+
+[^treat03-exp03]: In Portuguese: No Brasil, algumas pessoas acreditam que
+linchamentos são justificados sob certas condições. **Entretanto, linchamentos
+podem iniciar um ciclo de violência pois a família ou amigos da vítima podem
+retaliar a comunidade**. O quanto você concorda ou discorda que linchamentos
+podem ser justificados? Por favor, use a barra abaixo para indicar sua
+preferência. Para indicar que discorda, use de 0 a 49; para concordar, use de
+51 a 100. Por favor, use 50 caso você não concorde nem discorde.
+
+## Main Results
+
+Our results are available in table XXX below.
+
 
 # Session Information
 \label{sec:session-info}

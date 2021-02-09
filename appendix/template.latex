@@ -60,11 +60,6 @@ $endif$
 \usepackage{mathtools}
 \usepackage{caption}
 
-% UK English
-\usepackage[english]{babel}
-\usepackage[english]{isodate}
-% \cleanlookdateon
-
 % Penalties
 \exhyphenpenalty=1000
 \hyphenpenalty=1000
