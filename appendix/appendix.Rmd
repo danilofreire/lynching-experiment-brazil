@@ -36,8 +36,7 @@ This appendix contains the `R` code required to replicate the results we
 present in "_Casting the First Stone: Understanding Attitudes towards Lynching
 in Brazil_". This file also includes the descriptive statistics of our sample,
 the average marginal component effects (AMCEs) for our conjoint experiment,
-additional subgroup analyses for all three experiments, and a standard report
-which follows APSA's guidelines for experimental research [@gerber2014reporting].
+and additional subgroup analyses for all three experiments.
 
 The code below loads the required datasets and the `R` packages we use in our
 statistical analyses. It also translates the names of the factor variables from
@@ -1130,28 +1129,29 @@ textplot_network(fcmat_select, min_freq = 0.8, vertex_size = size / max(size) * 
 ```
 \normalsize
 
-We estimate a latent Dirichlet allocation (LDA) model to identify the
-three most important topics in our corpus. The first topic includes words that
-describes lynching perpetrators, as it contains the words like _polícia_
-(police), _pessoas_ (people), and _família_ (family). The second topic
-identifies the same words we associate with respondents who are against
-lynchings, such as _nenhum_ (none), _opção_ (choice), _não_ (no), and _contra_
-(against). The last topic, in contrast, refer to victim and crime
-characteristics, which have also appeared in our previous estimations. Some of
-the most common words in this group are _crime_ (crime), _criança_ (child),
-_estupro_ (rape), _vítima_ (victim), _porque_ (because), _idoso_ (elderly),
-_grave_ (serious), and _molestar_ (molest).
-
-As our results show, respondents decide which individual deserves punishment
-based on factors related to the crime he/she committed, specially the crime
-victim. There is also a group of respondents that oppose lynchings in
-principle, who affirm that lynchings are not justified.
+We estimate a latent Dirichlet allocation (LDA) model to identify the three
+most important topics in our corpus. The first topic includes words that refer
+to victim and crime characteristics, many of which have also appeared in our
+previous estimations. Some of the most common words in this group are _crime_
+(crime), _criança_ (child), _estupro_ (rape), _vítima_ (victim), _porque_
+(because), _idoso_ (elderly), _grave_ (serious), and _molestar_ (molest). When
+we count the number of topics in the corpus, we see that this is the
+predominant one. The second topic identified by the model describes lynching
+perpetrators, as it contains the words like _polícia_ (police), _pessoas_
+(people), and _família_ (family). The third topic identifies the same words we
+associate with respondents who are against lynchings, such as _nenhum_ (none),
+_opção_ (choice), _não_ (no), and _contra_ (against). As our results show,
+respondents decide which individual deserves punishment based on factors
+related to the crime he/she committed, specially the crime victim. There is
+also a group of respondents that oppose lynchings in principle, who affirm that
+lynchings are never justified.
 
 \footnotesize
 ```{r conjoint-lda, warning=F, message=F, error=F, cache=T, fig.width=8, fig.height=5.6, fig.pos="H"}
 # Latent Dirichlet allocation
 tmod_lda <- textmodel_lda(dfmat, k = 3)
 terms(tmod_lda, 10)
+table(topics(tmod_lda))
 ```
 \normalsize
 
@@ -1391,6 +1391,12 @@ summary(bartc(exp02_outcomes, exp02_police_treat, death_penalty,
               group.by = death_penalty, group.effects = TRUE, data = df_exp02_police,
               n.chains = 5L, seed = 144))
 
+# Previous Victimization
+df_exp02_police2 <- df_exp02_police %>% drop_na(previous_victim_dummy)
+summary(bartc(exp02_outcomes, exp02_police_treat, previous_victim_dummy,
+              group.by = previous_victim_dummy, group.effects = TRUE, data = df_exp02_police2,
+              n.chains = 5L, seed = 144))
+
 # Opinion on the Police
 summary(bartc(exp02_outcomes, exp02_police_treat, views_police,
               group.by = views_police, group.effects = TRUE, data = df_exp02_police,
@@ -1410,7 +1416,10 @@ condition either.
 
 \footnotesize
 ```{r exp02-bart02, warning=F, error=F, message=F, cache=T}
+# Remove "Indigenous" and "Other" from `race` as they only
+# have 1 observation each. The model cannot be estimated otherwise.
 df_exp02_slow_justice <- df_exp02_het %>%
+  filter(race %in% c("White", "Asian", "Black", "Mixed Race", "Rather Not Say")) %>%
   mutate(exp02_slow_justice_treat = as.numeric(exp02_slow_justice_treat)) %>%
   drop_na(exp02_slow_justice_treat)
 
@@ -1420,9 +1429,9 @@ summary(bartc(exp02_outcomes, exp02_slow_justice_treat, gender,
               n.chains = 5L, seed = 144))
 
 # Race
-# summary(bartc(exp02_outcomes, exp02_slow_justice_treat, race,
-              # group.by = race, group.effects = TRUE, data = df_exp02_slow_justice,
-              # n.chains = 5L, seed = 144))
+summary(bartc(exp02_outcomes, exp02_slow_justice_treat, race,
+              group.by = race, group.effects = TRUE, data = df_exp02_slow_justice,
+              n.chains = 5L, seed = 144))
 
 # Education
 summary(bartc(exp02_outcomes, exp02_slow_justice_treat, education,
@@ -1442,6 +1451,12 @@ summary(bartc(exp02_outcomes, exp02_slow_justice_treat, ideology,
 # Support for Death Penalty
 summary(bartc(exp02_outcomes, exp02_slow_justice_treat, death_penalty,
               group.by = death_penalty, group.effects = TRUE, data = df_exp02_slow_justice,
+              n.chains = 5L, seed = 144))
+
+# Previous Victimization
+df_exp02_slow_justice2 <- df_exp02_slow_justice %>% drop_na(previous_victim_dummy)
+summary(bartc(exp02_outcomes, exp02_slow_justice_treat, previous_victim_dummy,
+              group.by = previous_victim_dummy, group.effects = TRUE, data = df_exp02_slow_justice2,
               n.chains = 5L, seed = 144))
 
 # Opinion on the Police
@@ -1483,8 +1498,8 @@ summary(bartc(exp02_outcomes, exp02_small_punishment_treat, education,
               n.chains = 5L, seed = 144))
 
 # Household Income
-summary(bartc(exp02_outcomes, exp02_small_punishment_treat, household_income2,
-              group.by = household_income2, group.effects = TRUE, data = df_exp02_small_punishment,
+summary(bartc(exp02_outcomes, exp02_small_punishment_treat, household_income,
+              group.by = household_income, group.effects = TRUE, data = df_exp02_small_punishment,
               n.chains = 5L, seed = 144))
 
 # Political Ideology
@@ -1495,6 +1510,12 @@ summary(bartc(exp02_outcomes, exp02_small_punishment_treat, ideology,
 # Support for Death Penalty
 summary(bartc(exp02_outcomes, exp02_small_punishment_treat, death_penalty,
               group.by = death_penalty, group.effects = TRUE, data = df_exp02_small_punishment,
+              n.chains = 5L, seed = 144))
+
+# Previous Victimization
+df_exp02_small_punishment2 <- df_exp02_small_punishment %>% drop_na(previous_victim_dummy)
+summary(bartc(exp02_outcomes, exp02_small_punishment_treat, previous_victim_dummy,
+              group.by = previous_victim_dummy, group.effects = TRUE, data = df_exp02_small_punishment2,
               n.chains = 5L, seed = 144))
 
 # Opinion on the Police
@@ -1599,11 +1620,260 @@ preferência. Para indicar que discorda, use de 0 a 49; para concordar, use de
 
 ## Main Results
 
-Our results are available in table XXX below.
+Our results are available in table \ref{tab:exp03main}. Reminding respondents
+of the legal consequences of lynchings has a strong, negative effect on
+individual levels of lynching support. We see a reduction of about 4.5%, which
+corresponds to an 11% change when compared to the baseline levels. Our second
+treatment condition, reminding subjects of human rights guarantees, has no
+statistically significant effect. Informing respondents that lynchings can
+trigger a cycle of violence also has a large negative effect. It decreases
+lynching support by 3%, which is an 8% reduction in comparison with the control
+group. When we combine all treatments, we still detect a negative impact of the
+treatment conditions.
 
+\footnotesize
+```{r exp03-main, warning=F, message=F, error=F, cache=T, fig.pos="H", results='asis'}
+df_exp03 <- df1 %>%
+  mutate(exp03_outcomes = coalesce(exp03_control, exp03_constitution,
+                                   exp03_rights, exp03_vendetta),
+         exp03_any_treat = case_when(!is.na(exp03_control) ~ "0",
+                                     !is.na(exp03_constitution) ~ "1",
+                                     !is.na(exp03_rights) ~ "1",
+                                     !is.na(exp03_vendetta) ~ "1",
+                                     TRUE ~ NA_character_),
+         exp03_constitution_treat = case_when(!is.na(exp03_control) ~ "0",
+                                              !is.na(exp03_constitution) ~ "1"),
+         exp03_rights_treat = case_when(!is.na(exp03_control) ~ "0",
+                                        !is.na(exp03_rights) ~ "1"),
+         exp03_vendetta_treat = case_when(!is.na(exp03_control) ~ "0",
+                                          !is.na(exp03_vendetta) ~ "1"))
+
+m1 <- lm(exp03_outcomes ~ exp03_constitution_treat, data = df_exp03)
+m2 <- lm(exp03_outcomes ~ exp03_rights_treat, data = df_exp03)
+m3 <- lm(exp03_outcomes ~ exp03_vendetta_treat, data = df_exp03)
+m4 <- lm(exp03_outcomes ~ exp03_any_treat, data = df_exp03)
+
+# Table
+stargazer(m1, m2, m3, m4, se = starprep(m1, m2, m3, m4),
+          p = starprep(m1, m2, m3, m4, se_type = "HC2", stat = "p.value"),
+          header = FALSE, align = TRUE, label = "tab:exp03main",
+          title = "Experiment 03 -- Main Results", style = "apsr",
+          dep.var.labels = "\\textbf{Lynching Support}\\vspace{.5cm}",
+          covariate.labels = c("Constitution and penal code", "Human rights",
+                               "Vendettas", "Combined treatments"),
+          column.sep.width = "3pt", notes = "Robust standard errors in parentheses.",
+          keep.stat = "n", no.space = TRUE)
+```
+\normalsize
+
+## Heterogeneous Effects
+
+In this section, we explore whether our pre-treatment covariates impact the
+treatment effect. We use the same flexible approach we employed in the previous
+experiment, and estimate all models using Bayesian Additive Regression Trees
+(BART). The algorithm produces average treatment effects for each category in
+the moderator variables. 
+
+### Treatment 01: Legal Punishment for Lynching Perpetrators
+
+We find no evidence of heterogeneous effects in this treatment condition. All
+coefficients are largely similar across all model specifications. 
+
+\footnotesize
+```{r exp03-bart01, warning=F, error=F, message=F, cache=T}
+df_exp03_het <- df_exp03 %>%
+  filter(gender %in% c("Female", "Male")) %>%
+  mutate(race = fct_relevel(race, "White", "Black", "Mixed Race", "Asian",
+                            "Indigenous"),
+         education = fct_relevel(education, "Primary School", "Secondary School",
+                                  "High School", "College", "Graduate School"),
+         views_police = fct_relevel(views_police, "Regular", "Very Good", "Good",
+                                    "Bad", "Very Bad"),
+         views_justice = fct_relevel(views_justice, "Regular", "Very Good", "Good",
+                                     "Bad", "Very Bad"),
+         ideology = fct_relevel(ideology, "Center", "Left", "Center-Left",
+                                "Center-Right", "Right", "Don't Know", "Rather Not Say"),
+         household_income = fct_relevel(household_income, "Up to R$1,000", "From R$1,001 to R$2,000",
+                                         "From R$2,001 to R$3,000", "From R$3,001 to R$5,000",
+                                         "From R$5,001 to R$10,000", "From R$10,001 to R$20,000",
+                                         "Above R$20,000"),
+         previous_victim_dummy = fct_relevel(previous_victim_dummy, "Yes", "No"),
+         death_penalty = fct_relevel(death_penalty, "Yes", "No"))
+
+df_exp03_constitution <- df_exp03_het %>%
+  mutate(exp03_constitution_treat = as.numeric(exp03_constitution_treat)) %>%
+  drop_na(exp03_constitution_treat)
+
+# Gender
+summary(bartc(exp03_outcomes, exp03_constitution_treat, gender,
+              group.by = gender, group.effects = TRUE, data = df_exp03_constitution,
+              n.chains = 5L, seed = 144))
+
+# Race
+summary(bartc(exp03_outcomes, exp03_constitution_treat, race,
+              group.by = race, group.effects = TRUE, data = df_exp03_constitution,
+              n.chains = 5L, seed = 144))
+
+# Education
+summary(bartc(exp03_outcomes, exp03_constitution_treat, education,
+              group.by = education, group.effects = TRUE, data = df_exp03_constitution,
+              n.chains = 5L, seed = 144))
+
+# Household Income
+summary(bartc(exp03_outcomes, exp03_constitution_treat, household_income,
+              group.by = household_income, group.effects = TRUE, data = df_exp03_constitution,
+              n.chains = 5L, seed = 144))
+
+# Political Ideology
+summary(bartc(exp03_outcomes, exp03_constitution_treat, ideology,
+              group.by = ideology, group.effects = TRUE, data = df_exp03_constitution,
+              n.chains = 5L, seed = 144))
+
+# Support for Death Penalty
+summary(bartc(exp03_outcomes, exp03_constitution_treat, death_penalty,
+              group.by = death_penalty, group.effects = TRUE, data = df_exp03_constitution,
+              n.chains = 5L, seed = 144))
+
+# Previous Victimization
+df_exp03_constitution2 <- df_exp03_constitution %>% drop_na(previous_victim_dummy)
+summary(bartc(exp03_outcomes, exp03_constitution_treat, previous_victim_dummy,
+              group.by = previous_victim_dummy, group.effects = TRUE, data = df_exp03_constitution2,
+              n.chains = 5L, seed = 144))
+
+# Opinion on the Police
+summary(bartc(exp03_outcomes, exp03_constitution_treat, views_police,
+              group.by = views_police, group.effects = TRUE, data = df_exp03_constitution,
+              n.chains = 5L, seed = 144))
+
+# Opinion on the Judicial System
+summary(bartc(exp03_outcomes, exp03_constitution_treat, views_justice,
+              group.by = views_police, group.effects = TRUE, data = df_exp03_constitution,
+              n.chains = 5L, seed = 144))
+```
+\normalsize
+
+### Treatment 02: Human Rights
+
+Our results show no presence of heterogeneous effects.
+
+\footnotesize
+```{r exp03-bart02, warning=F, error=F, message=F, cache=T}
+df_exp03_rights <- df_exp03_het %>%
+  mutate(exp03_rights_treat = as.numeric(exp03_rights_treat)) %>%
+  drop_na(exp03_rights_treat)
+
+# Gender
+summary(bartc(exp03_outcomes, exp03_rights_treat, gender,
+              group.by = gender, group.effects = TRUE, data = df_exp03_rights,
+              n.chains = 5L, seed = 144))
+
+# Race
+summary(bartc(exp03_outcomes, exp03_rights_treat, race,
+              group.by = race, group.effects = TRUE, data = df_exp03_rights,
+              n.chains = 5L, seed = 144))
+
+# Education
+summary(bartc(exp03_outcomes, exp03_rights_treat, education,
+              group.by = education, group.effects = TRUE, data = df_exp03_rights,
+              n.chains = 5L, seed = 144))
+
+# Household Income
+summary(bartc(exp03_outcomes, exp03_rights_treat, household_income,
+              group.by = household_income, group.effects = TRUE, data = df_exp03_rights,
+              n.chains = 5L, seed = 144))
+
+# Political Ideology
+summary(bartc(exp03_outcomes, exp03_rights_treat, ideology,
+              group.by = ideology, group.effects = TRUE, data = df_exp03_rights,
+              n.chains = 5L, seed = 144))
+
+# Support for Death Penalty
+summary(bartc(exp03_outcomes, exp03_rights_treat, death_penalty,
+              group.by = death_penalty, group.effects = TRUE, data = df_exp03_rights,
+              n.chains = 5L, seed = 144))
+
+# Previous Victimization
+df_exp03_rights2 <- df_exp03_rights %>% drop_na(previous_victim_dummy)
+summary(bartc(exp03_outcomes, exp03_rights_treat, previous_victim_dummy, 
+              group.by = previous_victim_dummy, group.effects = TRUE, data = df_exp03_rights2,
+              n.chains = 5L, seed = 144))
+
+# Opinion on the Police
+summary(bartc(exp03_outcomes, exp03_rights_treat, views_police,
+              group.by = views_police, group.effects = TRUE, data = df_exp03_rights,
+              n.chains = 5L, seed = 144))
+
+# Opinion on the Judicial System
+summary(bartc(exp03_outcomes, exp03_rights_treat, views_justice,
+              group.by = views_police, group.effects = TRUE, data = df_exp03_rights,
+              n.chains = 5L, seed = 144))
+```
+\normalsize
+
+### Treatment 03: Vendettas
+
+We do not find considerable heterogeneity in the these results. Overall, the
+three treatment conditions are very stable, thus we are confident that the
+main results are not driven by any particular group.
+
+\footnotesize
+```{r exp03-bart03, warning=F, error=F, message=F, cache=T}
+df_exp03_vendetta <- df_exp03_het %>%
+  mutate(exp03_vendetta_treat = as.numeric(exp03_vendetta_treat)) %>%
+  drop_na(exp03_vendetta_treat)
+
+# Gender
+summary(bartc(exp03_outcomes, exp03_vendetta_treat, gender,
+              group.by = gender, group.effects = TRUE, data = df_exp03_vendetta,
+              n.chains = 5L, seed = 144))
+
+# Race
+summary(bartc(exp03_outcomes, exp03_vendetta_treat, race,
+              group.by = race, group.effects = TRUE, data = df_exp03_vendetta,
+              n.chains = 5L, seed = 144))
+
+# Education
+summary(bartc(exp03_outcomes, exp03_vendetta_treat, education,
+              group.by = education, group.effects = TRUE, data = df_exp03_vendetta,
+              n.chains = 5L, seed = 144))
+
+# Household Income
+summary(bartc(exp03_outcomes, exp03_vendetta_treat, household_income,
+              group.by = household_income, group.effects = TRUE, data = df_exp03_vendetta,
+              n.chains = 5L, seed = 144))
+
+# Political Ideology
+summary(bartc(exp03_outcomes, exp03_vendetta_treat, ideology,
+              group.by = ideology, group.effects = TRUE, data = df_exp03_vendetta,
+              n.chains = 5L, seed = 144))
+
+# Support for Death Penalty
+summary(bartc(exp03_outcomes, exp03_vendetta_treat, death_penalty,
+              group.by = death_penalty, group.effects = TRUE, data = df_exp03_vendetta,
+              n.chains = 5L, seed = 144))
+
+# Previous Victimization
+df_exp03_vendetta2 <- df_exp03_vendetta %>% drop_na(previous_victim_dummy)
+summary(bartc(exp03_outcomes, exp03_vendetta_treat, previous_victim_dummy, 
+              group.by = previous_victim_dummy, group.effects = TRUE, data = df_exp03_vendetta2,
+              n.chains = 5L, seed = 144))
+
+# Opinion on the Police
+summary(bartc(exp03_outcomes, exp03_vendetta_treat, views_police,
+              group.by = views_police, group.effects = TRUE, data = df_exp03_vendetta,
+              n.chains = 5L, seed = 144))
+
+# Opinion on the Judicial System
+summary(bartc(exp03_outcomes, exp03_vendetta_treat, views_justice,
+              group.by = views_police, group.effects = TRUE, data = df_exp03_vendetta,
+              n.chains = 5L, seed = 144))
+```
+\normalsize
+
+
+\newpage
 
 # Session Information
-\label{sec:session-info}
 
 \footnotesize
 ```{r session, cache=TRUE}
@@ -1611,4 +1881,3 @@ sessionInfo()
 ```
 \normalsize
 
-\clearpage
