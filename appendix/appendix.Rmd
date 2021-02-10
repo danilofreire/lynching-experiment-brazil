@@ -283,14 +283,13 @@ number of Blacks roughly coincide with the population statistics.
 \footnotesize
 ```{r race, warning=F, error=F, cache=T}
 df1 %>%
-  group_by(race) %>%
-  filter(!is.na(race)) %>%
+  rename(Race = race) %>%
+  mutate(Race = fct_relevel(Race, "White", "Other", "Rather Not Say", after = Inf)) %>%
+  group_by(Race) %>%
+  filter(!is.na(Race)) %>%
   summarise(N = n()) %>%
   mutate(Frequency = round(N / sum(N), 3)) %>%
-  rename(Race = race) %>%
-  mutate(Race = fct_relevel(Race, "Other", "Rather Not Say", after = Inf)) %>%
-  kbl(., booktabs = TRUE,  linesep = "",
-      caption = "Race") %>%
+  kbl(., booktabs = TRUE,  linesep = "", caption = "Race") %>%
   row_spec(0, bold = TRUE) %>%
   kable_styling(latex_options = "hold_position")
 ```
@@ -309,19 +308,20 @@ df2 <- df1 %>%
 
 As expected, our sample is also more educated than [the Brazilian
 population](https://educa.ibge.gov.br/jovens/conheca-o-brasil/populacao/18317-educacao.html).
-About `r df2[4, 3]*100`% of the respondents have a college degree, and `r df2[5, 3]`%
+About `r df2[4, 3]*100`% of the respondents have a college degree, and `r df2[3, 3]*100`%
 have graduate school education.
 
 \footnotesize
 ```{r education, warning=F, error=F, cache=T}
 df1 %>%
-  group_by(education) %>%
-  filter(!is.na(education)) %>%
+  rename(Education = education) %>%
+  mutate(Education = fct_relevel(Education, "Primary School", "Secondary School",
+                                 "High School", "College", "Graduate School")) %>%
+  group_by(Education) %>%
+  filter(!is.na(Education)) %>%
   summarise(N = n()) %>%
   mutate(Frequency = round(N / sum(N), 3)) %>%
-  rename(Education = education) %>%
-  kbl(., booktabs = TRUE,  linesep = "",
-      caption = "Education") %>%
+  kbl(., booktabs = TRUE,  linesep = "", caption = "Education") %>%
   row_spec(0, bold = TRUE) %>%
   kable_styling(latex_options = "hold_position")
 ```
@@ -349,13 +349,16 @@ this respect, we have reached participants from all social classes.
 \footnotesize
 ```{r income, warning=F, error=F, cache=T}
 df1 %>%
-  group_by(household_income) %>%
-  filter(!is.na(household_income)) %>%
+  rename(`Household Income` = household_income) %>%
+  mutate(`Household Income` = fct_relevel(`Household Income`, "Up to R$1,000",
+                                          "From R$1,001 to R$2,000", "From R$2,001 to R$3,000",
+                                          "From R$3,001 to R$5,000", "From R$5,001 to R$10,000",
+                                          "From R$10,001 to R$20,000", "Above R$20,000")) %>%
+  group_by(`Household Income`) %>%
+  filter(!is.na(`Household Income`)) %>%
   summarise(N = n()) %>%
   mutate(Frequency = round(N / sum(N), 3)) %>%
-  rename(`Household Income` = household_income) %>%
-  kbl(., booktabs = TRUE,  linesep = "",
-      caption = "Household Income") %>%
+  kbl(., booktabs = TRUE,  linesep = "", caption = "Household Income") %>%
   row_spec(0, bold = TRUE) %>%
   kable_styling(latex_options = "hold_position")
 ```
@@ -367,6 +370,7 @@ df1 %>%
 df2 <- df1 %>%
   group_by(ideology) %>%
   filter(!is.na(ideology)) %>%
+  mutate(ideology = fct_relevel(ideology, "Left")) %>%
   summarise(N = n()) %>%
   mutate(Frequency = round(N / sum(N), 3)) %>%
   rename(Ideology = ideology)
@@ -382,17 +386,20 @@ political beliefs are also large in number (`r df2[6, 3]*100`% and
 \footnotesize
 ```{r ideology, warning=F, error=F, cache=T}
 df1 %>%
-  group_by(ideology) %>%
-  filter(!is.na(ideology)) %>%
+  rename(Ideology = ideology) %>%
+  mutate(Ideology = fct_relevel(Ideology, "Left", "Center-Left", "Center",
+                                "Center-Right", "Right")) %>%
+  group_by(Ideology) %>%
+  filter(!is.na(Ideology)) %>%
   summarise(N = n()) %>%
   mutate(Frequency = round(N / sum(N), 3)) %>%
-  rename(Ideology = ideology) %>%
-  kbl(., booktabs = TRUE,  linesep = "",
-      caption = "Political Ideology") %>%
+  kbl(., booktabs = TRUE,  linesep = "", caption = "Political Ideology") %>%
   row_spec(0, bold = TRUE) %>%
   kable_styling(latex_options = "hold_position")
 ```
 \normalsize
+
+\newpage
 
 ## Support for Death Penalty
 
@@ -401,13 +408,13 @@ Below you may find how many respondents support the death penalty.
 \footnotesize
 ```{r death-penalty, warning=F, error=F, cache=T}
 df1 %>%
-  group_by(death_penalty) %>%
-  filter(!is.na(death_penalty)) %>%
+  rename(`Support for Death Penalty` = death_penalty) %>%
+  mutate(`Support for Death Penalty` = fct_relevel(`Support for Death Penalty`, "Yes", "No")) %>%
+  group_by(`Support for Death Penalty`) %>%
+  filter(!is.na(`Support for Death Penalty`)) %>%
   summarise(N = n()) %>%
   mutate(Frequency = round(N / sum(N), 3)) %>%
-  rename(`Support for Death Penalty` = death_penalty) %>%
-  kbl(., booktabs = TRUE,  linesep = "",
-      caption = "Support for Death Penalty") %>%
+  kbl(., booktabs = TRUE,  linesep = "", caption = "Support for Death Penalty") %>%
   row_spec(0, bold = TRUE) %>%
   kable_styling(latex_options = "hold_position")
 ```
@@ -422,13 +429,13 @@ below.
 \footnotesize
 ```{r victimization, warning=F, error=F, cache=T}
 df1 %>%
-  group_by(previous_victim_dummy) %>%
-  filter(!is.na(previous_victim_dummy)) %>%
+  rename(Victimization = previous_victim_dummy) %>%
+  mutate(Victimization = fct_relevel(Victimization, "Yes", "No")) %>%
+  group_by(Victimization) %>%
+  filter(!is.na(Victimization)) %>%
   summarise(N = n()) %>%
   mutate(Frequency = round(N / sum(N), 3)) %>%
-  rename(Victimization = previous_victim_dummy) %>%
-  kbl(., booktabs = TRUE,  linesep = "",
-      caption = "Previous Victimization (12 Months)") %>%
+  kbl(., booktabs = TRUE,  linesep = "", caption = "Previous Victimization (12 Months)") %>%
   row_spec(0, bold = TRUE) %>%
   kable_styling(latex_options = "hold_position")
 ```
@@ -442,17 +449,20 @@ forces.
 \footnotesize
 ```{r police, warning=F, error=F, cache=T}
 df1 %>%
-  group_by(views_police) %>%
-  filter(!is.na(views_police)) %>%
+  rename(`Opinion on the Police` = views_police) %>%
+  mutate(`Opinion on the Police` = fct_relevel(`Opinion on the Police`, "Very Good", "Good",
+                                               "Regular", "Bad", "Very Bad")) %>%
+  group_by(`Opinion on the Police`) %>%
+  filter(!is.na(`Opinion on the Police`)) %>%
   summarise(N = n()) %>%
   mutate(Frequency = round(N / sum(N), 3)) %>%
-  rename(`Opinion on the Police` = views_police) %>%
-  kbl(., booktabs = TRUE,  linesep = "",
-      caption = "Opinion on the Police") %>%
+  kbl(., booktabs = TRUE,  linesep = "", caption = "Opinion on the Police") %>%
   row_spec(0, bold = TRUE) %>%
   kable_styling(latex_options = "hold_position")
 ```
 \normalsize
+
+\newpage
 
 ## Opinion on the Judicial System
 
@@ -463,13 +473,14 @@ that they do not have an opinion or decline to answer the question.
 \footnotesize
 ```{r justice, warning=F, error=F, cache=T}
 df1 %>%
-  group_by(views_justice) %>%
-  filter(!is.na(views_justice)) %>%
+  rename(`Opinion on the Justice System` = views_justice) %>%
+  mutate(`Opinion on the Justice System` = fct_relevel(`Opinion on the Justice System`, "Very Good",
+                                                       "Good", "Regular", "Bad", "Very Bad")) %>%
+  group_by(`Opinion on the Justice System`) %>%
+  filter(!is.na(`Opinion on the Justice System`)) %>%
   summarise(N = n()) %>%
   mutate(Frequency = round(N / sum(N), 3)) %>%
-  rename(`Opinion on the Judicial System` = views_justice) %>%
-  kbl(., booktabs = TRUE,  linesep = "",
-      caption = "Opinion on the Judicial System") %>%
+  kbl(., booktabs = TRUE,  linesep = "", caption = "Opinion on the Justice System") %>%
   row_spec(0, bold = TRUE) %>%
   kable_styling(latex_options = "hold_position")
 ```
@@ -641,8 +652,7 @@ faces <- c(rep("plain", 5), "bold",
            rep("plain", 2), "bold")
 
 plot(mms, vline = 0.5, header_fmt = "%s") +
-  theme(legend.position = "none",
-        axis.text.y = element_text(face = faces, size = 10)) +
+  theme(legend.position = "none", axis.text.y = element_text(face = faces, size = 10)) +
   scale_colour_viridis_d(option = "inferno", end = 0.8)
 
 # Table
@@ -1071,7 +1081,7 @@ _criança_ (child), _estupro_ (rape), _assassinato_ (murder), and _vítima_
 (victim). Indeed, they provide evidence our previous findings and confirm that
 respondents select lynching victim profiles according to these two factors.
 Criminal characteristics, such as age or race, do not seem to be particularly
-relevant, as respondents do not mention them as much. The next words are
+relevant, as respondents do not mention them as much. The following terms are
 _nenhum_ (none), _contra_ (against), _acho_ (I think), _casos_ (cases), _ter_
 (have to), and _justiça_ (justice). We believe these words correspond to cases
 where respondents wanted to affirm they do not have any preference regarding
@@ -1355,7 +1365,9 @@ df_exp02_het <- df_exp02 %>%
                                          "From R$5,001 to R$10,000", "From R$10,001 to R$20,000",
                                          "Above R$20,000"),
          previous_victim_dummy = fct_relevel(previous_victim_dummy, "Yes", "No"),
-         death_penalty = fct_relevel(death_penalty, "Yes", "No"))
+         death_penalty = fct_relevel(death_penalty, "Yes", "No"),
+         age2 = case_when(age >= 18 & age <= 34 ~ "18-34", age >= 35 & age <= 54 ~ "35-54",
+                          age >= 55 ~ "55 plus", TRUE ~ as.character(age)))
 
 df_exp02_police <- df_exp02_het %>%
   mutate(exp02_police_treat = as.numeric(exp02_police_treat)) %>%
@@ -1364,6 +1376,11 @@ df_exp02_police <- df_exp02_het %>%
 # Gender
 summary(bartc(exp02_outcomes, exp02_police_treat, gender,
               group.by = gender, group.effects = TRUE, data = df_exp02_police,
+              n.chains = 5L, seed = 144))
+
+# Age
+summary(bartc(exp02_outcomes, exp02_police_treat, age2,
+              group.by = age2, group.effects = TRUE, data = df_exp02_police,
               n.chains = 5L, seed = 144))
 
 # Race
@@ -1428,6 +1445,11 @@ summary(bartc(exp02_outcomes, exp02_slow_justice_treat, gender,
               group.by = gender, group.effects = TRUE, data = df_exp02_slow_justice,
               n.chains = 5L, seed = 144))
 
+# Age
+summary(bartc(exp02_outcomes, exp02_slow_justice_treat, age2,
+              group.by = age2, group.effects = TRUE, data = df_exp02_slow_justice,
+              n.chains = 5L, seed = 144))
+
 # Race
 summary(bartc(exp02_outcomes, exp02_slow_justice_treat, race,
               group.by = race, group.effects = TRUE, data = df_exp02_slow_justice,
@@ -1485,6 +1507,12 @@ df_exp02_small_punishment <- df_exp02_het %>%
 # Gender
 summary(bartc(exp02_outcomes, exp02_small_punishment_treat, gender,
               group.by = gender, group.effects = TRUE, data = df_exp02_small_punishment,
+              n.chains = 5L, seed = 144))
+
+# Age
+df_exp02_small_punishment2 <- df_exp02_small_punishment %>% drop_na(age2)
+summary(bartc(exp02_outcomes, exp02_small_punishment_treat, age2,
+              group.by = age2, group.effects = TRUE, data = df_exp02_small_punishment2,
               n.chains = 5L, seed = 144))
 
 # Race
@@ -1634,12 +1662,9 @@ treatment conditions.
 \footnotesize
 ```{r exp03-main, warning=F, message=F, error=F, cache=T, fig.pos="H", results='asis'}
 df_exp03 <- df1 %>%
-  mutate(exp03_outcomes = coalesce(exp03_control, exp03_constitution,
-                                   exp03_rights, exp03_vendetta),
-         exp03_any_treat = case_when(!is.na(exp03_control) ~ "0",
-                                     !is.na(exp03_constitution) ~ "1",
-                                     !is.na(exp03_rights) ~ "1",
-                                     !is.na(exp03_vendetta) ~ "1",
+  mutate(exp03_outcomes = coalesce(exp03_control, exp03_constitution, exp03_rights, exp03_vendetta),
+         exp03_any_treat = case_when(!is.na(exp03_control) ~ "0", !is.na(exp03_constitution) ~ "1",
+                                     !is.na(exp03_rights) ~ "1", !is.na(exp03_vendetta) ~ "1",
                                      TRUE ~ NA_character_),
          exp03_constitution_treat = case_when(!is.na(exp03_control) ~ "0",
                                               !is.na(exp03_constitution) ~ "1"),
@@ -1654,10 +1679,9 @@ m3 <- lm(exp03_outcomes ~ exp03_vendetta_treat, data = df_exp03)
 m4 <- lm(exp03_outcomes ~ exp03_any_treat, data = df_exp03)
 
 # Table
-stargazer(m1, m2, m3, m4, se = starprep(m1, m2, m3, m4),
+stargazer(m1, m2, m3, m4, se = starprep(m1, m2, m3, m4), header = FALSE, align = TRUE,
           p = starprep(m1, m2, m3, m4, se_type = "HC2", stat = "p.value"),
-          header = FALSE, align = TRUE, label = "tab:exp03main",
-          title = "Experiment 03 -- Main Results", style = "apsr",
+          title = "Experiment 03 -- Main Results", style = "apsr", label = "tab:exp03main",
           dep.var.labels = "\\textbf{Lynching Support}\\vspace{.5cm}",
           covariate.labels = c("Constitution and penal code", "Human rights",
                                "Vendettas", "Combined treatments"),
@@ -1665,6 +1689,8 @@ stargazer(m1, m2, m3, m4, se = starprep(m1, m2, m3, m4),
           keep.stat = "n", no.space = TRUE)
 ```
 \normalsize
+
+\newpage
 
 ## Heterogeneous Effects
 
@@ -1698,7 +1724,9 @@ df_exp03_het <- df_exp03 %>%
                                          "From R$5,001 to R$10,000", "From R$10,001 to R$20,000",
                                          "Above R$20,000"),
          previous_victim_dummy = fct_relevel(previous_victim_dummy, "Yes", "No"),
-         death_penalty = fct_relevel(death_penalty, "Yes", "No"))
+         death_penalty = fct_relevel(death_penalty, "Yes", "No"),
+         age2 = case_when(age >= 18 & age <= 34 ~ "18-34", age >= 35 & age <= 54 ~ "35-54",
+                          age >= 55 ~ "55 plus", TRUE ~ as.character(age)))
 
 df_exp03_constitution <- df_exp03_het %>%
   mutate(exp03_constitution_treat = as.numeric(exp03_constitution_treat)) %>%
@@ -1707,6 +1735,12 @@ df_exp03_constitution <- df_exp03_het %>%
 # Gender
 summary(bartc(exp03_outcomes, exp03_constitution_treat, gender,
               group.by = gender, group.effects = TRUE, data = df_exp03_constitution,
+              n.chains = 5L, seed = 144))
+
+# Age
+df_exp03_constitution2 <- df_exp03_constitution %>% drop_na(age2)
+summary(bartc(exp03_outcomes, exp03_constitution_treat, age2,
+              group.by = age2, group.effects = TRUE, data = df_exp03_constitution2,
               n.chains = 5L, seed = 144))
 
 # Race
@@ -1765,6 +1799,12 @@ df_exp03_rights <- df_exp03_het %>%
 # Gender
 summary(bartc(exp03_outcomes, exp03_rights_treat, gender,
               group.by = gender, group.effects = TRUE, data = df_exp03_rights,
+              n.chains = 5L, seed = 144))
+
+# Age
+df_exp03_rights2 <- df_exp03_rights %>% drop_na(age2)
+summary(bartc(exp03_outcomes, exp03_rights_treat, age2,
+              group.by = age2, group.effects = TRUE, data = df_exp03_rights2,
               n.chains = 5L, seed = 144))
 
 # Race
@@ -1827,6 +1867,12 @@ summary(bartc(exp03_outcomes, exp03_vendetta_treat, gender,
               group.by = gender, group.effects = TRUE, data = df_exp03_vendetta,
               n.chains = 5L, seed = 144))
 
+# Age
+df_exp03_vendetta2 <- df_exp03_vendetta %>% drop_na(age2)
+summary(bartc(exp03_outcomes, exp03_vendetta_treat, age2,
+              group.by = age2, group.effects = TRUE, data = df_exp03_vendetta2,
+              n.chains = 5L, seed = 144))
+
 # Race
 summary(bartc(exp03_outcomes, exp03_vendetta_treat, race,
               group.by = race, group.effects = TRUE, data = df_exp03_vendetta,
@@ -1869,9 +1915,6 @@ summary(bartc(exp03_outcomes, exp03_vendetta_treat, views_justice,
               n.chains = 5L, seed = 144))
 ```
 \normalsize
-
-
-\newpage
 
 # Session Information
 
