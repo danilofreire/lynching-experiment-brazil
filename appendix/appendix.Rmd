@@ -1157,11 +1157,39 @@ also a group of respondents that oppose lynchings in principle, who affirm that
 lynchings are never justified.
 
 \footnotesize
-```{r conjoint-lda, warning=F, message=F, error=F, cache=T, fig.width=8, fig.height=5.6, fig.pos="H"}
-# Latent Dirichlet allocation
+```{r conjoint-lda, warning=F, message=F, error=F, cache=T, fig.width=10, fig.height=9, fig.post="H"}
+# Unsupervised LDA
 tmod_lda <- textmodel_lda(dfmat, k = 3)
 terms(tmod_lda, 10)
 table(topics(tmod_lda))
+```
+\normalsize
+
+Our last model is a semisupervised LDA, in which we include a series of
+keywords to measure how frequently some pre-defined topics appear often in the
+responses. We adopt a conservative approach and only include words that we have
+a high degree of confidence that are not ambiguous. There are four pre-defined
+topics in this estimation. The first refers to victims, and include words for
+children, life, and victim (along with possible variations). The second topic
+describes crime characteristics with words such as murder, rape, kill, molest,
+and steal. The next group has four keywords that describe lynching
+perpetrators, and they are gangs, family, bystanders, and police. The fourth
+topic includes terms to identify respondents who are against lynchings, and we
+added against, none, do not agree, and choice as the seed terms. We see that
+these groups have a large number of terms each, and that crime characteristics
+is the topic that shows more often when our terms are applied.
+
+\footnotesize
+```{r conjoint-seededlda, warning=F, message=F, error=F, cache=T, fig.width=15, fig.height=9, fig.pos="H"}
+# Semisupervised LDA
+keywords <- dictionary(list(Victim      = c("crian*", "vida*", "v*tima*"),
+                            Crime       = c("assassin*", "estupr*", "mata*", "molest*", "roub*"),
+                            Perpetrator = c("gang*", "fam*lia*", "pedestr*", "pol*cia*"),
+                            Against     = c("contra", "nenhum*", "n*o concord*", "op**o")))
+
+slda <- textmodel_seededlda(dfmat, keywords, residual = TRUE)
+terms(slda, 10)
+table(topics(slda))
 ```
 \normalsize
 
