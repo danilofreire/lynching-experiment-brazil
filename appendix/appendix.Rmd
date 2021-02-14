@@ -196,13 +196,13 @@ five regions of the country (Center-West, North, Northeast, South, and
 Southeast). We used quotas for gender and region to ensure that our sample was
 similar to the Brazilian population in those characteristics. We also collected
 information about whether the subjects had been victimized in the previous 12
-months, as well as their opinion the Brazilian judicial system and the police
-forces. They follow in the graphs and tables below.
+months, as well as their opinion of the Brazilian judicial system and the
+police forces. They follow in the graphs and tables below.
 
 ## Informed Consent
 
 About 98% of the interviewees agreed to participate in the survey experiment.
-We therefore exclude the remaining cases from the dataset.
+We excluded respondents who did not give their consent from the dataset.
 
 \footnotesize
 ```{r consent, warning=F, error=F, cache=T}
@@ -422,8 +422,8 @@ df1 %>%
 
 ## Previous Victimization
 
-We asked subjects whether they had victimized in the previous 12 months, as
-crime victims may be more likely to support lynchings. The responses follow
+We asked subjects whether they had been victimized in the previous 12 months,
+as crime victims may be more likely to support lynchings. The responses follow
 below.
 
 \footnotesize
@@ -685,8 +685,8 @@ table_mm(mms, capt = "Marginal Means -- Full Model")
 ## Average Marginal Component Effect (AMCE) Estimator
 
 We also estimate AMCE coefficients for our conjoint experiment. This method
-selects one reference category for each attribute and look at changes from the
-baseline level. The reference category are marked as zero in our models.
+selects one reference category for each attribute and looks at changes from the
+baseline level. The reference categories are marked as zero in our models.
 
 \footnotesize
 ```{r conjoint-amce, warning=F, error=F, message=F, cache=T, fig.width=7, fig.height=6}
@@ -717,7 +717,7 @@ Results do not seem to vary according to the gender of the respondent. We focus
 here on the differences between males and females and exclude the 11
 observations in which respondents preferred not to say their gender or marked
 "other" in our questionnaire. Across all conjoint experiment attributes, we see
-that an overlap between the 95% confidence intervals for males and females.
+an overlap between the 95% confidence intervals for males and females.
 
 \footnotesize
 ```{r conjoint-females, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=5.3, fig.pos = "H"}
@@ -880,7 +880,7 @@ We also disaggregate the results by monthly household income. As some
 categories have few respondents, we group them into three categories: (i) up to
 R\$3,000 (US\$550); (ii) from R\$3,001 to R\$5,000 (US\$550-915); and (iii)
 above R\$5,000 (US\$915+). The levels roughly represent low, middle, and
-high-income households. We find no considerable difference amongst them.
+high-income households. We find no considerable differences among them.
 
 \footnotesize
 ```{r conjoint-income, warning=F, message=F, error=F, cache=T, fig.width=8, fig.height=6, fig.pos="H"}
@@ -922,7 +922,7 @@ table_mm_by(mm_abv5k, capt = "Marginal Means -- Above 5,000 BRL")
 Here we assess whether subjects who support the death penalty have different
 preferences towards lynching victims. There are fewer respondents who answered
 "Don't Know" or "Rather Not Say" to our question, so the confidence intervals
-from their estimates are larger than the for the other two categories. The
+from their estimates are larger than for the other two categories. The
 estimates largely overlap across the four groups, although those who answered
 "Rather Not Say" are less favorable to lynching Indigenous criminals.
 
@@ -986,8 +986,8 @@ table_mm_by(mm_no, capt = "Marginal Means -- Previous Victimization (12 Months):
 
 ### Opinion on the Police
 
-Experimental results do not change when we break the responses according to how
-subjects view the police forces.
+Experimental results do not change when we break down the responses according
+to how subjects view the police forces.
 
 \footnotesize
 ```{r conjoint-policing, warning=F, message=F, error=F, cache=T, fig.width=8, fig.height=6, fig.pos="H"}
@@ -1065,7 +1065,7 @@ table_mm_by(mm_vbad, capt = "Marginal Means -- Opinion on the Judicial System: V
 ## Text Analysis
 
 In addition to the conjoint experiments, we also asked respondents to justify
-their profile choices. We added a textbook after each conjoint and informed
+their profile choices. We added a text box after each conjoint and informed
 subjects that their responses were optional. However, we obtained `r (nrow(df1) - sum(is.na(df1$q13_text))) + (nrow(df1) - sum(is.na(df1$q14_text))) + (nrow(df1) - sum(is.na(df1$q15_text))) + (nrow(df1) - sum(is.na(df1$q16_text))) + (nrow(df1) - sum(is.na(df1$q17_text)))` responses
 in our survey, which we analyze here.
 
@@ -1115,7 +1115,7 @@ dfmat %>%
 We also construct a feature co-occurrence matrix (FCM) that shows which words
 appear together in the responses we collected. Again, the results confirm the
 findings of the conjoint experiment. As suggested in the previous graph, we see
-a central cluster that describe crime and victim characteristics and includes
+a central cluster that describes crime and victim characteristics and includes
 the words _linchamentos_ (lynchings), _caso_ (case), _estupro_ (rape),
 _criança_ (child), _assassinato_ (murder), and _vítima_ (victim). This
 highlights that these are the most important reasons why respondents choose
@@ -1152,7 +1152,7 @@ perpetrators, as it contains the words like _polícia_ (police), _pessoas_
 associate with respondents who are against lynchings, such as _nenhum_ (none),
 _opção_ (choice), _não_ (no), and _contra_ (against). As our results show,
 respondents decide which individual deserves punishment based on factors
-related to the crime he/she committed, specially the crime victim. There is
+related to the crime he/she committed, especially the crime victim. There is
 also a group of respondents that oppose lynchings in principle, who affirm that
 lynchings are never justified.
 
@@ -1295,7 +1295,7 @@ mas foi imobilizado e agredido por membros da comunidade. **Um dos moradores
 envolvidos no linchamento disse que eles agrediram o suspeito porque "a punição
 da justiça não é dura o suficiente"**.
 
-Before each vignette, respondents will read the following text:
+Before each vignette, respondents read the following text:
 
 * You will be shown a news article. Please read it carefully. After you read
   the article, we will ask you one question about it.[^vig01-exp02]
@@ -1304,9 +1304,9 @@ Before each vignette, respondents will read the following text:
 favor, leia a notícia com atenção. Após você ler o artigo, faremos uma pergunta
 sobre ele.
 
-After the vignette, respondents will be presented with this question:
+After the vignette, respondents were presented with this question:
 
-* Would you think that the lynching was justified? Please use the slider below
+* Do you think that the lynching was justified? Please use the slider below
   to indicate your opinion. For disagreement, use 0 to 49; for agreement,
   use 51 to 100. Please use 50 if you neither agree nor
   disagree.[^vig02-exp02]
@@ -1320,7 +1320,7 @@ discordar.
 
 Table \ref{tab:exp02main} summarizes our results. As we see, none of the
 treatment effects are statistically significant at conventional levels. This
-indicates that institutional factors do not affect lynching support in our
+suggests that institutional factors do not affect lynching support in our
 sample.
 
 \footnotesize
@@ -1881,7 +1881,7 @@ summary(bartc(exp03_outcomes, exp03_rights_treat, views_justice,
 
 ### Treatment 03: Vendettas
 
-We do not find considerable heterogeneity in the these results. Overall, the
+We do not find considerable heterogeneity in the results. Overall, the
 three treatment conditions are very stable, thus we are confident that the
 main results are not driven by any particular group.
 
