@@ -1169,23 +1169,24 @@ Our last model is a semisupervised LDA, in which we include a series of
 keywords to measure how frequently some pre-defined topics appear often in the
 responses. We adopt a conservative approach and only include words that we have
 a high degree of confidence that are not ambiguous. There are four pre-defined
-topics in this estimation. The first refers to victims, and include words for
-children, life, and victim (along with possible variations). The second topic
-describes crime characteristics with words such as murder, rape, kill, molest,
-and steal. The next group has four keywords that describe lynching
-perpetrators, and they are gangs, family, bystanders, and police. The fourth
-topic includes terms to identify respondents who are against lynchings, and we
-added against, none, do not agree, and choice as the seed terms. We see that
-these groups have a large number of terms each, and that crime characteristics
-is the topic that shows more often when our terms are applied.
+topics in this estimation. The first refers to victims, and include the
+Portuguese words for _children_, _life_, and _victim_ (along with possible
+variations). The second topic describes crime characteristics with words such
+as _murder_, _rape_, _kill_, _molest_, and _steal_. The next group has four
+keywords that describe lynching perpetrators, and they are _gangs_, _family_,
+_bystanders_, and _police_. The fourth topic includes terms to identify
+respondents who are against lynchings, and we added _against_, _none_, _do not
+agree_, and _choice_ as the seed terms. We see that these groups have a large
+number of terms each, and that crime characteristics is the topic that shows
+more often when our terms are applied.
 
 \footnotesize
 ```{r conjoint-seededlda, warning=F, message=F, error=F, cache=T, fig.width=15, fig.height=9, fig.pos="H"}
 # Semisupervised LDA
-keywords <- dictionary(list(Victim      = c("crian*", "vida*", "v*tima*"),
-                            Crime       = c("assassin*", "estupr*", "mata*", "molest*", "roub*"),
-                            Perpetrator = c("gang*", "fam*lia*", "pedestr*", "pol*cia*"),
-                            Against     = c("contra", "nenhum*", "n*o concord*", "op**o")))
+keywords <- dictionary(list(victim      = c("crian*", "vida*", "v*tima*"),
+                            crime       = c("assassin*", "estupr*", "mata*", "molest*", "roub*"),
+                            perpetrator = c("gang*", "fam*lia*", "pedestr*", "pol*cia*"),
+                            against     = c("contra", "escolha", "nenhum*", "n*o concord*", "op**o")))
 
 slda <- textmodel_seededlda(dfmat, keywords, residual = TRUE)
 terms(slda, 10)
