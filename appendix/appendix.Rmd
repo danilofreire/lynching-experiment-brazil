@@ -202,7 +202,7 @@ police forces. They follow in the graphs and tables below.
 ## Informed Consent
 
 About 98% of the interviewees agreed to participate in the survey experiment.
-We excluded respondents who did not give their consent from the dataset.
+We excluded the remaining 2% from our analyses.
 
 \footnotesize
 ```{r consent, warning=F, error=F, cache=T}
@@ -1078,15 +1078,15 @@ _linchamento_ (lynching), and _caso_ (case) are the words respondents use most
 often. This is expected as subjects were asked to justify their choices. The
 next words in the list are related to victim or crime characteristics, such as
 _criança_ (child), _estupro_ (rape), _assassinato_ (murder), and _vítima_
-(victim). Indeed, they provide evidence our previous findings and confirm that
-respondents select lynching victim profiles according to these two factors.
-Criminal characteristics, such as age or race, do not seem to be particularly
-relevant, as respondents do not mention them as much. The following terms are
-_nenhum_ (none), _contra_ (against), _acho_ (I think), _casos_ (cases), _ter_
-(have to), and _justiça_ (justice). We believe these words correspond to cases
-where respondents wanted to affirm they do not have any preference regarding
-the lynching profiles, or that they would rather not have chosen any of the
-alternatives.
+(victim). Indeed, they provide evidence for our previous findings and confirm
+that respondents select lynching victim profiles according to these two
+factors. Criminal characteristics, such as age or race, do not seem to be
+particularly relevant, as respondents do not mention them as much. The
+following terms are _nenhum_ (none), _contra_ (against), _acho_ (I think),
+_casos_ (cases), _ter_ (have to), and _justiça_ (justice). We believe these
+words correspond to cases where respondents wanted to affirm that they do not
+have any preference regarding the lynching profiles, or that they would rather
+not have chosen any of the alternatives.
 
 \footnotesize
 ```{r conjoint-text, warning=F, message=F, error=F, cache=T, fig.width=8, fig.height=5.6, fig.pos="H", fig.cap = "Words respondents use most frequently when justifying their choices of lynching profiles"}
@@ -1176,9 +1176,8 @@ as _murder_, _rape_, _kill_, _molest_, and _steal_. The next group has four
 keywords that describe lynching perpetrators, and they are _gangs_, _family_,
 _bystanders_, and _police_. The fourth topic includes terms to identify
 respondents who are against lynchings, and we added _against_, _none_, _do not
-agree_, and _choice_ as the seed terms. We see that these groups have a large
-number of terms each, and that crime characteristics is the topic that shows
-more often when our terms are applied.
+agree_, and _choice_ as seed terms. We see that the topic describing crime
+characteristics is the one that appears more often.
 
 \footnotesize
 ```{r conjoint-seededlda, warning=F, message=F, error=F, cache=T, fig.width=15, fig.height=9, fig.pos="H"}
