@@ -1347,7 +1347,7 @@ m4 <- lm(exp02_outcomes ~ exp02_any_treat, data = df_exp02)
 
 # Table
 stargazer(m1, m2, m3, m4, se = starprep(m1, m2, m3, m4),
-          p = starprep(m1, m2, m3, m4, se_type = "HC2", stat = "p.value"),
+          p = starprep(m1, m2, m3, m4, stat = "p.value"),
           header = FALSE, align = TRUE, label = "tab:exp02main",
           title = "Experiment 02 -- Main Results", style = "apsr",
           dep.var.labels = "\\textbf{Lynching Support}\\vspace{.5cm}",
@@ -1357,8 +1357,6 @@ stargazer(m1, m2, m3, m4, se = starprep(m1, m2, m3, m4),
           keep.stat = "n", no.space = TRUE)
 ```
 \normalsize
-
-\newpage
 
 ## Heterogeneous Effects
 
@@ -1707,8 +1705,8 @@ m3 <- lm(exp03_outcomes ~ exp03_vendetta_treat, data = df_exp03)
 m4 <- lm(exp03_outcomes ~ exp03_any_treat, data = df_exp03)
 
 # Table
-stargazer(m1, m2, m3, m4, se = starprep(m1, m2, m3, m4), header = FALSE, align = TRUE,
-          p = starprep(m1, m2, m3, m4, se_type = "HC2", stat = "p.value"),
+stargazer(m1, m2, m3, m4, se = starprep(m1, m2, m3, m4), header = FALSE,
+          p = starprep(m1, m2, m3, m4, stat = "p.value"), align = TRUE,
           title = "Experiment 03 -- Main Results", style = "apsr", label = "tab:exp03main",
           dep.var.labels = "\\textbf{Lynching Support}\\vspace{.5cm}",
           covariate.labels = c("Constitution and penal code", "Human rights",
