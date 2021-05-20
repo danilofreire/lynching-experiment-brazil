@@ -8,13 +8,14 @@ This GitHub repository contains data and documented R code for ["Vigilantism, In
 
 You can cite the article as: 
 
-> Freire, D. and Skarbek, D. 2021. "Casting the First Stone: Attitudes on Lynchings in Brazil", _SocArXiv_, DOI: <https://doi.org/10.31235/osf.io/9a6ch>.
+> Freire, D. and Skarbek, D. 2021. "Vigilantism, Institutions, and Honor Culture: Understanding Attitudes towards Lynching in Brazil", _SocArXiv_, DOI: <https://doi.org/10.31235/osf.io/9a6ch>.
 
 BibTeX entry:
 
 ```
 @misc{freire2021lynching,
-  title={{Casting the First Stone: Attitudes on Lynchings in Brazil}},
+  title={{Vigilantism, Institutions, and Honor Culture: Understanding Attitudes
+  towards Lynching in Brazil}},
   author={Freire, Danilo and Skarbek, David},
   pages={1--17},
   year={2021},
