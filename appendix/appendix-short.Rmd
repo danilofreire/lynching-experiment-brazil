@@ -29,23 +29,11 @@ output:
 
 [^skarbek]: The Department of Political Science and the Political Theory Project, Brown University, <davidskarbek@brown.edu>, <http://davidskarbek.com>.
 
-\newpage
+\appendix
 
-# Introduction
+# Descriptive Statistics
 
-This appendix contains the `R` code required to replicate the results we
-present in "_Vigilantism, Institutions, and Honor Culture: Understanding
-Attitudes towards Lynching in Brazil_". This file also includes the descriptive
-statistics of our sample, the average marginal component effects (AMCEs) for
-our conjoint experiment, and additional subgroup analyses for all three
-experiments.
-
-The code below loads the required datasets and the `R` packages we use in our
-statistical analyses. It also translates the names of the factor variables from
-Portuguese into English.
-
-\footnotesize
-```{r loading, warning=F, message=F, error=F, cache=T}
+```{r loading, warning=F, message=F, error=F, cache=T, echo=F}
 # Install and load required packages
 packages <- c("bartCause", "cjoint", "cregg", "estimatr", "kableExtra",
               "janitor", "quanteda", "seededlda", "stargazer", "tidyverse")
@@ -181,56 +169,30 @@ df <- df %>%
   relocate(response_id:previous_victim, previous_victim_dummy,
            previous_victim_text:f_5_2_8)
 
-# Check for duplicated values
-count(get_dupes(df))
-```
-\normalsize
-
-# Descriptive Statistics
-
-```{r sample-size, echo=F, warning=F, error=F, message=F, cache=T}
 df1 <- df %>% filter(consent == "Agree")
 ```
+
+This appendix contains additional tables and graphs that complement the results
+we present in "_Vigilantism, Institutions, and Honor Culture: Understanding
+Attitudes towards Lynching in Brazil_". An extended version of this file, which
+includes further tests for heterogeneous effects and `R` code, is available at
+[_redacted for peer review_]. The repository also contains our pre-analysis
+plan and the `php` scripts we used in our conjoint experiment.
 
 We ran our survey experiments from October 30 to December 14 via Qualtrics. Our
 sample includes `r nrow(df1)` Brazilians older than 18 years of age from the
 five regions of the country (Center-West, North, Northeast, South, and
-Southeast). We used quotas for gender and region to ensure that our sample was
-similar to the Brazilian population in those characteristics. We also collected
-information about whether the subjects had been victimized in the previous 12
-months, as well as their opinion of the Brazilian judicial system and the
-police forces. They follow in the graphs and tables below.
-
-## Informed Consent
-
-About 98% of the interviewees agreed to participate in the survey experiment.
-We excluded the remaining 2% from our analyses.
-
-\footnotesize
-```{r consent, warning=F, error=F, cache=T}
-df %>%
-  group_by(consent) %>%
-  summarise(N = n()) %>%
-  mutate(Frequency = round(N / sum(N), 2)) %>%
-  rename(Consent = consent) %>%
-  kbl(., booktabs = TRUE, caption = "Informed Consent") %>%
-  row_spec(0, bold = TRUE) %>%
-  kable_styling(latex_options = "hold_position")
-
-# Remove subjects who did not agree with consent form
-df1 <- df %>% filter(consent == "Agree")
-```
-\normalsize
+Southeast). 
 
 ## Gender
 
-The gender distribution of our sample is described below. It closely matches
+The gender distribution of our sample closely matches
 the official data from the [Brazilian Census
 Bureau](https://educa.ibge.gov.br/jovens/conheca-o-brasil/populacao/18320-quantidade-de-homens-e-mulheres.html),
 which states that women are 51.8% of the population and men comprise 48.2%.
 
 \footnotesize
-```{r gender, warning=F, error=F, cache=T}
+```{r gender, warning=F, error=F, cache=T, echo=F}
 df1 %>%
   group_by(gender) %>%
   filter(!is.na(gender)) %>%
@@ -251,7 +213,7 @@ indicates that our sample is older than the Brazilian population (median age $=
 33.4$ years old) [@ciafactbook2020].
 
 \footnotesize
-```{r age, warning=F, error=F, cache=T, fig.width=6, fig.height=4.3}
+```{r age, warning=F, error=F, cache=T, fig.width=6, fig.height=4.3, echo=F}
 tibble(` `    = "Age",
        Median = round(median(df1$age, na.rm = TRUE), 2),
        Mean   = round(mean(df1$age, na.rm = TRUE), 2),
@@ -283,7 +245,7 @@ includes more Whites and fewer individuals who identify as Mixed Race. The
 number of Blacks roughly coincide with the population statistics.
 
 \footnotesize
-```{r race, warning=F, error=F, cache=T}
+```{r race, warning=F, error=F, cache=T, echo=F}
 df1 %>%
   rename(Race = race) %>%
   mutate(Race = fct_relevel(Race, "White", "Other", "Rather Not Say", after = Inf)) %>%
@@ -299,7 +261,7 @@ df1 %>%
 
 ## Education
 
-```{r educationtext, echo=F, warning=F, error=F, cache=T}
+```{r educationtext, echo=F, warning=F, error=F, cache=T, echo=F}
 df2 <- df1 %>%
   group_by(education) %>%
   filter(!is.na(education)) %>%
@@ -314,7 +276,7 @@ About `r df2[4, 3]*100`% of the respondents have a college degree, and `r df2[3,
 have graduate school education.
 
 \footnotesize
-```{r education, warning=F, error=F, cache=T}
+```{r education, warning=F, error=F, cache=T, echo=F}
 df1 %>%
   rename(Education = education) %>%
   mutate(Education = fct_relevel(Education, "Primary School", "Secondary School",
@@ -331,7 +293,7 @@ df1 %>%
 
 ## Household Income
 
-```{r income-text, echo=F, warning=F, error=F, cache=T}
+```{r income-text, echo=F, warning=F, error=F, cache=T, echo=F}
 df2 <- df1 %>%
   group_by(household_income) %>%
   filter(!is.na(household_income)) %>%
@@ -349,7 +311,7 @@ up to R\$1,000, which is roughly equivalent to Brazil's monthly minimum wage. In
 this respect, we have reached participants from all social classes.
 
 \footnotesize
-```{r income, warning=F, error=F, cache=T}
+```{r income, warning=F, error=F, cache=T, echo=F}
 df1 %>%
   rename(`Household Income` = household_income) %>%
   mutate(`Household Income` = fct_relevel(`Household Income`, "Up to R$1,000",
@@ -368,7 +330,7 @@ df1 %>%
 
 ## Political Ideology
 
-```{r ideologytext, echo=F, warning=F, error=F, cache=T}
+```{r ideologytext, echo=F, warning=F, error=F, cache=T, echo=F}
 df2 <- df1 %>%
   group_by(ideology) %>%
   filter(!is.na(ideology)) %>%
@@ -386,7 +348,7 @@ political beliefs are also large in number (`r df2[6, 3]*100`% and
 `r df2[7, 3]*100`%, respectively).
 
 \footnotesize
-```{r ideology, warning=F, error=F, cache=T}
+```{r ideology, warning=F, error=F, cache=T, echo=F}
 df1 %>%
   rename(Ideology = ideology) %>%
   mutate(Ideology = fct_relevel(Ideology, "Left", "Center-Left", "Center",
@@ -396,93 +358,6 @@ df1 %>%
   summarise(N = n()) %>%
   mutate(Frequency = round(N / sum(N), 3)) %>%
   kbl(., booktabs = TRUE,  linesep = "", caption = "Political Ideology") %>%
-  row_spec(0, bold = TRUE) %>%
-  kable_styling(latex_options = "hold_position")
-```
-\normalsize
-
-\newpage
-
-## Support for Death Penalty
-
-Below you may find how many respondents support the death penalty.
-
-\footnotesize
-```{r death-penalty, warning=F, error=F, cache=T}
-df1 %>%
-  rename(`Support for Death Penalty` = death_penalty) %>%
-  mutate(`Support for Death Penalty` = fct_relevel(`Support for Death Penalty`, "Yes", "No")) %>%
-  group_by(`Support for Death Penalty`) %>%
-  filter(!is.na(`Support for Death Penalty`)) %>%
-  summarise(N = n()) %>%
-  mutate(Frequency = round(N / sum(N), 3)) %>%
-  kbl(., booktabs = TRUE,  linesep = "", caption = "Support for Death Penalty") %>%
-  row_spec(0, bold = TRUE) %>%
-  kable_styling(latex_options = "hold_position")
-```
-\normalsize
-
-## Previous Victimization
-
-We asked subjects whether they had been victimized in the previous 12 months,
-as crime victims may be more likely to support lynchings. The responses follow
-below.
-
-\footnotesize
-```{r victimization, warning=F, error=F, cache=T}
-df1 %>%
-  rename(Victimization = previous_victim_dummy) %>%
-  mutate(Victimization = fct_relevel(Victimization, "Yes", "No")) %>%
-  group_by(Victimization) %>%
-  filter(!is.na(Victimization)) %>%
-  summarise(N = n()) %>%
-  mutate(Frequency = round(N / sum(N), 3)) %>%
-  kbl(., booktabs = TRUE,  linesep = "", caption = "Previous Victimization (12 Months)") %>%
-  row_spec(0, bold = TRUE) %>%
-  kable_styling(latex_options = "hold_position")
-```
-\normalsize
-
-## Opinion on the Police
-
-Here we show the results for our question on how respondents see the police
-forces.
-
-\footnotesize
-```{r police, warning=F, error=F, cache=T}
-df1 %>%
-  rename(`Opinion on the Police` = views_police) %>%
-  mutate(`Opinion on the Police` = fct_relevel(`Opinion on the Police`, "Very Good", "Good",
-                                               "Regular", "Bad", "Very Bad")) %>%
-  group_by(`Opinion on the Police`) %>%
-  filter(!is.na(`Opinion on the Police`)) %>%
-  summarise(N = n()) %>%
-  mutate(Frequency = round(N / sum(N), 3)) %>%
-  kbl(., booktabs = TRUE,  linesep = "", caption = "Opinion on the Police") %>%
-  row_spec(0, bold = TRUE) %>%
-  kable_styling(latex_options = "hold_position")
-```
-\normalsize
-
-\newpage
-
-## Opinion on the Judicial System
-
-Lastly, we asked how respondents evaluate their local judiciary. As in the
-previous question, subjects could choose among five options, as well as affirm
-that they do not have an opinion or decline to answer the question.
-
-\footnotesize
-```{r justice, warning=F, error=F, cache=T}
-df1 %>%
-  rename(`Opinion on the Justice System` = views_justice) %>%
-  mutate(`Opinion on the Justice System` = fct_relevel(`Opinion on the Justice System`, "Very Good",
-                                                       "Good", "Regular", "Bad", "Very Bad")) %>%
-  group_by(`Opinion on the Justice System`) %>%
-  filter(!is.na(`Opinion on the Justice System`)) %>%
-  summarise(N = n()) %>%
-  mutate(Frequency = round(N / sum(N), 3)) %>%
-  kbl(., booktabs = TRUE,  linesep = "", caption = "Opinion on the Justice System") %>%
   row_spec(0, bold = TRUE) %>%
   kable_styling(latex_options = "hold_position")
 ```
@@ -499,22 +374,22 @@ criminal justice; 3) demand for harsher punishment for criminals. Below, we
 discuss them in further detail.
 
 Research shows that police ineffectiveness frequently appears as a strong
-predictor of vigilantism [@cruz2019determinants; @garcia2019anger]. The direct
-result of the weakness of police institutions is that citizens decide to take
-criminal matters "into their own hands", thus persecuting and punishing the
-criminals by themselves. A recent statistic indicates that the police solves
-only 10% of the homicides in Brazil, which lends support to the link between
-weak law enforcement and lynchings [@pearson2018latam].
+predictor of vigilantism [@garcia2019anger]. The direct result of the weakness
+of police institutions is that citizens decide to take criminal matters "into
+their own hands", thus persecuting and punishing the criminals by themselves. A
+recent statistic indicates that the police solves only 10% of the homicides in
+Brazil, which lends support to the link between weak law enforcement and
+lynchings [@pearson2018latam].
 
 Another possible determinant of lynching support is lack of trust in the
-justice system [@godoy2004justice; @smith2019contradictions]. This is often due
-to long criminal proceedings, which cause significant anxiety for the victims.
-In Brazil, the penal code allows the accused to appeal each decision several
-times, so it can take decades before a criminal case is closed
-[@sousa2005utilizaccao]. In this respect, citizens do not believe that, even if
-the criminal is put to trial, he/she will be punished in a timely matter. Note
-that although the police is technically part of the criminal justice system, we
-analyze the two institutions separately in our experiment.
+justice system [@smith2019contradictions]. This is often due to long criminal
+proceedings, which cause significant anxiety for the victims. In Brazil, the
+penal code allows the accused to appeal each decision several times, so it can
+take decades before a criminal case is closed [@sousa2005utilizaccao]. In this
+respect, citizens do not believe that, even if the criminal is put to trial,
+he/she will be punished in a timely matter. Note that although the police is
+technically part of the criminal justice system, we analyze the two
+institutions separately in our experiment.
 
 Lastly, we evaluate whether respondents think that the legal punishment
 assigned to criminals is not proportional to the severity of their crimes. In
@@ -609,15 +484,7 @@ favor, use a barra abaixo para indicar sua opinião. Para discordar, use de 0 a
 49; para concordar, use de 51 a 100. Por favor, use 50 para não concordar nem
 discordar.
 
-## Main Results
-
-Table \ref{tab:exp01main} summarizes our results. As we see, none of the
-treatment effects are statistically significant at conventional levels. This
-suggests that institutional factors do not affect lynching support in our
-sample.
-
-\footnotesize
-```{r exp01-main, warning=F, message=F, error=F, cache=T, fig.pos="H", results='asis'}
+```{r exp01-main, warning=F, message=F, error=F, cache=T, fig.pos="H", results='asis', echo=F}
 df_exp01 <- df1 %>%
   mutate(exp01_outcomes = coalesce(exp01_control, exp01_police,
                                    exp01_slow_justice, exp01_small_punishment),
@@ -637,57 +504,7 @@ m1 <- lm(exp01_outcomes ~ exp01_police_treat, data = df_exp01)
 m2 <- lm(exp01_outcomes ~ exp01_slow_justice_treat, data = df_exp01)
 m3 <- lm(exp01_outcomes ~ exp01_small_punishment_treat, data = df_exp01)
 m4 <- lm(exp01_outcomes ~ exp01_any_treat, data = df_exp01)
-
-stargazer(m1, m2, m3, m4, se = starprep(m1, m2, m3, m4), p = starprep(m1, m2, m3, m4, stat = "p.value"),
-          header = FALSE, align = TRUE, label = "tab:exp01main", title = "Experiment 01 -- Main Results",
-          style = "apsr", dep.var.labels = "\\textbf{Lynching Support}\\vspace{.5cm}",
-          covariate.labels = c("Police does not patrol area", "Justice too slow",
-                               "Punishment not harsh enough", "Combined treatments"),
-          column.sep.width = "3pt", notes = "Robust standard errors in parentheses.",
-          keep.stat = "n", no.space = TRUE)
 ```
-\normalsize
-
-## Determinants of Baseline Levels
-
-Here we estimate the effect of gender, race, and political ideology on lynching
-support. We find that males are more likely to tolerate lynchings, whereas left
-and center-left voters oppose lynchings more strongly than centrists. In our
-second model, we find no effect for race, and in the last column we see that
-white respondents are less supportive of lynchings.
-
-\footnotesize
-```{r exp01-baseline, warning=F, message=F, error=F, cache=T, fig.pos="H", results='asis'}
-df_exp01_group <- df_exp01 %>%
-  filter(gender == c("Female", "Male"),
-         race %in% c("Asian", "Black", "Mixed Race", "White"),
-         ideology %in% c("Center", "Center-Left", "Center-Right", "Left", "Right")) %>%
-  mutate(race = fct_relevel(race, "Black"), ideology = fct_relevel(ideology, "Center"))
-
-df_exp01_gender <- df_exp01 %>% filter(gender == c("Female", "Male"))
-df_exp01_race <- df_exp01 %>% filter(race %in% c("Asian", "Black", "Mixed Race", "White")) %>%
-  mutate(race = fct_relevel(race, "Black"))
-df_exp01_ideology <- df_exp01 %>%
-         filter(ideology %in% c("Center", "Center-Left", "Center-Right", "Left", "Right")) %>%
-         mutate(ideology = fct_relevel(ideology, "Center"))
-
-m1 <- lm(exp01_outcomes ~ gender, data = df_exp01_gender)
-m2 <- lm(exp01_outcomes ~ race, data = df_exp01_race)
-m3 <- lm(exp01_outcomes ~ ideology, data = df_exp01_ideology)
-m4 <- lm(exp01_outcomes ~ gender + race + ideology, data = df_exp01_group)
-
-stargazer(m1, m2, m3, m4, se = starprep(m1, m2, m3, m4), p = starprep(m1, m2, m3, m4, stat = "p.value"),
-          header = FALSE, align = TRUE, label = "tab:exp01baseline",
-          title = "Experiment 01 -- Determinants of Baseline Levels of
-          Lynching Support", style = "apsr", dep.var.labels = "\\textbf{Lynching Support}\\vspace{.5cm}",
-          covariate.labels = c("Male", "Asian", "Mixed Race", "White",
-                               "Left", "Center-Left", "Center-Right", "Right"),
-          column.sep.width = "3pt", notes = "Robust standard errors in parentheses.",
-          keep.stat = "n", no.space = TRUE)
-```
-\normalsize
-
-\newpage
 
 ## Heterogeneous Effects
 
@@ -696,91 +513,48 @@ Regression Trees (BART) [@chipman2010bart; @hill2011bayesian]. BART methods
 allow users to detect non-linear interactions and are insensitive to the choice
 of tuning parameters, so they are well-suited to analyze observational and
 experimental data [@green2012modeling]. More specifically, we employ the
-`bartCause` package, which is designed to estimate causal inference models.
+`bartCause` package, which is designed to estimate causal inference models. The
+results are based on 800 posterior samples times 5 chains.
+
+Results vary little in all of our estimations. We find that the personal
+characteristics of the respondents have no impact on our main models, which we
+report in table 1 in the article. Below we present heterogeneous effects for
+the three treatment conditions we included in our experiment. We run one model
+for each covariate, namely gender, age, race, education, household income, and
+political ideology. To save space, here we only show the average treatment
+effect within each group, but the complete results are available in section 3.4
+of the extended version of the appendix ([_redacted for peer review_]).
 
 ### Treatment 01: Police Ineffectiveness
 
 Our results indicate that the effects for this treatment arm is null in every
 model specification. We find no evidence of heterogeneous effects.
 
-\footnotesize
-```{r exp01-bart01, warning=F, error=F, message=F, cache=T}
-df_exp01_het <- df_exp01 %>%
-  filter(gender %in% c("Female", "Male")) %>%
-  mutate(race = fct_relevel(race, "White", "Black", "Mixed Race", "Asian",
-                            "Indigenous"),
-         education = fct_relevel(education, "Primary School", "Secondary School",
-                                  "High School", "College", "Graduate School"),
-         views_police = fct_relevel(views_police, "Regular", "Very Good", "Good",
-                                    "Bad", "Very Bad"),
-         views_justice = fct_relevel(views_justice, "Regular", "Very Good", "Good",
-                                     "Bad", "Very Bad"),
-         ideology = fct_relevel(ideology, "Center", "Left", "Center-Left",
-                                "Center-Right", "Right", "Don't Know", "Rather Not Say"),
-         household_income = fct_relevel(household_income, "Up to R$1,000", "From R$1,001 to R$2,000",
-                                         "From R$2,001 to R$3,000", "From R$3,001 to R$5,000",
-                                         "From R$5,001 to R$10,000", "From R$10,001 to R$20,000",
-                                         "Above R$20,000"),
-         previous_victim_dummy = fct_relevel(previous_victim_dummy, "Yes", "No"),
-         death_penalty = fct_relevel(death_penalty, "Yes", "No"),
-         age2 = case_when(age >= 18 & age <= 34 ~ "18-34", age >= 35 & age <= 54 ~ "35-54",
-                          age >= 55 ~ "55 plus", TRUE ~ as.character(age)))
-
-df_exp01_police <- df_exp01_het %>%
-  mutate(exp01_police_treat = as.numeric(exp01_police_treat)) %>%
-  drop_na(exp01_police_treat)
-
-# Gender
-summary(bartc(exp01_outcomes, exp01_police_treat, gender,
-              group.by = gender, group.effects = TRUE, data = df_exp01_police,
-              n.chains = 5L, seed = 144))
-
-# Age
-summary(bartc(exp01_outcomes, exp01_police_treat, age2,
-              group.by = age2, group.effects = TRUE, data = df_exp01_police,
-              n.chains = 5L, seed = 144))
-
-# Race
-summary(bartc(exp01_outcomes, exp01_police_treat, race,
-              group.by = race, group.effects = TRUE, data = df_exp01_police,
-              n.chains = 5L, seed = 144))
-
-# Education
-summary(bartc(exp01_outcomes, exp01_police_treat, education,
-              group.by = education, group.effects = TRUE, data = df_exp01_police,
-              n.chains = 5L, seed = 144))
-
-# Household Income
-summary(bartc(exp01_outcomes, exp01_police_treat, household_income,
-              group.by = household_income, group.effects = TRUE, data = df_exp01_police,
-              n.chains = 5L, seed = 144))
-
-# Political Ideology
-summary(bartc(exp01_outcomes, exp01_police_treat, ideology,
-              group.by = ideology, group.effects = TRUE, data = df_exp01_police,
-              n.chains = 5L, seed = 144))
-
-# Support for Death Penalty
-summary(bartc(exp01_outcomes, exp01_police_treat, death_penalty,
-              group.by = death_penalty, group.effects = TRUE, data = df_exp01_police,
-              n.chains = 5L, seed = 144))
-
-# Previous Victimization
-df_exp01_police2 <- df_exp01_police %>% drop_na(previous_victim_dummy)
-summary(bartc(exp01_outcomes, exp01_police_treat, previous_victim_dummy,
-              group.by = previous_victim_dummy, group.effects = TRUE, data = df_exp01_police2,
-              n.chains = 5L, seed = 144))
-
-# Opinion on the Police
-summary(bartc(exp01_outcomes, exp01_police_treat, views_police,
-              group.by = views_police, group.effects = TRUE, data = df_exp01_police,
-              n.chains = 5L, seed = 144))
-
-# Opinion on the Judicial System
-summary(bartc(exp01_outcomes, exp01_police_treat, views_justice,
-              group.by = views_police, group.effects = TRUE, data = df_exp01_police,
-              n.chains = 5L, seed = 144))
-```
+\begin{table}[!htbp] \centering
+\small
+  \caption{Heterogeneous Effects for Treatment 1: Police Ineffectiveness}
+  \label{tab:exp01het01}
+\begin{tabular}{@{\extracolsep{3pt}}lD{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} }
+\\[-1.8ex]\hline \\[-1.8ex]
+\\[-1.8ex] & \multicolumn{6}{c}{\textbf{Lynching Support}\vspace{.5cm}} \\
+\\[-1.8ex] & \multicolumn{1}{c}{(1)} & \multicolumn{1}{c}{(2)} & \multicolumn{1}{c}{(3)} & \multicolumn{1}{c}{(4)} & \multicolumn{1}{c}{(5)} & \multicolumn{1}{c}{(6)}\\
+\hline \\[-1.8ex]
+ Gender & 0.9729 &  &  & & & \\
+  & (2.293) &  &  & & & \\
+  Age &  & 1.180 &  & & & \\
+  &  & (2.266) &  &  \\
+  Race &  &  & 1.0668 & & &  \\
+  &  &  & (2.261) & & & \\
+  Education &  &  &  & 1.1463 & & \\
+  &  &  &  & (2.277) & & \\
+  Household Income &  &  &  & & 1.1459 & \\
+  &  &  &  & & (2.290) & \\
+  Political Ideology &  &  &  & & & 1.3693 \\
+  &  &  &  & & & (2.225) \\
+ N & \multicolumn{1}{c}{1,153} & \multicolumn{1}{c}{1,153} & \multicolumn{1}{c}{1,153} & \multicolumn{1}{c}{1,153} & \multicolumn{1}{c}{1,153} & \multicolumn{1}{c}{1,153} \\
+\hline \\[-1.8ex]
+\end{tabular}
+\end{table}
 \normalsize
 
 ### Treatment 02: Criminal Justice Ineffectiveness
@@ -788,134 +562,69 @@ summary(bartc(exp01_outcomes, exp01_police_treat, views_justice,
 We do not find any evidence of heterogeneous treatment effects in this
 condition either.
 
-\footnotesize
-```{r exp01-bart02, warning=F, error=F, message=F, cache=T}
-# Remove "Indigenous" and "Other" from `race` as they only
-# have 1 observation each. The model cannot be estimated otherwise.
-df_exp01_slow_justice <- df_exp01_het %>%
-  filter(race %in% c("White", "Asian", "Black", "Mixed Race", "Rather Not Say")) %>%
-  mutate(exp01_slow_justice_treat = as.numeric(exp01_slow_justice_treat)) %>%
-  drop_na(exp01_slow_justice_treat)
-
-# Gender
-summary(bartc(exp01_outcomes, exp01_slow_justice_treat, gender,
-              group.by = gender, group.effects = TRUE, data = df_exp01_slow_justice,
-              n.chains = 5L, seed = 144))
-
-# Age
-summary(bartc(exp01_outcomes, exp01_slow_justice_treat, age2,
-              group.by = age2, group.effects = TRUE, data = df_exp01_slow_justice,
-              n.chains = 5L, seed = 144))
-
-# Race
-summary(bartc(exp01_outcomes, exp01_slow_justice_treat, race,
-              group.by = race, group.effects = TRUE, data = df_exp01_slow_justice,
-              n.chains = 5L, seed = 144))
-
-# Education
-summary(bartc(exp01_outcomes, exp01_slow_justice_treat, education,
-              group.by = education, group.effects = TRUE, data = df_exp01_slow_justice,
-              n.chains = 5L, seed = 144))
-
-# Household Income
-summary(bartc(exp01_outcomes, exp01_slow_justice_treat, household_income,
-              group.by = household_income, group.effects = TRUE, data = df_exp01_slow_justice,
-              n.chains = 5L, seed = 144))
-
-# Political Ideology
-summary(bartc(exp01_outcomes, exp01_slow_justice_treat, ideology,
-              group.by = ideology, group.effects = TRUE, data = df_exp01_slow_justice,
-              n.chains = 5L, seed = 144))
-
-# Support for Death Penalty
-summary(bartc(exp01_outcomes, exp01_slow_justice_treat, death_penalty,
-              group.by = death_penalty, group.effects = TRUE, data = df_exp01_slow_justice,
-              n.chains = 5L, seed = 144))
-
-# Previous Victimization
-df_exp01_slow_justice2 <- df_exp01_slow_justice %>% drop_na(previous_victim_dummy)
-summary(bartc(exp01_outcomes, exp01_slow_justice_treat, previous_victim_dummy,
-              group.by = previous_victim_dummy, group.effects = TRUE, data = df_exp01_slow_justice2,
-              n.chains = 5L, seed = 144))
-
-# Opinion on the Police
-summary(bartc(exp01_outcomes, exp01_slow_justice_treat, views_police,
-              group.by = views_police, group.effects = TRUE, data = df_exp01_slow_justice,
-              n.chains = 5L, seed = 144))
-
-# Opinion on the Judicial System
-summary(bartc(exp01_outcomes, exp01_slow_justice_treat, views_justice,
-              group.by = views_police, group.effects = TRUE, data = df_exp01_slow_justice,
-              n.chains = 5L, seed = 144))
-```
+\begin{table}[!htbp] \centering
+\small
+  \caption{Heterogeneous Effects for Treatment 2: Criminal Justice
+  Ineffectiveness}
+  \label{tab:exp01het02}
+\begin{tabular}{@{\extracolsep{3pt}}lD{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} }
+\\[-1.8ex]\hline \\[-1.8ex]
+\\[-1.8ex] & \multicolumn{6}{c}{\textbf{Lynching Support}\vspace{.5cm}} \\
+\\[-1.8ex] & \multicolumn{1}{c}{(1)} & \multicolumn{1}{c}{(2)} & \multicolumn{1}{c}{(3)} & \multicolumn{1}{c}{(4)} & \multicolumn{1}{c}{(5)} & \multicolumn{1}{c}{(6)}\\
+\hline \\[-1.8ex]
+ Gender & -0.0752 &  &  & & & \\
+  & (2.372) &  &  & & & \\
+  Age &  & -0.2788 &  & & & \\
+  &  & (2.379) &  &  \\
+  Race &  &  & NA & & &  \\
+  &  &  & (NA) & & & \\
+  Education &  &  &  & 0.2204 & & \\
+  &  &  &  & (2.347) & & \\
+  Household Income &  &  &  & & -0.0295 & \\
+  &  &  &  & & (2.331) & \\
+  Political Ideology &  &  &  & & & -0.0936 \\
+  &  &  &  & & & (2.339) \\
+ N & \multicolumn{1}{c}{1,103} & \multicolumn{1}{c}{1,103} & \multicolumn{1}{c}{1,103} & \multicolumn{1}{c}{1,103} & \multicolumn{1}{c}{1,103} & \multicolumn{1}{c}{1,103} \\
+\hline \\[-1.8ex]
+\multicolumn{5}{l}{\textbf{Note}: There are no estimates for race because some
+groups have no observations.}
+\end{tabular}
+\end{table}
 \normalsize
 
 ### Treatment 03: Demand for Harsher Legal Punishment
 
-As in the last two series of models, our results show no evidence of
-heterogeneous treatment effects.
+As in our previous estimations, we find no evidence of heterogeneous treatment effects.
 
-\footnotesize
-```{r exp01-bart03, warning=F, error=F, message=F, cache=T}
-df_exp01_small_punishment <- df_exp01_het %>%
-  mutate(exp01_small_punishment_treat = as.numeric(exp01_small_punishment_treat)) %>%
-  drop_na(exp01_small_punishment_treat)
-
-# Gender
-summary(bartc(exp01_outcomes, exp01_small_punishment_treat, gender,
-              group.by = gender, group.effects = TRUE, data = df_exp01_small_punishment,
-              n.chains = 5L, seed = 144))
-
-# Age
-df_exp01_small_punishment2 <- df_exp01_small_punishment %>% drop_na(age2)
-summary(bartc(exp01_outcomes, exp01_small_punishment_treat, age2,
-              group.by = age2, group.effects = TRUE, data = df_exp01_small_punishment2,
-              n.chains = 5L, seed = 144))
-
-# Race
-summary(bartc(exp01_outcomes, exp01_small_punishment_treat, race,
-              group.by = race, group.effects = TRUE, data = df_exp01_small_punishment,
-              n.chains = 5L, seed = 144))
-
-# Education
-summary(bartc(exp01_outcomes, exp01_small_punishment_treat, education,
-              group.by = education, group.effects = TRUE, data = df_exp01_small_punishment,
-              n.chains = 5L, seed = 144))
-
-# Household Income
-summary(bartc(exp01_outcomes, exp01_small_punishment_treat, household_income,
-              group.by = household_income, group.effects = TRUE, data = df_exp01_small_punishment,
-              n.chains = 5L, seed = 144))
-
-# Political Ideology
-summary(bartc(exp01_outcomes, exp01_small_punishment_treat, ideology,
-              group.by = ideology, group.effects = TRUE, data = df_exp01_small_punishment,
-              n.chains = 5L, seed = 144))
-
-# Support for Death Penalty
-summary(bartc(exp01_outcomes, exp01_small_punishment_treat, death_penalty,
-              group.by = death_penalty, group.effects = TRUE, data = df_exp01_small_punishment,
-              n.chains = 5L, seed = 144))
-
-# Previous Victimization
-df_exp01_small_punishment2 <- df_exp01_small_punishment %>% drop_na(previous_victim_dummy)
-summary(bartc(exp01_outcomes, exp01_small_punishment_treat, previous_victim_dummy,
-              group.by = previous_victim_dummy, group.effects = TRUE, data = df_exp01_small_punishment2,
-              n.chains = 5L, seed = 144))
-
-# Opinion on the Police
-summary(bartc(exp01_outcomes, exp01_small_punishment_treat, views_police,
-              group.by = views_police, group.effects = TRUE, data = df_exp01_small_punishment,
-              n.chains = 5L, seed = 144))
-
-# Opinion on the Judicial System
-summary(bartc(exp01_outcomes, exp01_small_punishment_treat, views_justice,
-              group.by = views_police, group.effects = TRUE, data = df_exp01_small_punishment,
-              n.chains = 5L, seed = 144))
-```
+\begin{table}[!htbp] \centering
+\small
+  \caption{Heterogeneous Effects for Treatment 3: Demand for Harsher Legal
+  Punishment}
+  \label{tab:exp01het03}
+\begin{tabular}{@{\extracolsep{3pt}}lD{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} }
+\\[-1.8ex]\hline \\[-1.8ex]
+\\[-1.8ex] & \multicolumn{6}{c}{\textbf{Lynching Support}\vspace{.5cm}} \\
+\\[-1.8ex] & \multicolumn{1}{c}{(1)} & \multicolumn{1}{c}{(2)} & \multicolumn{1}{c}{(3)} & \multicolumn{1}{c}{(4)} & \multicolumn{1}{c}{(5)} & \multicolumn{1}{c}{(6)}\\
+\hline \\[-1.8ex]
+ Gender & 0.4202 &  &  & & & \\
+  & (2.331) &  &  & & & \\
+  Age &  & 0.7766 &  & & & \\
+  &  & (2.316) &  &  \\
+  Race &  &  & 0.6672 & & &  \\
+  &  &  & (2.367) & & & \\
+  Education &  &  &  & 0.50238 & & \\
+  &  &  &  & (2.337) & & \\
+  Household Income &  &  &  & & 0.5526 & \\
+  &  &  &  & & (2.307) & \\
+  Political Ideology &  &  &  & & & 0.61041 \\
+  &  &  &  & & & (2.298) \\
+ N & \multicolumn{1}{c}{1,099} & \multicolumn{1}{c}{1,099} & \multicolumn{1}{c}{1,099} & \multicolumn{1}{c}{1,099} & \multicolumn{1}{c}{1,099} & \multicolumn{1}{c}{1,099} \\
+\hline \\[-1.8ex]
+\end{tabular}
+\end{table}
 \normalsize
 
-\newpage
+\newpage 
 
 # Experiment 02
 
@@ -926,41 +635,15 @@ respondents. Each profile consists of eight attributes: 1) gender of the crime
 perpetrator; 2) age of the crime perpetrator; 3) race of the crime perpetrator;
 4) residency of crime perpetrator; 5) offense; 6) gender of the victim of the
 motivating crime; 7) age of the victim of the motivating crime; 8) lynching
-perpetrators. The attributes and levels are displayed in table
-\ref{tab:categories} below.
-
-\vspace{.3cm}
-
-\begin{table}[htpb]
-\small
-\begin{center}
-\caption{\textbf{Attributes and Levels}}
-\label{tab:categories}
-\begin{tabular}{l !{\vrule width 1pt}p{9cm}}
-\Xhline{2\arrayrulewidth}
-\textbf{Attribute} & \multicolumn{1}{c}{\textbf{Levels}} \\
-\Xhline{2\arrayrulewidth}
-\small
-Gender of crime perpetrator & Male; female \\ [4pt]
-Age of crime perpetrator & Teenager; adult; elderly \\ [4pt]
-Race of crime perpetrator & Black; White; Native Brazilian; Asian \\ [4pt]
-Residency of crime perpetrator & Resident in the community; outsider \\ [4pt]
-Offense & Picks the pocket; steals the car; molests; rapes; murders \\ [4pt]
-Gender of crime victim & Male; female\\ [4pt]
-Age of crime victim & Child; teenager; adult; elderly\\ [4pt]
-Lynching perpetrators & Bystanders; neighbours; family of the victim; gangs; police \\
-\Xhline{2\arrayrulewidth}
-\end{tabular}
-\end{center}
-\end{table}
+perpetrators. 
 
 We added three restrictions to the conjoint design to avoid implausible
 scenarios. First, female rapists were excluded from the model, but we did
 include female molesters in the conjoint experiment. Second, when the offense
 was car theft, the victim could not be a child. Lastly, teenagers could not be
 victims of car theft either. All other combinations were allowed. We randomized
-the attributes using a `.php` script, which is available at
-<https://github.com/danilofreire/lynching-experiment-brazil/blob/master/conjoint/portuguese/lynching-conjoint-pt.php>.
+the attributes using a `php` script, which is available at
+[_redacted for peer review_].
 
 Respondents indicated which profile they preferred for extrajudicial
 punishment. Prior to the experiments, they had read the following prompt:
@@ -982,18 +665,7 @@ possíveis vítimas de linchamento no Brasil e indique em quais delas você
 acredita que a punição é mais justificada. Mesmo que você não tenha certeza,
 por favor, escolha um dos casos.
 
-## Marginal Means Estimator
-
-We estimate the conjoint experiment with the `cregg` package [@leeper2018cregg]
-for the `R` statistical language [@rstats2019]. We follow @leeper2020measuring
-and report marginal means as our main estimates. Marginal means are easy to
-interpret and they are not sensitive to choice of the reference category in
-subgroup analyses. The $H_0$ in all models is that the coefficient is equal to
-0.5, that is, that respondents are indifferent to that attribute level. Standard
-errors are clustered by respondent. The code follows below.
-
-\footnotesize
-```{r conjoint-mm, warning=F, error=F, message=F, cache=T, fig.width=7, fig.height=6}
+```{r conjoint-mm, warning=F, error=F, message=F, cache=T, fig.width=7, fig.height=5, echo=F, results = "hide"}
 conjoint_data <- read.qualtrics("../data/data-conjoint.csv",
                                 responses = c("Q13", "Q14", "Q15",
                                               "Q16", "Q17"),
@@ -1082,10 +754,6 @@ faces <- c(rep("plain", 5), "bold",
            rep("plain", 3), "bold",
            rep("plain", 2), "bold")
 
-plot(mms, vline = 0.5, header_fmt = "%s") +
-  theme(legend.position = "none", axis.text.y = element_text(face = faces, size = 10)) +
-  scale_colour_viridis_d(option = "inferno", end = 0.8)
-
 # Table
 table_mm <- function(mms, capt) {
 dfr <- data.frame(feature = mms[, c(4)],
@@ -1106,33 +774,26 @@ pack_rows("Age of crime victim", 19, 22) %>%
 pack_rows("Lynching perpetrators", 23, 27) %>%
 column_spec(1, width = "6cm"))
 }
-
-table_mm(mms, capt = "Marginal Means -- Full Model")
 ```
-\normalsize
-
-\clearpage
 
 ## Average Marginal Component Effect (AMCE) Estimator
 
-We also estimate AMCE coefficients for our conjoint experiment. This method
-selects one reference category for each attribute and looks at changes from the
-baseline level. The reference categories are marked as zero in our models.
+In the article, we estimate the conjoint experiment with the `cregg` package
+[@leeper2018cregg] for the `R` statistical language [@rstats2019]. Here we also
+present AMCE coefficients for the same experiment. This method selects one
+reference category for each attribute and looks at changes from the baseline
+level. The reference categories are marked as zero in our models.
 
-\footnotesize
-```{r conjoint-amce, warning=F, error=F, message=F, cache=T, fig.width=7, fig.height=6}
+\vspace{.3cm}
+
+```{r conjoint-amce, warning=F, error=F, message=F, cache=T, fig.width=8, fig.height=5, echo=F, echo=F}
 amces <- cj(conjoint_data, fm, id = ~response_id)
 
 plot(amces, vline = 0.0, header_fmt = "%s") +
   theme(legend.position = "none",
         axis.text.y = element_text(face = faces, size = 10)) +
   scale_colour_viridis_d(option = "inferno", end = 0.8)
-
-table_mm(amces, capt = "Average Marginal Component Effects -- Full Model")
 ```
-\normalsize
-
-\clearpage
 
 ## Subgroup Analyses
 
@@ -1150,8 +811,8 @@ observations in which respondents preferred not to say their gender or marked
 "other" in our questionnaire. Across all conjoint experiment attributes, we see
 an overlap between the 95% confidence intervals for males and females.
 
-\footnotesize
-```{r conjoint-females, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=5.3, fig.pos = "H"}
+\vspace{.3cm}
+```{r conjoint-females, warning=F, message=F, error=F, cache=T, fig.width=8, fig.height=5, fig.pos = "H", echo=F}
 # Model
 cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
   drop_na(gender) %>%
@@ -1163,36 +824,7 @@ mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", h0 = 0.5, by = ~Gender
 plot(mm_by, group = "Gender", vline = 0.5, header_fmt = "%s") +
   theme(legend.position = "bottom", axis.text.y = element_text(face = faces, size = 10)) +
   scale_colour_viridis_d(option = "inferno", end = 0.8)
-
-# Tables
-table_mm_by <- function(mm_by, capt) {
-dfr <- data.frame(feature = mm_by[, c(5)],
-                  round(mm_by[, c(6, 7, 9, 10, 11)], digits = 3))
-names(dfr) <- c("Feature", "Estimate", "Std. Error",
-                "P-Value", "Lower", "Upper")
-return(kbl(dfr, "latex", caption = capt, linesep = "",
-           booktabs = TRUE) %>%
-kable_styling(font_size = 12, full_width = TRUE,
-              latex_options = "hold_position") %>%
-pack_rows("Gender of crime perpetrator", 1, 2) %>%
-pack_rows("Age of crime perpetrator", 3, 5) %>%
-pack_rows("Race of crime perpetrator", 6, 9) %>%
-pack_rows("Residency of crime perpetrator", 10, 11) %>%
-pack_rows("Offense", 12, 16) %>%
-pack_rows("Gender of crime victim", 17, 18) %>%
-pack_rows("Age of crime victim", 19, 22) %>%
-pack_rows("Lynching perpetrators", 23, 27) %>%
-column_spec(1, width = "6cm"))
-}
-
-mm_females <- mm_by %>% filter(BY == "Female")
-table_mm_by(mm_females, capt = "Marginal Means -- Females")
-mm_males <- mm_by %>% filter(BY == "Male")
-table_mm_by(mm_males, capt = "Marginal Means -- Males")
 ```
-\normalsize
-
-\clearpage
 
 ### Age
 
@@ -1202,8 +834,8 @@ seniors (55+) are more likely to select profiles that include murder as an
 offense, and less inclined to choose cases involving molestation. The remaining
 attributes show little variation.
 
-\footnotesize
-```{r conjoint-age, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=5.2, fig.pos="H"}
+\vspace{.3cm}
+```{r conjoint-age, warning=F, message=F, error=F, cache=T, fig.width=8, fig.height=4.6, fig.pos="H", echo=F}
 # Model
 cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
   drop_na(age) %>%
@@ -1216,18 +848,7 @@ mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", h0 = 0.5, by = ~Age)
 plot(mm_by, group = "Age", vline = 0.5, header_fmt = "%s") +
   theme(legend.position = "bottom", axis.text.y = element_text(face = faces, size = 10)) +
   scale_colour_viridis_d(option = "inferno", end = 0.8, begin = 0.25)
-
-# Tables
-mm_young <- mm_by %>% filter(BY == "18-34")
-table_mm_by(mm_young, capt = "Marginal Means -- 18-34 Years Old")
-mm_adult <- mm_by %>% filter(BY == "35-54")
-table_mm_by(mm_adult, capt = "Marginal Means -- 35-54 Years Old")
-mm_senior <- mm_by %>% filter(BY == "55 plus")
-table_mm_by(mm_senior, capt = "Marginal Means -- 55+ Years Old")
 ```
-\normalsize
-
-\clearpage
 
 ### Race
 
@@ -1235,8 +856,8 @@ Below are our results when we disaggregate the data by race. We find that they a
 almost identical is all dimensions except for offense. Asian respondents are
 much less likely to select profiles that contain pickpocketing as a crime.
 
-\footnotesize
-```{r conjoint-race, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=5.4, fig.pos="H"}
+\vspace{.3cm}
+```{r conjoint-race, warning=F, message=F, error=F, cache=T, fig.width=8, fig.height=5, fig.pos="H", echo=F}
 # Model
 cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
   drop_na(race) %>%
@@ -1248,20 +869,7 @@ mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", h0 = 0.5, by = ~Race)
 plot(mm_by, group = "Race", vline = 0.5, header_fmt = "%s") +
   theme(legend.position = "bottom", axis.text.y = element_text(face = faces, size = 10)) +
   scale_colour_viridis_d(option = "inferno", end = 0.8)
-
-# Tables
-mm_asian <- mm_by %>% filter(BY == "Asian")
-table_mm_by(mm_asian, capt = "Marginal Means -- Asian")
-mm_black <- mm_by %>% filter(BY == "Black")
-table_mm_by(mm_black, capt = "Marginal Means -- Black")
-mm_mixed <- mm_by %>% filter(BY == "Mixed Race")
-table_mm_by(mm_mixed, capt = "Marginal Means -- Mixed Race")
-mm_white <- mm_by %>% filter(BY == "White")
-table_mm_by(mm_white, capt = "Marginal Means -- White")
 ```
-\normalsize
-
-\clearpage
 
 ### Education
 
@@ -1270,8 +878,8 @@ number of interviewees with primary or secondary education is low, we merge
 them into a single category, while the other levels (high school, college, and
 graduate school) remain the same as in our questionnaire.
 
-\footnotesize
-```{r conjoint-education, warning=F, message=F, error=F, cache=T, fig.width=8, fig.height=6, fig.pos="H"}
+\vspace{.5cm}
+```{r conjoint-education, warning=F, message=F, error=F, cache=T, fig.width=8, fig.height=5, fig.pos="H", echo=F}
 # Model
 cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
   drop_na(education) %>%
@@ -1291,19 +899,7 @@ plot(mm_by, group = "Education", vline = 0.5, header_fmt = "%s") +
   theme(legend.position = "bottom", axis.text.y = element_text(face = faces, size = 10)) +
   scale_colour_viridis_d(option = "inferno", end = 0.8, begin = 0.25)
 
-# Tables
-mm_pri_sec <- mm_by %>% filter(BY == "Primary or Secondary School")
-table_mm_by(mm_pri_sec, capt = "Marginal Means -- Primary or Secondary School Degree")
-mm_high <- mm_by %>% filter(BY == "High School")
-table_mm_by(mm_high, capt = "Marginal Means -- High School Degree")
-mm_college <- mm_by %>% filter(BY == "College")
-table_mm_by(mm_college, capt = "Marginal Means -- College Degree")
-mm_grad <- mm_by %>% filter(BY == "Graduate School")
-table_mm_by(mm_grad, capt = "Marginal Means -- Graduate School Degree")
 ```
-\normalsize
-
-\clearpage
 
 ### Household Income
 
@@ -1313,8 +909,8 @@ R\$3,000 (US\$550); (ii) from R\$3,001 to R\$5,000 (US\$550-915); and (iii)
 above R\$5,000 (US\$915+). The levels roughly represent low, middle, and
 high-income households. We find no considerable differences among them.
 
-\footnotesize
-```{r conjoint-income, warning=F, message=F, error=F, cache=T, fig.width=8, fig.height=6, fig.pos="H"}
+\vspace{.3cm}
+```{r conjoint-income, warning=F, message=F, error=F, cache=T, fig.width=8, fig.height=4.5, fig.pos="H", echo=F}
 # Model
 cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
   drop_na(household_income) %>%
@@ -1335,26 +931,15 @@ mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", h0 = 0.5, by = ~Income
 plot(mm_by, group = "Income", vline = 0.5, header_fmt = "%s") +
   theme(legend.position = "bottom", axis.text.y = element_text(face = faces, size = 10)) +
   scale_colour_viridis_d(option = "inferno", end = 0.8)
-
-# Tables
-mm_3k <- mm_by %>% filter(BY == "Up to R$3,000")
-table_mm_by(mm_3k, capt = "Marginal Means -- Up to 3,000 BRL")
-mm_5k <- mm_by %>% filter(BY == "From R$3,001 to R$5,000")
-table_mm_by(mm_5k, capt = "Marginal Means -- From 3,001 to 5,000 BRL")
-mm_abv5k <- mm_by %>% filter(BY == "Above R$5,000")
-table_mm_by(mm_abv5k, capt = "Marginal Means -- Above 5,000 BRL")
 ```
-\normalsize
-
-\clearpage
 
 ### Political Ideology
 
 Here we disaggregate the results according to political ideology. We see that
 political views do not change the overall responses.
 
-\footnotesize
-```{r conjoint-ideology, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=5.2, fig.pos="H"}
+\vspace{.5cm}
+```{r conjoint-ideology, warning=F, message=F, error=F, cache=T, fig.width=8, fig.height=5.2, fig.pos="H", echo=F}
 # Model
 cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
   drop_na(ideology)
@@ -1366,171 +951,7 @@ mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", h0 = 0.5, by =
 plot(mm_by, group = "Ideology", vline = 0.5, header_fmt = "%s") +
   theme(legend.position = "bottom", axis.text.y = element_text(face = faces, size = 10)) +
   scale_colour_viridis_d(option = "inferno", end = 0.8)
-
-# Tables
-mm_left <- mm_by %>% filter(BY == "Left")
-table_mm_by(mm_left, capt = "Marginal Means -- Left")
-mm_center_left <- mm_by %>% filter(BY == "Center-Left")
-table_mm_by(mm_center_left, capt = "Marginal Means -- Center-Left")
-mm_center <- mm_by %>% filter(BY == "Center")
-table_mm_by(mm_center, capt = "Marginal Means -- Center")
-mm_center_right <- mm_by %>% filter(BY == "Center-Right")
-table_mm_by(mm_center_right, capt = "Marginal Means -- Center-Right")
-mm_right <- mm_by %>% filter(BY == "Right")
-table_mm_by(mm_right, capt = "Marginal Means -- Right")
-mm_dont_know <- mm_by %>% filter(BY == "Don't Know")
-table_mm_by(mm_dont_know, capt = "Marginal Means -- Don't Know")
-mm_not_say <- mm_by %>% filter(BY == "Rather Not Say")
-table_mm_by(mm_not_say, capt = "Marginal Means -- Rather Not Say")
 ```
-\normalsize
-
-\clearpage
-
-### Support for Death Penalty
-
-Here we assess whether subjects who support the death penalty have different
-preferences towards lynching victims. There are fewer respondents who answered
-"Don't Know" or "Rather Not Say" to our question, so the confidence intervals
-from their estimates are larger than for the other two categories. The
-estimates largely overlap across the four groups, although those who answered
-"Rather Not Say" are less favorable to lynching Indigenous criminals.
-
-\footnotesize
-```{r conjoint-penalty, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=5.3, fig.pos="H"}
-# Model
-cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
-  drop_na(death_penalty) %>%
-  mutate(death_penalty = fct_relevel(death_penalty, "Yes", "No",
-                                     "Don't Know", "Rather Not Say"))
-cjdt$Death_Penalty <- factor(cjdt$death_penalty)
-mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", h0 = 0.5, by = ~Death_Penalty)
-
-# Plot
-plot(mm_by, group = "Death_Penalty", vline = 0.5, header_fmt = "%s") +
-  theme(legend.position = "bottom", axis.text.y = element_text(face = faces, size = 10)) +
-  scale_colour_viridis_d(option = "inferno", end = 0.8)
-
-# Tables
-mm_yes <- mm_by %>% filter(BY == "Yes")
-table_mm_by(mm_yes, capt = "Marginal Means -- Support for Death Penalty: Yes")
-mm_no <- mm_by %>% filter(BY == "No")
-table_mm_by(mm_no, capt = "Marginal Means -- Support for Death Penalty: No")
-mm_dk <- mm_by %>% filter(BY == "Don't Know")
-table_mm_by(mm_dk, capt = "Marginal Means -- Support for Death Penalty: Do Not Know")
-mm_rns <- mm_by %>% filter(BY == "Rather Not Say")
-table_mm_by(mm_rns, capt = "Marginal Means -- Support for Death Penalty: Rather Not Say")
-```
-\normalsize
-
-\clearpage
-
-### Previous Victimization
-
-Respondents who had been victimized in the past 12 months also do not have
-different preferences towards lynchings victim profiles. The results are
-virtually identical for both groups, as one can see below.
-
-\footnotesize
-```{r conjoint-victimization, warning=F, message=F, error=F, cache=T, fig.width=7, fig.height=5.6, fig.pos="H"}
-# Model
-cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
-  mutate(previous_victim_dummy, "Yes", "No")
-cjdt$Previous_Victim <- factor(cjdt$previous_victim_dummy)
-mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", h0 = 0.5, by = ~Previous_Victim)
-
-# Plot
-plot(mm_by, group = "Previous_Victim", vline = 0.5, header_fmt = "%s") +
-  theme(legend.position = "bottom", axis.text.y = element_text(face = faces, size = 10)) +
-  scale_colour_viridis_d(option = "inferno", end = 0.8)
-
-# Tables
-mm_yes <- mm_by %>% filter(BY == "Yes")
-table_mm_by(mm_yes, capt = "Marginal Means -- Previous Victimization (12 Months): Yes")
-mm_no <- mm_by %>% filter(BY == "No")
-table_mm_by(mm_no, capt = "Marginal Means -- Previous Victimization (12 Months): No")
-```
-\normalsize
-
-\clearpage
-
-### Opinion on the Police
-
-Experimental results do not change when we break down the responses according
-to how subjects view the police forces.
-
-\footnotesize
-```{r conjoint-policing, warning=F, message=F, error=F, cache=T, fig.width=8, fig.height=6, fig.pos="H"}
-# Model
-cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
-  mutate(views_police2 = case_when(views_police == "Rather Not Say" ~ NA_character_,
-                                   views_police == "Don't Know" ~ NA_character_,
-                                   TRUE ~ as.character(views_police)),
-         views_police2 = fct_relevel(views_police2, "Very Good", "Good",
-                                     "Regular", "Bad", "Very Bad")) %>%
-  drop_na(views_police2)
-cjdt$Police <- factor(cjdt$views_police2)
-mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", h0 = 0.5, by = ~Police)
-
-# Plot
-plot(mm_by, group = "Police", vline = 0.5, header_fmt = "%s") +
-  theme(legend.position = "bottom", axis.text.y = element_text(face = faces, size = 10)) +
-  scale_colour_viridis_d(option = "inferno", end = 0.8)
-
-# Tables
-mm_vgood <- mm_by %>% filter(BY == "Very Good")
-table_mm_by(mm_vgood, capt = "Marginal Means -- Opinion on the Police: Very Good")
-mm_good <- mm_by %>% filter(BY == "Good")
-table_mm_by(mm_good, capt = "Marginal Means -- Opinion on the Police: Good")
-mm_regular <- mm_by %>% filter(BY == "Regular")
-table_mm_by(mm_regular, capt = "Marginal Means -- Opinion on the Police: Regular")
-mm_bad <- mm_by %>% filter(BY == "Bad")
-table_mm_by(mm_bad, capt = "Marginal Means -- Opinion on the Police: Bad")
-mm_vbad <- mm_by %>% filter(BY == "Very Bad")
-table_mm_by(mm_vbad, capt = "Marginal Means -- Opinion on the Police: Very Bad")
-```
-\normalsize
-
-\clearpage
-
-### Opinion on the Judicial System
-
-Lastly, we analyze whether personal beliefs about the judicial system affect
-the type of lynching victim respondents select.
-
-\footnotesize
-```{r conjoint-justice, warning=F, message=F, error=F, cache=T, fig.width=8, fig.height=5.6, fig.pos="H"}
-# Model
-cjdt <- full_join(conjoint_data, df1, by = "response_id") %>%
-  mutate(views_justice2 = case_when(views_justice == "Rather Not Say" ~ NA_character_,
-                                    views_justice == "Don't Know" ~ NA_character_,
-                                   TRUE ~ as.character(views_justice)),
-         views_justice2 = fct_relevel(views_justice2, "Very Good", "Good",
-                                      "Regular", "Bad", "Very Bad")) %>%
-  drop_na(views_justice2)
-cjdt$Judiciary <- factor(cjdt$views_justice2)
-mm_by <- cj(cjdt, fm, id = ~response_id, estimate = "mm", h0 = 0.5, by = ~Judiciary)
-
-# Plot
-plot(mm_by, group = "Judiciary", vline = 0.5, header_fmt = "%s") +
-  theme(legend.position = "bottom", axis.text.y = element_text(face = faces, size = 10)) +
-  scale_colour_viridis_d(option = "inferno", end = 0.8)
-
-# Tables
-mm_vgood <- mm_by %>% filter(BY == "Very Good")
-table_mm_by(mm_vgood, capt = "Marginal Means -- Opinion on the Judicial System: Very Good")
-mm_good <- mm_by %>% filter(BY == "Good")
-table_mm_by(mm_good, capt = "Marginal Means -- Opinion on the Judicial System: Good")
-mm_regular <- mm_by %>% filter(BY == "Regular")
-table_mm_by(mm_regular, capt = "Marginal Means -- Opinion on the Judicial System: Regular")
-mm_bad <- mm_by %>% filter(BY == "Bad")
-table_mm_by(mm_bad, capt = "Marginal Means -- Opinion on the Judicial System: Bad")
-mm_vbad <- mm_by %>% filter(BY == "Very Bad")
-table_mm_by(mm_vbad, capt = "Marginal Means -- Opinion on the Judicial System: Very Bad")
-```
-\normalsize
-
-\clearpage
 
 ## Text Analysis
 
@@ -1558,8 +979,8 @@ words correspond to cases where respondents wanted to affirm that they do not
 have any preference regarding the lynching profiles, or that they would rather
 not have chosen any of the alternatives.
 
-\footnotesize
-```{r conjoint-text, warning=F, message=F, error=F, cache=T, fig.width=8, fig.height=5.6, fig.pos="H", fig.cap = "Words respondents use most frequently when justifying their choices of lynching profiles"}
+\vspace{.3cm}
+```{r conjoint-text, warning=F, message=F, error=F, cache=T, fig.width=8, fig.height=4.5, fig.pos="H", fig.cap = "Words respondents use most frequently when justifying their choices of lynching profiles", echo=F}
 dfmat <- df1 %>%
   select(q13_text, q14_text, q15_text, q16_text, q17_text) %>%
   gather() %>%
@@ -1569,8 +990,6 @@ dfmat <- df1 %>%
   dfm() %>%
   dfm_remove(., pattern = c(stopwords("pt", source = "snowball"),
                             "é", "ser"))
-
-# Plot
 dfmat %>%
   textstat_frequency(n = 15) %>%
   ggplot(aes(x = reorder(feature, frequency), y = frequency)) +
@@ -1579,7 +998,6 @@ dfmat %>%
   labs(x = NULL, y = "Frequency") +
   theme_minimal()
 ```
-\normalsize
 
 We also construct a feature co-occurrence matrix (FCM) that shows which words
 appear together in the responses we collected. Again, the results confirm the
@@ -1595,8 +1013,8 @@ that indicate that some respondents do not support lynchings, such as _não_
 (no), _opção_ (choice), _nada_ (nothing), _justifica_ (justifies),
 _justificável_ (justifiable), and _escolher_ (choose).
 
-\footnotesize
-```{r conjoint-fcm, warning=F, message=F, error=F, cache=T, fig.width=8, fig.height=5.6, fig.pos="H", fig.cap = "Semantic network analysis"}
+\vspace{.3cm}
+```{r conjoint-fcm, warning=F, message=F, error=F, cache=T, fig.width=8, fig.height=3, fig.pos="H", fig.cap = "Semantic network analysis", echo=F}
 fcmat <- fcm(dfmat)
 feat <- names(topfeatures(fcmat, 70))
 fcmat_select <- fcm_select(fcmat, pattern = feat, selection = "keep")
@@ -1606,7 +1024,6 @@ size <- log(colSums(dfm_select(dfmat, feat, selection = "keep")))
 set.seed(144)
 textplot_network(fcmat_select, min_freq = 0.8, vertex_size = size / max(size) * 3, max.overlaps = 30)
 ```
-\normalsize
 
 We estimate a latent Dirichlet allocation (LDA) model to identify the three
 most important topics in our corpus. The first topic includes words that refer
@@ -1626,8 +1043,8 @@ also a group of respondents that oppose lynchings in principle, who affirm that
 lynchings are never justified.
 
 \footnotesize
-```{r conjoint-lda, warning=F, message=F, error=F, cache=T, fig.width=10, fig.height=9, fig.post="H"}
-# Unsupervized LDA
+```{r conjoint-lda, warning=F, message=F, error=F, cache=T, fig.width=10, fig.height=9, fig.post="H", echo=F}
+# Unsupervised LDA
 tmod_lda <- textmodel_lda(dfmat, k = 3)
 terms(tmod_lda, 10)
 table(topics(tmod_lda))
@@ -1649,8 +1066,8 @@ agree_, and _choice_ as seed terms. We see that the topic describing crime
 characteristics is the one that appears more often.
 
 \footnotesize
-```{r conjoint-seededlda, warning=F, message=F, error=F, cache=T, fig.width=15, fig.height=9, fig.pos="H"}
-# Semisupervized LDA
+```{r conjoint-seededlda, warning=F, message=F, error=F, cache=T, fig.width=15, fig.height=9, fig.pos="H", echo=F}
+# Semisupervised LDA
 keywords <- dictionary(list(victim      = c("crian*", "vida*", "v*tima*"),
                             crime       = c("assassin*", "estupr*", "mata*", "molest*", "roub*"),
                             perpetrator = c("gang*", "fam*lia*", "pedestr*", "pol*cia*"),
@@ -1750,21 +1167,7 @@ podem ser justificados? Por favor, use a barra abaixo para indicar sua
 preferência. Para indicar que discorda, use de 0 a 49; para concordar, use de
 51 a 100. Por favor, use 50 caso você não concorde nem discorde.
 
-## Main Results
-
-Our results are available in table \ref{tab:exp03main}. Reminding respondents
-of the legal consequences of lynchings has a strong, negative effect on
-individual levels of lynching support. We see a reduction of about 4.5%, which
-corresponds to an 11% change when compared to the baseline levels. Our second
-treatment condition, reminding subjects of human rights guarantees, has no
-statistically significant effect. Informing respondents that lynchings can
-trigger a cycle of violence also has a large negative effect. It decreases
-lynching support by 3%, which is an 8% reduction in comparison with the control
-group. When we combine all treatments, we still detect a negative impact of the
-treatment conditions.
-
-\footnotesize
-```{r exp03-main, warning=F, message=F, error=F, cache=T, fig.pos="H", results='asis'}
+```{r exp03-main, warning=F, message=F, error=F, cache=T, echo=F}
 df_exp03 <- df1 %>%
   mutate(exp03_outcomes = coalesce(exp03_control, exp03_constitution, exp03_rights, exp03_vendetta),
          exp03_any_treat = case_when(!is.na(exp03_control) ~ "0", !is.na(exp03_constitution) ~ "1",
@@ -1781,16 +1184,6 @@ m1 <- lm(exp03_outcomes ~ exp03_constitution_treat, data = df_exp03)
 m2 <- lm(exp03_outcomes ~ exp03_rights_treat, data = df_exp03)
 m3 <- lm(exp03_outcomes ~ exp03_vendetta_treat, data = df_exp03)
 m4 <- lm(exp03_outcomes ~ exp03_any_treat, data = df_exp03)
-
-stargazer(m1, m2, m3, m4, se = starprep(m1, m2, m3, m4), header = FALSE,
-          p = starprep(m1, m2, m3, m4, stat = "p.value"), align = TRUE,
-          title = "Experiment 03 -- Main Results", style = "apsr", label = "tab:exp03main",
-          dep.var.labels = "\\textbf{Lynching Support}\\vspace{.5cm}",
-          covariate.labels = c("Constitution and penal code", "Human rights",
-                               "Vendettas", "Combined treatments"),
-          column.sep.width = "3pt", notes = "Robust standard errors in parentheses.",
-          keep.stat = "n", no.space = TRUE)
-
 ```
 \normalsize
 
@@ -1798,12 +1191,11 @@ stargazer(m1, m2, m3, m4, se = starprep(m1, m2, m3, m4), header = FALSE,
 
 As we did in the first experiment, we evaluate how individual characteristics
 impact lynching support. The results are similar to those presented in table
-\ref{tab:exp01baseline}, with the exception that the coefficient for white
+\ref{tab:exp03baseline}, with the exception that the coefficient for white
 respondents is negative in two estimations, and the coefficient for male does
 not reach statistical significance in the last model ($p$-value = 0.11).
 
-\footnotesize
-```{r exp03-baseline, warning=F, message=F, error=F, cache=T, fig.pos="H", results='asis'}
+```{r exp03-baseline, warning=F, message=F, error=F, cache=T, fig.pos="ht", results='asis', echo=F}
 df_exp03_group <- df_exp03 %>%
   filter(gender == c("Female", "Male"),
          race %in% c("Asian", "Black", "Mixed Race", "White"),
@@ -1829,9 +1221,9 @@ stargazer(m1, m2, m3, m4, se = starprep(m1, m2, m3, m4), p = starprep(m1, m2, m3
           covariate.labels = c("Male", "Asian", "Mixed Race", "White",
                                "Left", "Center-Left", "Center-Right", "Right"),
           column.sep.width = "3pt", notes = "Robust standard errors in parentheses.",
-          keep.stat = "n", no.space = TRUE)
+          keep.stat = "n", no.space = TRUE, 
+          table.placement = "ht")
 ```
-\normalsize
 
 ## Heterogeneous Effects
 
@@ -1846,216 +1238,98 @@ the moderator variables.
 We find no evidence of heterogeneous effects in this treatment condition. All
 coefficients are largely similar across all model specifications.
 
-\footnotesize
-```{r exp03-bart01, warning=F, error=F, message=F, cache=T}
-df_exp03_het <- df_exp03 %>%
-  filter(gender %in% c("Female", "Male")) %>%
-  mutate(race = fct_relevel(race, "White", "Black", "Mixed Race", "Asian",
-                            "Indigenous"),
-         education = fct_relevel(education, "Primary School", "Secondary School",
-                                  "High School", "College", "Graduate School"),
-         views_police = fct_relevel(views_police, "Regular", "Very Good", "Good",
-                                    "Bad", "Very Bad"),
-         views_justice = fct_relevel(views_justice, "Regular", "Very Good", "Good",
-                                     "Bad", "Very Bad"),
-         ideology = fct_relevel(ideology, "Center", "Left", "Center-Left",
-                                "Center-Right", "Right", "Don't Know", "Rather Not Say"),
-         household_income = fct_relevel(household_income, "Up to R$1,000", "From R$1,001 to R$2,000",
-                                         "From R$2,001 to R$3,000", "From R$3,001 to R$5,000",
-                                         "From R$5,001 to R$10,000", "From R$10,001 to R$20,000",
-                                         "Above R$20,000"),
-         previous_victim_dummy = fct_relevel(previous_victim_dummy, "Yes", "No"),
-         death_penalty = fct_relevel(death_penalty, "Yes", "No"),
-         age2 = case_when(age >= 18 & age <= 34 ~ "18-34", age >= 35 & age <= 54 ~ "35-54",
-                          age >= 55 ~ "55 plus", TRUE ~ as.character(age)))
-
-df_exp03_constitution <- df_exp03_het %>%
-  mutate(exp03_constitution_treat = as.numeric(exp03_constitution_treat)) %>%
-  drop_na(exp03_constitution_treat)
-
-# Gender
-summary(bartc(exp03_outcomes, exp03_constitution_treat, gender,
-              group.by = gender, group.effects = TRUE, data = df_exp03_constitution,
-              n.chains = 5L, seed = 144))
-
-# Age
-df_exp03_constitution2 <- df_exp03_constitution %>% drop_na(age2)
-summary(bartc(exp03_outcomes, exp03_constitution_treat, age2,
-              group.by = age2, group.effects = TRUE, data = df_exp03_constitution2,
-              n.chains = 5L, seed = 144))
-
-# Race
-summary(bartc(exp03_outcomes, exp03_constitution_treat, race,
-              group.by = race, group.effects = TRUE, data = df_exp03_constitution,
-              n.chains = 5L, seed = 144))
-
-# Education
-summary(bartc(exp03_outcomes, exp03_constitution_treat, education,
-              group.by = education, group.effects = TRUE, data = df_exp03_constitution,
-              n.chains = 5L, seed = 144))
-
-# Household Income
-summary(bartc(exp03_outcomes, exp03_constitution_treat, household_income,
-              group.by = household_income, group.effects = TRUE, data = df_exp03_constitution,
-              n.chains = 5L, seed = 144))
-
-# Political Ideology
-summary(bartc(exp03_outcomes, exp03_constitution_treat, ideology,
-              group.by = ideology, group.effects = TRUE, data = df_exp03_constitution,
-              n.chains = 5L, seed = 144))
-
-# Support for Death Penalty
-summary(bartc(exp03_outcomes, exp03_constitution_treat, death_penalty,
-              group.by = death_penalty, group.effects = TRUE, data = df_exp03_constitution,
-              n.chains = 5L, seed = 144))
-
-# Previous Victimization
-df_exp03_constitution2 <- df_exp03_constitution %>% drop_na(previous_victim_dummy)
-summary(bartc(exp03_outcomes, exp03_constitution_treat, previous_victim_dummy,
-              group.by = previous_victim_dummy, group.effects = TRUE, data = df_exp03_constitution2,
-              n.chains = 5L, seed = 144))
-
-# Opinion on the Police
-summary(bartc(exp03_outcomes, exp03_constitution_treat, views_police,
-              group.by = views_police, group.effects = TRUE, data = df_exp03_constitution,
-              n.chains = 5L, seed = 144))
-
-# Opinion on the Judicial System
-summary(bartc(exp03_outcomes, exp03_constitution_treat, views_justice,
-              group.by = views_police, group.effects = TRUE, data = df_exp03_constitution,
-              n.chains = 5L, seed = 144))
-```
+\begin{table}[!htbp] \centering
+\small
+  \caption{Heterogeneous Effects for Treatment 1: Legal Punishment for Lynching Perpetrators}
+  \label{tab:exp03het01}
+\begin{tabular}{@{\extracolsep{3pt}}lD{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} }
+\\[-1.8ex]\hline \\[-1.8ex]
+\\[-1.8ex] & \multicolumn{6}{c}{\textbf{Lynching Support}\vspace{.5cm}} \\
+\\[-1.8ex] & \multicolumn{1}{c}{(1)} & \multicolumn{1}{c}{(2)} & \multicolumn{1}{c}{(3)} & \multicolumn{1}{c}{(4)} & \multicolumn{1}{c}{(5)} & \multicolumn{1}{c}{(6)}\\
+\hline \\[-1.8ex]
+ Gender & -4.454 &  &  & & & \\
+  & (2.234) &  &  & & & \\
+  Age &  & -4.459 &  & & & \\
+  &  & (2.208) &  &  \\
+  Race &  &  & -4.3069 & & &  \\
+  &  &  & (2.220) & & & \\
+  Education &  &  &  & -4.486 & & \\
+  &  &  &  & (2.190) & & \\
+  Household Income &  &  &  & & -4.520 & \\
+  &  &  &  & & (2.206) & \\
+  Political Ideology &  &  &  & & & -4.5719 \\
+  &  &  &  & & & (2.175) \\
+ N & \multicolumn{1}{c}{1,109} & \multicolumn{1}{c}{1,109} & \multicolumn{1}{c}{1,109} & \multicolumn{1}{c}{1,109} & \multicolumn{1}{c}{1,109} & \multicolumn{1}{c}{1,109} \\
+\hline \\[-1.8ex]
+\end{tabular}
+\end{table}
 \normalsize
 
 ### Treatment 02: Human Rights
 
 Our results show no presence of heterogeneous effects.
 
-\footnotesize
-```{r exp03-bart02, warning=F, error=F, message=F, cache=T}
-df_exp03_rights <- df_exp03_het %>%
-  mutate(exp03_rights_treat = as.numeric(exp03_rights_treat)) %>%
-  drop_na(exp03_rights_treat)
-
-# Gender
-summary(bartc(exp03_outcomes, exp03_rights_treat, gender,
-              group.by = gender, group.effects = TRUE, data = df_exp03_rights,
-              n.chains = 5L, seed = 144))
-
-# Age
-df_exp03_rights2 <- df_exp03_rights %>% drop_na(age2)
-summary(bartc(exp03_outcomes, exp03_rights_treat, age2,
-              group.by = age2, group.effects = TRUE, data = df_exp03_rights2,
-              n.chains = 5L, seed = 144))
-
-# Race
-summary(bartc(exp03_outcomes, exp03_rights_treat, race,
-              group.by = race, group.effects = TRUE, data = df_exp03_rights,
-              n.chains = 5L, seed = 144))
-
-# Education
-summary(bartc(exp03_outcomes, exp03_rights_treat, education,
-              group.by = education, group.effects = TRUE, data = df_exp03_rights,
-              n.chains = 5L, seed = 144))
-
-# Household Income
-summary(bartc(exp03_outcomes, exp03_rights_treat, household_income,
-              group.by = household_income, group.effects = TRUE, data = df_exp03_rights,
-              n.chains = 5L, seed = 144))
-
-# Political Ideology
-summary(bartc(exp03_outcomes, exp03_rights_treat, ideology,
-              group.by = ideology, group.effects = TRUE, data = df_exp03_rights,
-              n.chains = 5L, seed = 144))
-
-# Support for Death Penalty
-summary(bartc(exp03_outcomes, exp03_rights_treat, death_penalty,
-              group.by = death_penalty, group.effects = TRUE, data = df_exp03_rights,
-              n.chains = 5L, seed = 144))
-
-# Previous Victimization
-df_exp03_rights2 <- df_exp03_rights %>% drop_na(previous_victim_dummy)
-summary(bartc(exp03_outcomes, exp03_rights_treat, previous_victim_dummy,
-              group.by = previous_victim_dummy, group.effects = TRUE, data = df_exp03_rights2,
-              n.chains = 5L, seed = 144))
-
-# Opinion on the Police
-summary(bartc(exp03_outcomes, exp03_rights_treat, views_police,
-              group.by = views_police, group.effects = TRUE, data = df_exp03_rights,
-              n.chains = 5L, seed = 144))
-
-# Opinion on the Judicial System
-summary(bartc(exp03_outcomes, exp03_rights_treat, views_justice,
-              group.by = views_police, group.effects = TRUE, data = df_exp03_rights,
-              n.chains = 5L, seed = 144))
-```
+\begin{table}[!htbp] \centering
+\small
+  \caption{Heterogeneous Effects for Treatment 2: Human Rights}
+  \label{tab:exp03het02}
+\begin{tabular}{@{\extracolsep{3pt}}lD{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} }
+\\[-1.8ex]\hline \\[-1.8ex]
+\\[-1.8ex] & \multicolumn{6}{c}{\textbf{Lynching Support}\vspace{.5cm}} \\
+\\[-1.8ex] & \multicolumn{1}{c}{(1)} & \multicolumn{1}{c}{(2)} & \multicolumn{1}{c}{(3)} & \multicolumn{1}{c}{(4)} & \multicolumn{1}{c}{(5)} & \multicolumn{1}{c}{(6)}\\
+\hline \\[-1.8ex]
+ Gender & -1.598 &  &  & & & \\
+  & (2.228) &  &  & & & \\
+  Age &  & -1.5594 &  & & & \\
+  &  & (2.196) &  &  \\
+  Race &  &  & -1.533 & & &  \\
+  &  &  & (2.209) & & & \\
+  Education &  &  &  & -1.5033 & & \\
+  &  &  &  & (2.188) & & \\
+  Household Income &  &  &  & & -1.3378 & \\
+  &  &  &  & & (2.184) & \\
+  Political Ideology &  &  &  & & & -1.4722 \\
+  &  &  &  & & & (2.155) \\
+ N & \multicolumn{1}{c}{1,168} & \multicolumn{1}{c}{1,168} & \multicolumn{1}{c}{1,168} & \multicolumn{1}{c}{1,168} & \multicolumn{1}{c}{1,168} & \multicolumn{1}{c}{1,168} \\
+\hline \\[-1.8ex]
+\end{tabular}
+\end{table}
 \normalsize
 
 ### Treatment 03: Vendettas
 
-We do not find considerable heterogeneity in the results. Overall, the
-three treatment conditions are very stable, thus we are confident that the
-main results are not driven by any particular group.
+We do not find considerable heterogeneity in these last results. Overall, the
+three treatment conditions are very stable, thus we are confident that the main
+results are not driven by any particular group.
 
-\footnotesize
-```{r exp03-bart03, warning=F, error=F, message=F, cache=T}
-df_exp03_vendetta <- df_exp03_het %>%
-  mutate(exp03_vendetta_treat = as.numeric(exp03_vendetta_treat)) %>%
-  drop_na(exp03_vendetta_treat)
-
-# Gender
-summary(bartc(exp03_outcomes, exp03_vendetta_treat, gender,
-              group.by = gender, group.effects = TRUE, data = df_exp03_vendetta,
-              n.chains = 5L, seed = 144))
-
-# Age
-df_exp03_vendetta2 <- df_exp03_vendetta %>% drop_na(age2)
-summary(bartc(exp03_outcomes, exp03_vendetta_treat, age2,
-              group.by = age2, group.effects = TRUE, data = df_exp03_vendetta2,
-              n.chains = 5L, seed = 144))
-
-# Race
-summary(bartc(exp03_outcomes, exp03_vendetta_treat, race,
-              group.by = race, group.effects = TRUE, data = df_exp03_vendetta,
-              n.chains = 5L, seed = 144))
-
-# Education
-summary(bartc(exp03_outcomes, exp03_vendetta_treat, education,
-              group.by = education, group.effects = TRUE, data = df_exp03_vendetta,
-              n.chains = 5L, seed = 144))
-
-# Household Income
-summary(bartc(exp03_outcomes, exp03_vendetta_treat, household_income,
-              group.by = household_income, group.effects = TRUE, data = df_exp03_vendetta,
-              n.chains = 5L, seed = 144))
-
-# Political Ideology
-summary(bartc(exp03_outcomes, exp03_vendetta_treat, ideology,
-              group.by = ideology, group.effects = TRUE, data = df_exp03_vendetta,
-              n.chains = 5L, seed = 144))
-
-# Support for Death Penalty
-summary(bartc(exp03_outcomes, exp03_vendetta_treat, death_penalty,
-              group.by = death_penalty, group.effects = TRUE, data = df_exp03_vendetta,
-              n.chains = 5L, seed = 144))
-
-# Previous Victimization
-df_exp03_vendetta2 <- df_exp03_vendetta %>% drop_na(previous_victim_dummy)
-summary(bartc(exp03_outcomes, exp03_vendetta_treat, previous_victim_dummy,
-              group.by = previous_victim_dummy, group.effects = TRUE, data = df_exp03_vendetta2,
-              n.chains = 5L, seed = 144))
-
-# Opinion on the Police
-summary(bartc(exp03_outcomes, exp03_vendetta_treat, views_police,
-              group.by = views_police, group.effects = TRUE, data = df_exp03_vendetta,
-              n.chains = 5L, seed = 144))
-
-# Opinion on the Judicial System
-summary(bartc(exp03_outcomes, exp03_vendetta_treat, views_justice,
-              group.by = views_police, group.effects = TRUE, data = df_exp03_vendetta,
-              n.chains = 5L, seed = 144))
-```
+\begin{table}[!htbp] \centering
+\small
+  \caption{Heterogeneous Effects for Treatment 3: Vendettas}
+  \label{tab:exp03het03}
+\begin{tabular}{@{\extracolsep{3pt}}lD{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} }
+\\[-1.8ex]\hline \\[-1.8ex]
+\\[-1.8ex] & \multicolumn{6}{c}{\textbf{Lynching Support}\vspace{.5cm}} \\
+\\[-1.8ex] & \multicolumn{1}{c}{(1)} & \multicolumn{1}{c}{(2)} & \multicolumn{1}{c}{(3)} & \multicolumn{1}{c}{(4)} & \multicolumn{1}{c}{(5)} & \multicolumn{1}{c}{(6)}\\
+\hline \\[-1.8ex]
+ Gender & -3.114 &  &  & & & \\
+  & (2.356) &  &  & & & \\
+  Age &  & -2.574 &  & & & \\
+  &  & (2.303) &  &  \\
+  Race &  &  & -3.0267 & & &  \\
+  &  &  & (2.291) & & & \\
+  Education &  &  &  & -3.076 & & \\
+  &  &  &  & (2.271) & & \\
+  Household Income &  &  &  & & -2.738 & \\
+  &  &  &  & & (2.295) & \\
+  Political Ideology &  &  &  & & & -2.8907 \\
+  &  &  &  & & & (2.265) \\
+ N & \multicolumn{1}{c}{1,086} & \multicolumn{1}{c}{1,086} & \multicolumn{1}{c}{1,086} & \multicolumn{1}{c}{1,086} & \multicolumn{1}{c}{1,086} & \multicolumn{1}{c}{1,086} \\
+\hline \\[-1.8ex]
+\end{tabular}
+\end{table}
 \normalsize
+
+\newpage 
 
 # Ethics Statement
 
@@ -2081,11 +1355,4 @@ Society at King’s College London, which receives support from the Templeton
 Foundation. We are aware of no conflicts of interest from either source. All of
 the code and data will be made publicly available. 
 
-# Session Information
-
-\footnotesize
-```{r session, cache=T}
-sessionInfo()
-```
-\normalsize
-
+\newpage
