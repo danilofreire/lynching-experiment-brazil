@@ -10,7 +10,7 @@ Brazil"](https://github.com/danilofreire/lynching-experiment-brazil/blob/master/
 
 You can cite the article as: 
 
-> Freire, D. and Skarbek, D. 2021. "Vigilantism, Institutions, and Honor Culture: Understanding Attitudes towards Lynching in Brazil", _SocArXiv_, DOI: <https://doi.org/10.31235/osf.io/9a6ch>.
+> Freire, D. and Skarbek, D. 2021. "Vigilantism, Institutions, and Honor Culture: Understanding Attitudes toward Lynching in Brazil". URL: <https://github.com/danilofreire/lynching-experiment-brazil>.
 
 BibTeX entry:
 
@@ -21,6 +21,6 @@ BibTeX entry:
   author={Freire, Danilo and Skarbek, David},
   pages={1--32},
   year={2021},
-  howpublished = {\url{https://doi.org/10.31235/osf.io/9a6ch}}
+  howpublished = {\url{https://github.com/danilofreire/lynching-experiment-brazil}}
 }
 ```
