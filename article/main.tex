@@ -1,5 +1,5 @@
 % !TEX program = XeLaTeX
-\documentclass[12pt,ansiapaper]{article}
+\documentclass[12pt,a4paper]{article}
 
 % Fonts
 \usepackage{libertine}
@@ -50,8 +50,8 @@
 
 % English
 \usepackage[english]{babel}
-\usepackage[english]{isodate}
-\cleanlookdateon
+% \usepackage[english]{isodate}
+% \cleanlookdateon
 
 % Penalties
 \exhyphenpenalty=1000
@@ -66,7 +66,7 @@
   urlcolor=darkblue, 
   breaklinks=true, 
   colorlinks=true,
-      pdfauthor={Danilo Freire; David Skarbek},
+      pdfauthor={},
       pdfkeywords={Brazil, crime, extralegal violence, lynching, vigilantism},
   }
 
@@ -136,10 +136,10 @@
 \title{Vigilantism, Institutions, and Honor Culture:\\ Understanding Attitudes toward Lynching in Brazil\footnote{We thank Rosario Aguilar, Louise Araújo, Nicholas Barnes, Hannah Baron, Dara Kay Cohen, Nicholas Cowen, Daniel J. D'Amico, Miriam Golden, Umberto Mignozzetti, Eduardo Moncada, Irfan Nooruddin, Jonathan Obert, Brian J. Phillips, Catarina Roman, Alexandra Scacco, Livia Schubiger, Natán Skigin, Nicholas Rush Smith, and Georg Vanberg for their valuable comments. We received helpful feedback in seminars at EGAP, the Extra-legal Governance Institute at the University of Oxford, the Kroc-Kellogg Peace, Conflict, Crime and Violence Workshop at Notre Dame, and the Severyns Ravenholt Seminar in Comparative Politics at the University of Washington. This study received IRB approval from Brown University in October 2020 (Protocol 2009002803). Replication materials are available at \url{https://github.com/danilofreire/lynching-experiment-brazil}. We thank the Centre for the Study of Governance \& Society at King's College London and the Templeton Foundation for financial support.}}
 
 % Author
-\author{Danilo Freire\footnote{School of Social and Political Sciences, University of Lincoln, \href{mailto:danilofreire@gmail.com}{\texttt{danilofreire@gmail.com}}, \url{https://danilofreire.github.io}.} \and David Skarbek\footnote{Department of Political Science and the Political Theory Project, Brown University, \href{mailto:david_skarbek@brown.edu}{\texttt{david\_skarbek@brown.edu}}, \url{http://davidskarbek.com}.}}
+\author{Danilo Freire\footnote{School of Social and Political Sciences, University of Lincoln, \href{mailto:dfreire@lincoln.ac.uk}{\texttt{dfreire@lincoln.ac.uk}}, \url{https://danilofreire.github.io}.} \and David Skarbek\footnote{Department of Political Science and the Political Theory Project, Brown University, \href{mailto:david_skarbek@brown.edu}{\texttt{david\_skarbek@brown.edu}}, \url{http://davidskarbek.com}.}}
 
 % Date
-\date{June 16, 2021}
+\date{\today}
 
 % Begin document
 \begin{document}
@@ -162,17 +162,106 @@
 
 \doublespacing
 
-The regulation of violence is one of the most important functions of the state. When states control violence effectively, markets, politics, and civil society can flourish. However, in many places, violence is poorly regulated and nonstate armed actors---ranging from residents to rebel groups---use violence at their own discretion. The extralegal use of violence is also a clear violation of the rule of law \citep[48-49]{blair2020peacekeeping}. More generally, the challenge of monopolizing violence is at the heart of the Weberian definition of the state, and it is arguably one of the most fundamental questions of political economy. While political scientists have written extensively on civil wars, rebel governance, and criminal violence \citep{arjona2016rebelocracy, trejo2021high, barnes2017criminal}, they have written far less about vigilante violence. In this paper, we use survey experiments to better understand people's attitudes toward the use of extralegal violence. 
+The regulation of violence is one of the most important functions of the state.
+When states control violence effectively, markets, politics, and civil society
+can flourish. However, in many places, violence is poorly regulated and
+nonstate armed actors---ranging from residents to rebel groups---use violence
+at their own discretion. The extralegal use of violence is also a clear
+violation of the rule of law \citep[48-49]{blair2020peacekeeping}. More
+generally, the challenge of monopolizing violence is at the heart of the
+Weberian definition of the state, and it is arguably one of the most
+fundamental questions of political economy. While political scientists have
+written extensively on civil wars, rebel governance, and criminal violence
+\citep{arjona2016rebelocracy, trejo2021high, barnes2017criminal}, they have
+written far less about vigilante violence. In this paper, we use survey
+experiments to better understand people's attitudes toward the use of
+extralegal violence. 
 
-Although lynchings and mob violence more generally have decreased in advanced democracies, it remains widespread in many parts of the world. Based on US State Department reports, \citet[33]{jung2020lynching} find that between 1976 and 2018, lynchings occurred in all regions of the world and in more than a hundred countries. In particular, Latin America has been severely affected by a recent increase in lynchings. Such a surge in citizen-led violence has reportedly been motivated by growing numbers of drug-related crimes and by police ineffectiveness \citep{mallen2014vigilantes}. Brazil provides a telling example. From 2011 to 2015, the country registered about 2,500 lynching episodes. In 2015, 173 people were killed by angry mobs---nearly one execution every two days \citep{barbara2015vigilantes, oliveira2016mob}. According to José de Souza Martins \citeyearpar{martins2015linchamentos}, who has studied lynchings in Brazil for more than thirty years, these figures are not only the highest in the country's history, but among the highest in the world. The people who participate in lynchings are typically  young men, but they also sometimes include teenage women and girls, elderly women, and even members of the local police \citep{moura2017linchamentos}.\footnote{Brazilian police forces in São Paulo kill hundreds of people every year in a way that looks similar to vigilantism \citep{willis2015killing}. Recent work also documents how organized crime groups in Brazil use extralegal violence in the process of governing favelas extralegally \citep{magaloni2020killing}.}
+Although lynchings and mob violence more generally have decreased in advanced
+democracies, it remains widespread in many parts of the world. Based on US
+State Department reports, \citet[33]{jung2020lynching} find that between 1976
+and 2018, lynchings occurred in all regions of the world and in more than a
+hundred countries. In particular, Latin America has been severely affected by a
+recent increase in lynchings \citep{godoy2004justice, kloppe2020vortex}.
+Such a surge in citizen-led violence has reportedly been motivated by growing
+numbers of drug-related crimes and by police ineffectiveness
+\citep{mallen2014vigilantes}. Brazil provides a telling example. From 2011 to
+2015, the country registered about 2,500 lynching episodes. In 2015, 173 people
+were killed by angry mobs---nearly one execution every two days
+\citep{barbara2015vigilantes, oliveira2016mob}. According to José de Souza
+Martins \citeyearpar{martins2015linchamentos}, who has studied lynchings in
+Brazil for more than thirty years, these figures are not only the highest in
+the country's history, but among the highest in the world. The people who
+participate in lynchings are typically young men, but they also sometimes
+include teenage women and girls, elderly women, and even members of the local
+police \citep{moura2017linchamentos}.\footnote{Brazilian police forces in São
+  Paulo kill hundreds of people every year in a way that looks similar to
+vigilantism \citep{willis2015killing}. Recent work also documents how organized
+crime groups in Brazil use extralegal violence in the process of governing
+favelas extralegally \citep{magaloni2020killing}.}
 
-There is no strong consensus about what factors explain people's participation in vigilantism. Some of the most common explanations focus on the role of state-based institutions. People living in places with weak or failed states might engage in vigilante activity to control crime and to enforce social order \citep{bancroft1887works}. However, others argue that it is growth in state capacity that motivates people to take justice into their own hands out of fear that the state will not punish perpetrators or will do so too lightly \citep{smith2019contradictions}. In Latin America in particular, vigilantism has been found to be associated with previous exposure to violence \citep{garcia2019anger}, untrustworthy law enforcement \citep{zizumbo2017community}, perceived insecurity \citep{ceobanu2011crime, godoy2004justice}, and economic and social inequality \citep{phillips2017inequality,godoy2006popular,arias2010violent}.
+There is no strong consensus about what factors explain people's participation
+in vigilantism. Some of the most common explanations focus on the role of
+state-based institutions. People living in places with weak or failed states
+might engage in vigilante activity to control crime and to enforce social order
+\citep{bancroft1887works}. However, others argue that it is growth in state
+capacity that motivates people to take justice into their own hands out of fear
+that the state will not punish perpetrators or will do so too lightly
+\citep{smith2019contradictions}. In Latin America in particular, vigilantism
+has been found to be associated with previous exposure to violence
+\citep{garcia2019anger}, untrustworthy law enforcement
+\citep{zizumbo2017community}, perceived insecurity \citep{ceobanu2011crime,
+godoy2004justice}, and economic and social inequality
+\citep{phillips2017inequality,godoy2006popular,arias2010violent}.
 
-Part of the reason for the proliferation of findings is that studying vigilantism empirically presents a substantial challenge. Many studies focus on vigilantism along the American frontier in the mid-nineteenth century, drawing on archival and historical documents  \citep{brown1975strain, courtwright2009violent, obert2018six}. However, much relevant evidence needed to test competing theories has been lost to history. Qualitative and ethnographic research provides deep insights into the motivations and emotions surrounding social disorder, violence, and vigilantism \citep{godoy2002lynchings}. Yet, like all research approaches, this method has shortcomings, including recall bias and social desirability bias. Quantitative approaches that rely on observational data are likewise often limited in important ways, including that relevant data may be absent, data may imperfectly map onto theoretical concepts, and data may be collected and aggregated at a level of analysis far removed from the studied phenomenon. Finally, while a credible identification strategy is not necessary for making causal claims, it can often solve issues that arise from poor-quality data. Unfortunately, credible identification strategies are often not available.  As \citet[17]{bateson2020politics} notes, ``Field experiments on vigilantism would raise serious ethical concerns, and natural experiments are rare.''
+Part of the reason for the proliferation of findings is that studying
+vigilantism empirically presents a substantial challenge. Many studies focus on
+vigilantism along the American frontier in the mid-nineteenth century, drawing
+on archival and historical documents  \citep{brown1975strain,
+courtwright2009violent, obert2018six}. However, much relevant evidence needed
+to test competing theories has been lost to history. Qualitative and
+ethnographic research provides deep insights into the motivations and emotions
+surrounding social disorder, violence, and vigilantism
+\citep{godoy2002lynchings}. Yet, like all research approaches, this method has
+shortcomings, including recall bias and social desirability bias. Quantitative
+approaches that rely on observational data are likewise often limited in
+important ways, including that relevant data may be absent, data may
+imperfectly map onto theoretical concepts, and data may be collected and
+aggregated at a level of analysis far removed from the studied phenomenon.
+Finally, while a credible identification strategy is not necessary for making
+causal claims, it can often solve issues that arise from poor-quality data.
+Unfortunately, credible identification strategies are often not available.  As
+\citet[17]{bateson2020politics} notes, ``Field experiments on vigilantism would
+raise serious ethical concerns, and natural experiments are rare.''
 
-In this paper, we use survey experiments to better understand individual perceptions of vigilantism. Based on the existing literature, we designed three survey experiments to understand lynchings in Brazil in particular. This empirical approach offers several distinct advantages. First, the data we collected come from the same level of analysis as the phenomenon itself: local residents. Second, online surveys are less susceptible to social desirability bias, and survey experiments help to elicit sensitive information---an especially important benefit in researching this topic \citep{grimm2010social}. Third, the experimental nature of the approach allows us to estimate the size of effects. Finally, we can also control for confounding, which is a potential concern with more qualitative methods.
+In this paper, we use survey experiments to better understand individual
+perceptions of vigilantism. Based on the existing literature, we designed three
+survey experiments to understand lynchings in Brazil in particular. This
+empirical approach offers several distinct advantages. First, the data we
+collected come from the same level of analysis as the phenomenon itself: local
+residents. Second, online surveys are less susceptible to social desirability
+bias, and survey experiments help to elicit sensitive information---an
+especially important benefit in researching this topic \citep{grimm2010social}.
+Third, the experimental nature of the approach allows us to estimate the size
+of effects. Finally, we can also control for confounding, which is a potential
+concern with more qualitative methods.
 
-One obvious downside to survey experiments is the difficulty in making inferences about the external validity of findings. \citet[17-18]{bateson2020politics} suggests that the closer that a fictional survey prompt matches the real world, the better the external validity. Accordingly, our first experiment is based on an actual account of a lynching in Jundia\'{i}, Brazil. In the second experiment, we include a wide range of lynching-scenario characteristics that allow respondents to consider detailed, realistic examples. Our third experiment examines whether providing different types of information can affect respondents' perceptions of lynchings. Our strategy here is similar to that of public marketing campaigns that governments often use to change public opinion. In this experiment, we provide information akin to government messaging to the general public. Many theories of vigilantism presume that public beliefs and public opinion establish norms about lynchings. Even if none of our respondents have participated or will participate in lynchings, they are part of the community that creates norms about lynching.
+One obvious downside to survey experiments is the difficulty in making
+inferences about the external validity of findings.
+\citet[17-18]{bateson2020politics} suggests that the closer that a fictional
+survey prompt matches the real world, the better the external validity.
+Accordingly, our first experiment is based on an actual account of a lynching
+in Jundia\'{i}, Brazil. In the second experiment, we include a wide range of
+lynching-scenario characteristics that allow respondents to consider detailed,
+realistic examples. Our third experiment examines whether providing different
+types of information can affect respondents' perceptions of lynchings. Our
+strategy here is similar to that of public marketing campaigns that governments
+often use to change public opinion. In this experiment, we provide information
+akin to government messaging to the general public. Many theories of
+vigilantism presume that public beliefs and public opinion establish norms
+about lynchings. Even if none of our respondents have participated or will
+participate in lynchings, they are part of the community that creates norms
+about lynching.
 
 In the first experiment, we attempt to understand how the underlying motivation for a lynching affects support for it. In particular, we test whether police absence, the slowness of the legal process, and the belief that punishment will not be harsh enough affect support. We find no effect for any treatment. Instead, combined with existing data on measures of police ineffectiveness and state capacity, we argue that the evidence is consistent with the claim that respondents simply do not view the police as a genuine source of assistance for serious crimes. Our second experiment is a conjoint experiment designed to see which characteristics of a lynching lead people to believe it is more or less justified. We find evidence that is consistent with aspects of an honor culture  \citep{nisbett2018culture,grosjean2014history}. In such cultures, people believe that the victims of crimes or their family members have the right to seek revenge, especially for heinous or otherwise serious crimes. People often see crimes such as forcible rape and murder as stains on the social standing of the victim and their family, and they believe it is not the proper role of the state to respond. In the final experiment, we provide information to respondents to attempt to reduce support for lynching. We remind respondents that lynching is a crime, that all citizens have human rights, and that lynchings can prompt violent vendettas. We find large negative effects of reminding respondents that lynching is a crime and that lynchings carry the risk of vendettas. Taken together, these findings are consistent with the argument that people are more likely to support vigilantism when the state cannot be relied on for crime control and when certain aspects of an honor culture are present.
 
