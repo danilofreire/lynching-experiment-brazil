@@ -1,10 +1,10 @@
 ---
 title: |
-       | Supplementary Material for "Vigilantism, Institutions, and Honor Culture: Understanding Attitudes toward Lynching in Brazil"
+       | Supplementary Material for "Vigilantism and Institutions: Understanding Attitudes toward Lynching in Brazil"
 author:
 - "Danilo Freire[^freire]"
 - "David Skarbek[^skarbek]"
-date: \today
+date: 14 June 2022
 fontfamily: libertine
 fontawesome: yes
 fontsize: 12pt
@@ -31,14 +31,15 @@ output:
 
 \newpage
 
+\appendix
+
 # Introduction
 
 This appendix contains the `R` code required to replicate the results we
-present in "_Vigilantism, Institutions, and Honor Culture: Understanding
-Attitudes towards Lynching in Brazil_". This file also includes the descriptive
-statistics of our sample, the average marginal component effects (AMCEs) for
-our conjoint experiment, and additional subgroup analyses for all three
-experiments.
+present in "_Vigilantism and Institutions: Understanding Attitudes towards
+Lynching in Brazil_". This file also includes the descriptive statistics of our
+sample, the average marginal component effects (AMCEs) for our conjoint
+experiment, and additional subgroup analyses for all three experiments.
 
 The code below loads the required datasets and the `R` packages we use in our
 statistical analyses. It also translates the names of the factor variables from

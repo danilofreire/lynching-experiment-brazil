@@ -1,10 +1,10 @@
 ---
 title: |
-       | Supplementary Material for "Vigilantism, Institutions, and Honor Culture: Understanding Attitudes toward Lynching in Brazil"
+       | Supplementary Material for "Vigilantism and Institutions: Understanding Attitudes toward Lynching in Brazil"
 author:
 - "Danilo Freire[^freire]"
 - "David Skarbek[^skarbek]"
-date: \today
+date: 14 June 2022
 fontfamily: libertine
 fontawesome: yes
 fontsize: 12pt
@@ -173,11 +173,11 @@ df1 <- df %>% filter(consent == "Agree")
 ```
 
 This appendix contains additional tables and graphs that complement the results
-we present in "_Vigilantism, Institutions, and Honor Culture: Understanding
-Attitudes towards Lynching in Brazil_". An extended version of this file, which
-includes further tests for heterogeneous effects and `R` code, is available at
-[_redacted for peer review_]. The repository also contains our pre-analysis
-plan and the `php` scripts we used in our conjoint experiment.
+we present in "_Vigilantism and Institutions: Understanding Attitudes towards
+Lynching in Brazil_". An extended version of this file, which includes further
+tests for heterogeneous effects and `R` code, is available at [_redacted for
+peer review_]. The repository also contains our pre-analysis plan and the `php`
+scripts we used in our conjoint experiment.
 
 We ran our survey experiments from October 30 to December 14 via Qualtrics. Our
 sample includes `r nrow(df1)` Brazilians older than 18 years of age from the
