@@ -4,7 +4,7 @@ title: |
 author:
 - "Danilo Freire[^freire]"
 - "David Skarbek[^skarbek]"
-date: 14 June 2022
+date: \today
 fontfamily: libertine
 fontawesome: yes
 fontsize: 12pt
@@ -193,14 +193,14 @@ count(get_dupes(df))
 df1 <- df %>% filter(consent == "Agree")
 ```
 
-We ran our survey experiments from October 30 to December 14 via Qualtrics. Our
-sample includes `r nrow(df1)` Brazilians older than 18 years of age from the
-five regions of the country (Center-West, North, Northeast, South, and
-Southeast). We used quotas for gender and region to ensure that our sample was
-similar to the Brazilian population in those characteristics. We also collected
-information about whether the subjects had been victimized in the previous 12
-months, as well as their opinion of the Brazilian judicial system and the
-police forces. They follow in the graphs and tables below.
+We ran our survey experiments from October 30 to December 14, 2020 via
+Qualtrics. Our sample includes `r nrow(df1)` Brazilians older than 18 years of
+age from the five regions of the country (Center-West, North, Northeast, South,
+and Southeast). We used quotas for gender and region to ensure that our sample
+was similar to the Brazilian population in those characteristics. We also
+collected information about whether the subjects had been victimized in the
+previous 12 months, as well as their opinion of the Brazilian judicial system
+and the police forces. They follow in the graphs and tables below.
 
 ## Informed Consent
 
