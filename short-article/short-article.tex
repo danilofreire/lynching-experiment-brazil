@@ -1,0 +1,527 @@
+\documentclass[12pt,a4paper]{article}
+
+% Fonts
+\usepackage{libertine}
+\usepackage[libertine]{newtxmath}
+\usepackage[scaled=.8]{Fira Mono}
+
+% KableExtra support
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{etoolbox}
+\usepackage{tocloft}
+
+% Colours
+\usepackage[usenames,dvipsnames]{xcolor}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.55}
+
+% Spacing
+\usepackage{setspace}
+
+% Margins
+\usepackage[margin=2cm]{geometry}
+
+% Packages I've been using for differen reasons
+\usepackage{hyperref}
+\usepackage{dcolumn}
+\usepackage{graphicx}
+\usepackage{float}
+\floatplacement{figure}{H}
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usetikzlibrary{positioning}
+\usepackage{mathtools}
+\usepackage{caption}
+
+% English
+\usepackage[english]{babel}
+\usepackage[english]{isodate}
+% \cleanlookdateon
+
+% Penalties
+\exhyphenpenalty=1000
+\hyphenpenalty=1000
+\widowpenalty=1000
+\clubpenalty=1000
+
+% Hypersetup
+\hypersetup{
+  linkcolor=Mahogany,
+  citecolor=Mahogany,
+  urlcolor=darkblue, 
+  breaklinks=true, 
+  colorlinks=true,
+      pdfauthor={},
+      pdfkeywords={Brazil, crime, extralegal violence, lynching, vigilantism},
+  }
+
+% Bibliography
+\usepackage{natbib}
+\bibliographystyle{chicago-ff}
+\makeatletter
+% Remove comma after author
+\setcitestyle{aysep={}}
+\patchcmd{\NAT@citex}
+	  {\@citea\NAT@hyper@{%
+		 \NAT@nmfmt{\NAT@nm}%
+		 \hyper@natlinkbreak{\NAT@aysep\NAT@spacechar}{\@citeb\@extra@b@citeb}%
+		 \NAT@date}}
+	  {\@citea\NAT@nmfmt{\NAT@nm}%
+	   \NAT@aysep\NAT@spacechar\NAT@hyper@{\NAT@date}}{}{}
+	\patchcmd{\NAT@citex}
+	  {\@citea\NAT@hyper@{%
+		 \NAT@nmfmt{\NAT@nm}%
+		 \hyper@natlinkbreak{\NAT@spacechar\NAT@@open\if*#1*\else#1\NAT@spacechar\fi}%
+		   {\@citeb\@extra@b@citeb}%
+		 \NAT@date}}
+	  {\@citea\NAT@nmfmt{\NAT@nm}%
+	   \NAT@spacechar\NAT@@open\if*#1*\else#1\NAT@spacechar\fi\NAT@hyper@{\NAT@date}}
+	  {}{}
+% Patch case where name and year are separated by aysep
+\patchcmd{\NAT@citex}
+  {\@citea\NAT@hyper@{%
+     \NAT@nmfmt{\NAT@nm}%
+     \hyper@natlinkbreak{\NAT@aysep\NAT@spacechar}{\@citeb\@extra@b@citeb}%
+     \NAT@date}}
+  {\@citea\NAT@nmfmt{\NAT@nm}%
+   \NAT@aysep\NAT@spacechar\NAT@hyper@{\NAT@date}}{}{}
+% Patch case where name and year are separated by opening bracket
+\patchcmd{\NAT@citex}
+  {\@citea\NAT@hyper@{%
+     \NAT@nmfmt{\NAT@nm}%
+     \hyper@natlinkbreak{\NAT@spacechar\NAT@@open\if*#1*\else#1\NAT@spacechar\fi}%
+       {\@citeb\@extra@b@citeb}%
+     \NAT@date}}
+  {\@citea\NAT@nmfmt{\NAT@nm}%
+   \NAT@spacechar\NAT@@open\if*#1*\else#1\NAT@spacechar\fi\NAT@hyper@{\NAT@date}}
+  {}{}
+\makeatother
+
+% Make links footnotes instead of hotlinks:
+%  \setlength{\emergencystretch}{3em}  % prevent overfull lines
+ \providecommand{\tightlist}{%
+   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+   
+% Numbered sections
+\setcounter{secnumdepth}{5}
+% % % Redefines (sub)paragraphs to behave more like sections
+% \ifx\paragraph\undefined\else
+% \let\oldparagraph\paragraph
+% \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+% \fi
+% \ifx\subparagraph\undefined\else
+% \let\oldsubparagraph\subparagraph
+% \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+% \fi
+ 
+% Spacing
+\doublespacing
+
+% Title
+\title{Vigilantism and Institutions:\\ Understanding Attitudes Toward Lynching in Brazil\footnote{We thank Rosario Aguilar, Louise Araújo, Nicholas Barnes, Hannah Baron, Dara Kay Cohen, Nicholas Cowen, Daniel J. D'Amico, Miriam Golden, Richard Locke, Umberto Mignozzetti, Eduardo Moncada, Irfan Nooruddin, Jonathan Obert, Brian J. Phillips, Catarina Roman, Alexandra Scacco, Livia Schubiger, Natán Skigin, Nicholas Rush Smith, Richard Snyder, and Georg Vanberg for their valuable comments. We received helpful feedback in seminars at EGAP, the Extra-legal Governance Institute at the University of Oxford, the Comparative Workshop at Brown University, the Kroc-Kellogg Peace, Conflict, Crime and Violence Workshop at Notre Dame, and the Severyns Ravenholt Seminar in Comparative Politics at the University of Washington. This study received IRB approval from Brown University in October 2020 (Protocol 2009002803). Replication materials are available at \url{https://github.com/danilofreire/lynching-experiment-brazil}. We thank the Centre for the Study of Governance \& Society at King's College London and the Templeton Foundation for financial support.}}
+
+% Author
+\author{Danilo Freire\footnote{School of Social and Political Sciences, University of Lincoln, \href{mailto:danilofreire@gmail.com}{\texttt{danilofreire@gmail.com}}, \url{https://danilofreire.github.io}.} \and David Skarbek\footnote{Department of Political Science, Brown University, \href{mailto:david_skarbek@brown.edu}{\texttt{david\_skarbek@brown.edu}}, \url{http://davidskarbek.com}.}}
+
+% Date
+\date{\today}
+
+% Begin document
+\begin{document}
+\maketitle
+
+% Abstract
+\begin{abstract}
+\doublespacing \noindent Why do people support extrajudicial violence? In two survey experiments with respondents in Brazil, we examine which characteristics of lynching scenarios garner greater support for lynching and whether providing different types of information about lynching reduces support for it. We find that people often do support community members to take vengeance. In particular, our analysis finds that people strongly support the use of extrajudicial violence by families of victims against men who sexually assault and murder women and children. We also find that criminal punishment and the threat of vendettas reduce support, but appeals to the human rights of victims have zero effect on support for lynchings. 
+\vspace{.25cm}
+
+\noindent \textbf{Keywords:} extralegal violence, vigilantism, lynching, Brazil, crime 
+\vspace{.25cm}
+
+\end{abstract}
+
+\newpage
+
+\section{Introduction}
+\label{sec:introduction}
+
+\doublespacing
+
+The regulation of violence is a crucial function of the state. When states
+control violence effectively, markets, politics, and civil society can flourish
+\citep{besley2011pillars, north2009violence}. However, states still struggle to
+maintain the monopoly of force in much of the Global South. Scholars have
+written extensively about how rebel organizations build support to challenge
+government institutions, yet we know little about what motivates local
+extrajudicial violence in the developing world \citep{bateson2020politics,
+smith2000new}. This omission is significant not only because local violence is
+pervasive in weak states, but also because it can be even more costly than war-
+or terrorism-related violence \citep{blair2017predicting}. 
+
+One of the most serious forms of extrajudicial violence is lynching, which can
+be defined as ``incidents of physical violence committed by large numbers of
+private citizens against one or more individuals accused of having committed a
+``criminal'' offense, whether or not this violence resulted in the death of the
+victim(s)'' \citep[645]{godoy2004justice}. Although lynchings occur in more
+than one hundred countries in all regions of the world
+\citep[33]{jung2020lynching}, Latin America has been particularly affected by a
+sharp increase in vigilante violence. In recent years, countries like Brazil
+and Venezuela have experience nearly one execution every two days, and lynching
+episodes have also been reported in Guatemala, Mexico, Peru, and other
+countries in the region \citep{cruz2019determinants, godoy2004justice,
+barbara2015vigilantes}. These alarming figures suggest that, despite being
+dismissed by policymakers as irrational and senseless, vigilantism enjoys
+considerable approval in Latin America \citep{berg2011globalizing,
+goldstein2005flexible}. This raises a number of puzzles: under which conditions
+do citizens perceive lynchings as a legitimate response to crime? Are some
+groups seen as more ``deserving'' of lynchings that others? And how can we
+reduce pro-vigilantism attitudes in young, unequal democracies?
+
+In this study, we run two survey experiments and use primary qualitative data
+to understand attitudes toward lynchings in Brazil. First, we employ a conjoint
+experiment with eight attributes to evaluate in which circumstances citizens
+perceive lynchings as a justifiable punishment for crime. We also included
+open-ended questions for respondents to elaborate on their decision process.
+Finally, we use an information provision experiment to test the efficacy of
+three strategies to reduce individual support for lynchings.
+
+Our empirical approach offers several distinct advantages. First, the data we
+collected come from the same level of analysis as the phenomenon itself: local
+residents. Second, online surveys are less susceptible to social desirability
+bias, and survey experiments help to elicit sensitive information---an
+especially important benefit in researching this topic \citep{grimm2010social}.
+Third, the experimental nature of the approach allows us to precisely estimate
+the size of effects and compare different theoretical explanations
+simultaneously. Finally, we can also control for confounding, which is a
+potential concern in previous research on vigilantism.
+
+Our results show that people's attitudes toward lynching are shaped strongly by
+the characteristics of the incident that gives rise to it. In particular,
+respondents express support for lynchings perpetrated by the family of a victim
+of a sexual offense or murder. Subgroup analyses show that our findings are
+consistent across different segments of the population. In line with
+\citet{godoy2006popular} and \citet{martins2015linchamentos}, we find no
+experimental or qualitative evidence that lynching support is primarily driven
+by the race of the criminal. Our results also indicate that popular support for
+lynchings can be substantially reduced by reminding individuals of the
+penalties for lynching and of the risk of sparking vendettas, but not by
+emphasizing human rights protections. This suggests that campaigns focusing on
+the risks to vigilantes' personal security can be effective correctives to
+pro-lynching attitudes and may strengthen support for the rule of law. 
+
+%%%%%%%%%%%%%
+
+\section{When Is Lynching Perceived as More Justified?}
+\label{sec:exp01}
+
+We invited respondents from all regions of Brazil to participate in our
+experiment. Qualtrics recruited 2,406 adult Brazilian citizens between October
+30 and December 22, 2020 to take part in our survey experiment.\footnote{Our
+ethics statement is available in Section E of the Supplementary Material.} We
+included ten questions on demographics and other information that might
+influence the results. These include the respondent's age, gender, ethnicity,
+level of education, monthly family income, political orientation (left to
+right), support for the death penalty, whether they had been victimized in the
+last year, their trust in the police, and their trust in the judicial system.
+We used these measures to disentangle heterogeneous effects in the main
+responses. Descriptive statistics are available in Section B of the
+Supplementary Material.
+
+In our first experiment, we used a choice-based conjoint experimental design.
+We presented respondents with five pairs of profiles. Each profile consisted of
+eight attributes: (1) gender of the crime perpetrator; (2) age of the crime
+perpetrator; (3) race of the crime perpetrator; (4) residency of the crime
+perpetrator (local or nonlocal); (5) type of offense; (6) gender of the victim
+of the crime; (7) age of the crime victim; (8) type of lynching perpetrator.
+The attributes and levels are displayed in table \ref{tab:categories}.
+
+\vspace{.3cm}
+
+\begin{table}[htpb]
+\begin{center}
+\caption{Attributes and levels}
+\label{tab:categories}
+\begin{tabular}{l !{\vrule width 1pt}p{9cm}}
+\Xhline{2\arrayrulewidth}
+\textbf{Attribute} & \multicolumn{1}{c}{\textbf{Levels}} \\
+\Xhline{2\arrayrulewidth}
+Gender of crime perpetrator & Male; female \\ [4pt]
+Age of crime perpetrator & Teenager; adult; elderly \\ [4pt]
+Race of crime perpetrator & Black; white; Native Brazilian; Asian \\ [4pt]
+Residency of crime perpetrator & Resident in the community; outsider \\ [4pt]
+Offense & Picks pockets; steals cars; molests; rapes; murders \\ [4pt]
+Gender of crime victim & Male; female\\ [4pt]
+Age of crime victim & Child; teenager; adult; elderly\\ [4pt]
+Lynching perpetrators & Bystanders; neighbors; family of the victim; gangs; police \\
+\Xhline{2\arrayrulewidth}
+\end{tabular}
+\end{center}
+\end{table}
+
+Respondents were asked to indicate in which scenario in each pair they thought
+that extrajudicial punishment was more justified. We also included a text box
+below each experiment for subjects to explain why they selected a particular
+case and whether they believed lynching was justified in neither case.
+Respondents read the following prompt before they started the
+experiment:\footnote{The vignettes were presented in Portuguese. The original
+text is available in Section C.1 of the Supplementary Material.}
+
+\begin{itemize} \tightlist \item Lynchings are often used as social punishment
+  in Brazil. Lynchings are cases in which three or more people physically
+  attack or execute a suspected criminal in public. We are interested in
+  knowing more about how Brazilians see these episodes. In the next five
+  questions, please read the description of two possible lynching victims in
+  Brazil and indicate in which case you believe the punishment is more
+  justified. Even if you are not entirely sure, please select one of the cases.
+\end{itemize}
+
+We report marginal means in our main analysis instead of average marginal
+component effects (AMCEs). \citet{leeper2018subgroup} show that AMCEs can be
+misleading in subgroup comparisons as model results are sensitive to the choice
+of reference categories in interactions. In contrast, marginal means allow for
+a clear description of quantities of interest, in our case preferences about
+lynching, while also allowing for easy comparisons between groups of
+respondents. In a forced-choice experiment such as this one, a marginal-means
+estimate of 0.5 indicates that respondents are indifferent to this attribute
+vis-à-vis other attributes. When the coefficient is lower than 0.5, respondents
+dislike profiles with this attribute. Conversely, when the point estimate is
+higher than 0.5, respondents prefer profiles containing a given attribute.
+
+Figure \ref{fig:exp01} shows the main results for the conjoint experiment. The
+graph illustrates the preference associated with each attribute of the
+hypothetical lynching episode. Dots with horizontal bars represent point
+estimates and 95 percent confidence intervals from linear regressions with
+robust standard errors clustered at the respondent level.\footnote{Based on a
+semisupervized Dirichlet allocation model, we estimated about 20 percent of
+respondents were opposed to lynchings in general but forced to choose. Please
+refer to Section C.5 of the supplementary material for further information.}
+
+\begin{figure}[ht]
+\includegraphics[width=17cm]{conjoint-color.pdf}
+\caption{Relative preferences for lynching-episode attributes (marginal means)}
+\centering
+\label{fig:exp01}
+\end{figure}
+
+Respondents selected male offenders (0.548, SE = 0.003, $p$-value $<$ 0.001) as
+preferred lynching victims more often than female offenders (0.438, SE = 0.004,
+$p$-value $<$ 0.001). We found identical results in our subgroup analyses, in
+which we disaggregated our sample according to respondents' gender, income,
+race, support for the death penalty, and views on the police and judiciary. In
+all cases, men and teenage boys were more likely to be selected as more
+justified victims of lynching. Compared with the attributes we discuss below,
+the gender of the crime perpetrator had one of the largest effects in our
+experiment. With regard to the age of the crime perpetrator, respondents
+tolerated the lynching of adults (0.520, SE = 0.005, $p$-value $<$ 0.001) more
+than attacks against teenagers (0.498, SE = 0.005, $p$-value = 0.650) or the
+elderly (0.483, SE = 0.005, $p$-value $<$ 0.001). More precisely, subjects were
+indifferent toward teenagers but reacted positively to lynching of adults and
+negatively to lynching of elderly people.
+
+When we analyzed the effect of the race of the crime perpetrator, in contrast
+with the American experience, respondents favored the lynching of white
+perpetrators (0.512, SE = 0.006, $p$-value = 0.050) the most. Of all the racial
+identities that we included in the experiment, Black people were the least
+likely to be chosen as a more justified lynching victim (0.490, SE = 0.006,
+$p$-value = 0.092), although the 95 percent confidence intervals overlap with
+the remaining categories. The effect is also robust for most subgroups,
+including white respondents. Asian respondents, however, rated fellow Asians as
+their least preferred choice. Taken together, the results provide experimental
+evidence that support for lynchings in Brazil does not resemble the typical
+racial patterns scholars have observed in the United States
+\citep{dray2003hands,seguin2019national,obert2018keeping}. These findings are
+consistent with recent research on vigilantism in Haiti
+\citep{jung2020lynching} and with journalistic observations. They further
+suggest that the US experience with lynchings might be distinct from
+vigilantism in other places and times \citep{oliveira2016mob}. 
+
+The residency of the perpetrator is not a significant driver of support for
+lynching. Subjects were indifferent as to whether the crime perpetrator lives
+in the area (0.498, SE = 0.004, $p$-value = 0.668) or in another neighborhood
+(0.502, SE = 0.004, $p$-value = 0.668). In this sense, it is possible that
+subjects see lynchings not as a means to protect the area in which they live,
+which people commonly suppose vigilante groups do, but rather as retribution in
+specific cases. 
+
+The next attribute is type of offense. Rape was by far the most significant
+attribute in our model (0.719, SE = 0.009, $p$-value $<$ 0.001), followed by
+murder (0.608, SE = 0.006, $p$-value $<$ 0.001) and molestation (0.538, SE =
+0.006, $p$-value $<$ 0.001). It is not surprising that murder and rape were the
+most important offenses to respondents. Overall, we found that respondents do
+not believe that property crimes, such as car theft (0.351, SE = 0.009,
+$p$-value $<$ 0.001) and pickpocketing (0.314, SE = 0.006, $p$-value $<$
+0.001), provide justification for lynching. When we analyzed the data by
+groups, we also saw that poorer respondents, whose household income is less
+than R\$3,000 (US\$650) per month, are more likely to support the lynching of
+individuals who commit a property crime. 
+
+For age, we observed that respondents were particularly concerned about
+children as crime victims (0.571, SE = 0.007, $p$-value $<$ 0.001), as this
+attribute is strongly correlated with support for lynchings. Respondents also
+thought lynchings are more justified when the victim is a teenager (0.505, SE =
+0.007, $p$-value = 0.474), an elderly person (0.479, SE = 0.006, $p$-value $<$
+0.001), or an adult (0.464, SE = 0.006, $p$-value $<$ 0.001).
+
+When we analyzed the gender of the crime victim, we found that respondents
+support lynchings more strongly when the victim is a woman or teenage girl
+(0.511, SE = 0.004, $p$-value = 0.002) and less strongly when the lynching
+victim is a man or teenage boy (0.489, SE = 0.004, $p$-value = 0.002). The
+difference here is smaller than when we considered the gender of the crime
+perpetrator, but as in the previous estimation the 95 percent confidence
+intervals of each attribute did not overlap. 
+
+Lastly, and related to this, we examined who respondents believed are more
+legitimate perpetrators of lynchings. Respondents considered the family to be
+the most justified in carrying out a lynching (0.534, SE = 0.007, $p$-value $<$
+0.001). Again, the intervals here did not overlap with those of any other
+category. Bystanders (0.505, SE = 0.007, $p$-value = 0.450), gangs (0.502, SE =
+0.007, $p$-value = 0.815), and neighbors (0.492, SE = 0.007, $p$-value = 0.262)
+do not increase or decrease respondents attitudes about lynching. If the police
+carry out a lynching, that reduced the perceived justification (0.467, SE =
+0.007, $p$-value $<$ 0.001). In sum, respondents did not believe that lynchings
+should be carried out by the state but did believe they should be used as a
+tool for individual or family retribution.
+
+Respondents were given the opportunity to explain the reason why they answered
+as they did. We analyzed a random sample of nearly 17 percent of the answers.
+Three major themes emerge. First, respondents felt that crimes that were
+especially heinous deserved a response. For example, one respondent explained
+their choice of a particular case as more justified by noting, ``Eye for an
+eye, it's absolutely fair.'' A second  theme is the injustice of victimizing
+vulnerable populations. One respondent explains, ``The victim is an elderly
+person, it's okay to lynch the criminal.'' Another respondent says, ``If the
+victim is a child, lynchings are not enough, they deserve more.'' Finally, a
+third theme is that families have a special right to vengeance. One respondent
+explained their choice by saying, ``The family was appalled and did justice
+with their own hands!'' These open-ended answers are consistent with the
+quantitative results about what people believe, but they also provide
+additional evidence about why they hold their beliefs.\footnote{Please refer to
+Section C.5 of the Supplementary Materials for further information.} 
+
+%%%%%%%%%%%%%%%%%%%%%
+\section{How to Reduce Support for Lynchings}
+\label{sec:exp03}
+
+Even if people view lynchings as a legitimate activity, that does not mean that this norm cannot be changed. In our second experiment, we measured the effect of information provision on attitudes about lynching. More specifically, we tested whether reminding respondents about the legal and social consequences of vigilante justice reduces subjects' support for it. The experiment included three treatment conditions and a control group. In all of them we presented respondents with a short statement affirming that some Brazilians support vigilantism under certain conditions. We asked the control group to rate their agreement with the statement. Respondents were asked to use 0 to 49 if they disagreed, 50 if they neither agreed nor disagreed, and 50--100 if they agreed with the statement.
+
+Each of the three treatment groups received a different message about the legal or social consequences of lynching in Brazil. In the first treatment, we informed subjects about how the Brazilian constitution and penal code punishes civilian violence. The second treatment group was notified about the human rights guarantees enshrined in Brazil's legal framework. The last treatment noted that lynchings can spark vendettas and initiate a cycle of violence in the community. Subjects in the control group received no information about the consequences of lynchings. The text shown to the control and treatment groups can be read below.\footnote{The Portuguese version is available in Section D.1 of the Supplementary Material.} 
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{Control group:} In Brazil, some people believe that lynching may be justified under certain conditions. To what degree do you agree or disagree that lynching can be justified? Please use the slider below to indicate your preference. For disagreement, use 0 to 49; for agreement, use 51 to 100. Please use 50 if you neither agree nor disagree.
+\end{itemize}
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{Treatment 1 (Legal punishment for lynching perpetrators):} In Brazil, some people believe that lynching may be justified under certain conditions. \textbf{However, the Brazilian constitution and penal code strictly forbid lynching and those involved can be accused of torture or murder}. To what degree do you agree or disagree that lynching can be justified? Please use the slider below to indicate your preference. For disagreement, use 0 to 49; for agreement, use 51 to 100. Please use 50 if you neither agree nor disagree.
+\end{itemize}
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{Treatment 2 (Human rights):} In Brazil, some people believe that lynching may be justified under certain conditions. \textbf{However, the Brazilian constitution states that all individuals have the right of not being tortured, including criminals}. To what degree do you agree or disagree that lynching can be justified? Please use the slider below to indicate your preference. For disagreement, use 0 to 49; for agreement, use 51 to 100. Please use 50 if you neither agree nor disagree.
+\end{itemize}
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{Treatment 3 (Vendettas):} In Brazil, some people believe that lynching may be justified under certain conditions. \textbf{However, lynchings can trigger a new cycle of violence as the family or friends of the victim may retaliate against the community}. To what degree do you agree or disagree that lynching can be justified? Please use the slider below to indicate your preference. For disagreement, use 0 to 49; for agreement, use 51 to 100. Please use 50 if you neither agree nor disagree.
+\end{itemize}
+
+We are interested in the difference between the average score given by each of the treatment groups and the average score given by the control group. We estimate average treatment effects using OLS with dummy indicators for the treatment groups.
+
+\vspace{.5cm}
+
+\begin{table}[ht] \centering
+  \caption{Average treatment effects for experiment 3}
+  \label{tab:exp03main}
+\begin{tabular}{@{\extracolsep{3pt}}lD{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} }
+\\[-1.8ex]\hline \\[-1.8ex]
+\\[-1.8ex] & \multicolumn{4}{c}{\textbf{Lynching Support}\vspace{.5cm}} \\
+\\[-1.8ex] & \multicolumn{1}{c}{(1)} & \multicolumn{1}{c}{(2)} & \multicolumn{1}{c}{(3)} & \multicolumn{1}{c}{(4)}\\
+\hline \\[-1.8ex]
+ Constitution and penal code & -4.509^{**} &  &  &  \\
+  & (1.805) &  &  &  \\
+  Human rights &  & -1.571 &  &  \\
+  &  & (1.801) &  &  \\
+  Vendettas &  &  & -3.156^{*} &  \\
+  &  &  & (1.879) &  \\
+  Combined treatments &  &  &  & -3.023^{**} \\
+  &  &  &  & (1.493) \\
+  Constant & 40.823^{***} & 40.823^{***} & 40.823^{***} & 40.823^{***} \\
+  & (1.293) & (1.293) & (1.293) & (1.293) \\
+ N & \multicolumn{1}{c}{1,114} & \multicolumn{1}{c}{1,173} & \multicolumn{1}{c}{1,092} & \multicolumn{1}{c}{2,215} \\
+\hline \\[-1.8ex]
+\multicolumn{5}{l}{$^{*}$p $<$ .1; $^{**}$p $<$ .05; $^{***}$p $<$ .01} \\
+\multicolumn{5}{l}{Robust standard errors in parentheses.} \\
+\end{tabular}
+\end{table}
+\normalsize
+
+Table \ref{tab:exp03main} summarizes our main results for this experiment. We find that when respondents are reminded of legal punishments associated with lynchings, their support for lynching decreases by about 11 percent. This result is consistent with the idea that respondents will support an activity less if they perceive it to be more costly. The next treatment group was told the human rights message. The result is not statistically significant and indicates that appeals to individual liberties and the rule of law are likely to fall short. This finding has practical implications, as many campaigns against violent crimes are conducted by human rights groups, which tend to emphasize this type of message. However, participants do not generally believe that offenders do, in fact, have human rights. Accordingly, we have little reason to believe that such messaging is effective. By contrast, Treatment 1 reminds respondents that perpetrators of lynching potentially face a high personal cost from doing so.
+ 
+Our last treatment, which raises the possibility of sparking vendettas, has a large, negative effect on support for lynchings. Mentioning that lynchings trigger cycles of violence has a negative effect of about 8 percent when compared with the control group. While we expected that the coefficient for this treatment condition would be larger than that for the treatment on legal punishments, the means of both groups are not statistically different from each other ($t$ = -0.729, $p$-value = 0.466, 95\% CI: [-4.994; 2.288]). As with the other experiments, the results remain stable when we conduct subgroup analyses. 
+
+\section{Conclusion}
+\label{conclusion}
+
+Regulating violence is one of the most fundamental responsibilities of the
+state, and in many places in the world today, states are failing to do so.
+Brazil provides a telling example of how extrajudicial violence can escalate
+and pose a serious threat to the stability of government institutions. From
+2011 to 2015, the country registered about 2,500 lynching episodes, and 173
+people were killed by angry mobs in 2015 alone---nearly one execution every two
+days \citep{barbara2015vigilantes, oliveira2016mob}. According to José de Souza
+Martins \citeyearpar{martins2015linchamentos}, who has studied lynchings in
+Brazil for more than thirty years, these figures are not only the highest in
+the country's history, but among the highest in the world. The people who
+participate in lynchings are typically young men, but they also sometimes
+include teenage women and girls, elderly women, and even members of the local
+police \citep{moura2017linchamentos}. In this respect, interventions that
+reduce popular support for extrajudicial violence can have a substantial impact
+on citizen welfare and potentially increase state legitimacy in young
+democracies.
+
+Our results show that the characteristics of a lynching significantly effect
+people's support for it, especially when the crimes are heinous or committed
+against vulnerable populations. In contrast with studies about mob violence in
+the American South, we find no evidence that lynchings are strictly racially
+motivated in Brazil. While we were able to reduce support for lynchings by
+reminding respondents that lynchings are a criminal act and that lynchings risk
+igniting vendettas, appeals to human rights had no effect in our experiment. 
+
+Our work also suggests new avenues for further research. While previous studies
+indicate that there is a relationship between pro-lynching attitudes and actual
+engagement in vigilante violence \citep{weisburd1988vigilantism}, future
+research should try to identify which factors motivate citizens to participate
+in lynchings episodes \citep{nivette2016institutional}. Moreover, it is still
+unclear whether other forms of vigilantism, such as security patrols, property
+damages, or coercive interrogations \citep{bateson2020politics} have similar
+levels of popular support. Finally, lynchings have often been described as a
+response to low state capacity, yet in many cases state agents actively incite
+or engage in vigilante violence themselves \citep{arias2010violent}. Future
+studies may investigate in which circumstances state authorities favor informal
+local control instead of public law enforcement. Unravelling these issues is
+crucial if scholars wish to better understand how and why states and civil
+society decide to use violence.
+
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{5pt}
+
+% Bibliography
+\bibliography{references.bib}
+
+\end{document}
