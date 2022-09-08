@@ -1,0 +1,192 @@
+# A tibble: 4 × 3
+  gender             n frequency
+  <chr>          <int>     <dbl>
+1 Female          1215     0.51 
+2 Male            1156     0.485
+3 Other              3     0.001
+4 Rather Not Say     9     0.004
+# A tibble: 7 × 3
+  race               n frequency
+  <chr>          <int>     <dbl>
+1 Asian             60     0.025
+2 Black            231     0.097
+3 Indigenous         8     0.003
+4 Mixed Race       652     0.274
+5 Other              8     0.003
+6 Rather Not Say    17     0.007
+7 White           1407     0.59 
+# A tibble: 6 × 3
+  education            n frequency
+  <chr>            <int>     <dbl>
+1 College           1219     0.512
+2 Don't Know          14     0.006
+3 Graduate School    209     0.088
+4 High School        846     0.355
+5 Primary School      21     0.009
+6 Secondary School    74     0.031
+# A tibble: 7 × 3
+  household_income              n frequency
+  <chr>                     <int>     <dbl>
+1 Above R$20,000              103     0.043
+2 From R$1,001 to R$2,000     309     0.13 
+3 From R$10,001 to R$20,000   267     0.113
+4 From R$2,001 to R$3,000     376     0.159
+5 From R$3,001 to R$5,000     539     0.227
+6 From R$5,001 to R$10,000    628     0.265
+7 Up to R$1,000               148     0.062
+# A tibble: 7 × 3
+  ideology           n frequency
+  <chr>          <int>     <dbl>
+1 Center           337     0.142
+2 Center-Left      217     0.092
+3 Center-Right     209     0.088
+4 Don't Know       318     0.134
+5 Left             423     0.178
+6 Rather Not Say   330     0.139
+7 Right            536     0.226
+# A tibble: 4 × 3
+  death_penalty      n frequency
+  <chr>          <int>     <dbl>
+1 Don't Know       167     0.07 
+2 No              1100     0.464
+3 Rather Not Say   132     0.056
+4 Yes              971     0.41 
+# A tibble: 2 × 3
+  previous_victim_dummy     n frequency
+  <chr>                 <int>     <dbl>
+1 No                     1397     0.599
+2 Yes                     934     0.401
+# A tibble: 7 × 3
+  views_police       n frequency
+  <chr>          <int>     <dbl>
+1 Bad              468     0.198
+2 Don't Know        25     0.011
+3 Good             472     0.2  
+4 Rather Not Say    15     0.006
+5 Regular          914     0.387
+6 Very Bad         335     0.142
+7 Very Good        132     0.056
+# A tibble: 7 × 3
+  views_justice      n frequency
+  <chr>          <int>     <dbl>
+1 Bad              605     0.256
+2 Don't Know        48     0.02 
+3 Good             323     0.137
+4 Rather Not Say    20     0.008
+5 Regular          812     0.344
+6 Very Bad         508     0.215
+7 Very Good         45     0.019
+[1] "Old qualtrics format detected."
+
+\begin{table}[!htbp] \centering 
+  \caption{Experiment 03 -- Main Results} 
+  \label{tab:exp03main} 
+\begin{tabular}{@{\extracolsep{3pt}}lD{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} } 
+\\[-1.8ex]\hline \\[-1.8ex] 
+\\[-1.8ex] & \multicolumn{4}{c}{\textbf{Lynching Support}\vspace{.5cm}} \\ 
+\\[-1.8ex] & \multicolumn{1}{c}{(1)} & \multicolumn{1}{c}{(2)} & \multicolumn{1}{c}{(3)} & \multicolumn{1}{c}{(4)}\\ 
+\hline \\[-1.8ex] 
+ Constitution and penal code & -4.509^{**} &  &  &  \\ 
+  & (1.805) &  &  &  \\ 
+  Human rights &  & -1.571 &  &  \\ 
+  &  & (1.801) &  &  \\ 
+  Vendettas &  &  & -3.156^{*} &  \\ 
+  &  &  & (1.879) &  \\ 
+  Combined treatments &  &  &  & -3.023^{**} \\ 
+  &  &  &  & (1.493) \\ 
+  Constant & 40.823^{***} & 40.823^{***} & 40.823^{***} & 40.823^{***} \\ 
+  & (1.293) & (1.293) & (1.293) & (1.293) \\ 
+ N & \multicolumn{1}{c}{1,114} & \multicolumn{1}{c}{1,173} & \multicolumn{1}{c}{1,092} & \multicolumn{1}{c}{2,215} \\ 
+\hline \\[-1.8ex] 
+\multicolumn{5}{l}{$^{*}$p $<$ .1; $^{**}$p $<$ .05; $^{***}$p $<$ .01} \\ 
+\multicolumn{5}{l}{Robust standard errors in parentheses.} \\ 
+\end{tabular} 
+\end{table} 
+
+\begin{table}[!htbp] \centering 
+  \caption{Experiment 01 -- Determinants of Baseline Levels of
+          Lynching Support} 
+  \label{tab:exp03baseline} 
+\begin{tabular}{@{\extracolsep{3pt}}lD{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} } 
+\\[-1.8ex]\hline \\[-1.8ex] 
+\\[-1.8ex] & \multicolumn{4}{c}{\textbf{Lynching Support}\vspace{.5cm}} \\ 
+\\[-1.8ex] & \multicolumn{1}{c}{(1)} & \multicolumn{1}{c}{(2)} & \multicolumn{1}{c}{(3)} & \multicolumn{1}{c}{(4)}\\ 
+\hline \\[-1.8ex] 
+ Male & 4.825^{***} &  &  & 3.329 \\ 
+  & (1.809) &  &  & (2.089) \\ 
+  Asian &  & 1.584 &  & 1.487 \\ 
+  &  & (4.729) &  & (8.218) \\ 
+  Mixed Race &  & -0.422 &  & -4.205 \\ 
+  &  & (2.393) &  & (4.126) \\ 
+  White &  & -3.873^{*} &  & -8.962^{**} \\ 
+  &  & (2.247) &  & (3.883) \\ 
+  Left &  &  & -14.893^{***} & -16.576^{***} \\ 
+  &  &  & (2.525) & (3.639) \\ 
+  Center-Left &  &  & -2.564 & -5.600 \\ 
+  &  &  & (2.745) & (3.813) \\ 
+  Center-Right &  &  & -10.475^{***} & -12.049^{***} \\ 
+  &  &  & (2.268) & (3.058) \\ 
+  Right &  &  & 0.887 & 2.194 \\ 
+  &  &  & (2.179) & (3.109) \\ 
+  Constant & 36.063^{***} & 40.898^{***} & 43.358^{***} & 48.833^{***} \\ 
+  & (1.223) & (2.079) & (1.679) & (4.275) \\ 
+ N & \multicolumn{1}{c}{1,141} & \multicolumn{1}{c}{2,185} & \multicolumn{1}{c}{1,625} & \multicolumn{1}{c}{831} \\ 
+\hline \\[-1.8ex] 
+\multicolumn{5}{l}{$^{*}$p $<$ .1; $^{**}$p $<$ .05; $^{***}$p $<$ .01} \\ 
+\multicolumn{5}{l}{Robust standard errors in parentheses.} \\ 
+\end{tabular} 
+\end{table} 
+fitting treatment model via method 'bart'
+fitting response model via method 'bart'
+fitting treatment model via method 'bart'
+fitting response model via method 'bart'
+fitting treatment model via method 'bart'
+fitting response model via method 'bart'
+fitting treatment model via method 'bart'
+fitting response model via method 'bart'
+fitting treatment model via method 'bart'
+fitting response model via method 'bart'
+fitting treatment model via method 'bart'
+fitting response model via method 'bart'
+fitting treatment model via method 'bart'
+fitting response model via method 'bart'
+fitting treatment model via method 'bart'
+fitting response model via method 'bart'
+fitting treatment model via method 'bart'
+fitting response model via method 'bart'
+fitting treatment model via method 'bart'
+fitting response model via method 'bart'
+fitting treatment model via method 'bart'
+fitting response model via method 'bart'
+fitting treatment model via method 'bart'
+fitting response model via method 'bart'
+fitting treatment model via method 'bart'
+fitting response model via method 'bart'
+fitting treatment model via method 'bart'
+fitting response model via method 'bart'
+fitting treatment model via method 'bart'
+fitting response model via method 'bart'
+fitting treatment model via method 'bart'
+fitting response model via method 'bart'
+fitting treatment model via method 'bart'
+fitting response model via method 'bart'
+fitting treatment model via method 'bart'
+fitting response model via method 'bart'
+fitting treatment model via method 'bart'
+fitting response model via method 'bart'
+fitting treatment model via method 'bart'
+fitting response model via method 'bart'
+fitting treatment model via method 'bart'
+fitting response model via method 'bart'
+fitting treatment model via method 'bart'
+fitting response model via method 'bart'
+fitting treatment model via method 'bart'
+fitting response model via method 'bart'
+fitting treatment model via method 'bart'
+fitting response model via method 'bart'
+fitting treatment model via method 'bart'
+fitting response model via method 'bart'
+fitting treatment model via method 'bart'
+fitting response model via method 'bart'
+fitting treatment model via method 'bart'
+fitting response model via method 'bart'

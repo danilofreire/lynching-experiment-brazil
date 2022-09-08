@@ -1,0 +1,41 @@
+---
+title:  Title Page
+author: 
+date: 
+fontsize: 12pt
+margin: 2cm
+urlcolor: darkblue
+linkcolor: Mahogany
+citecolor: Mahogany
+spacing: onehalf
+papersize: a4paper
+output:
+  pdf_document:
+    number_sections: no
+    keep_tex: no
+    toc: no
+    template: title-page-template.latex
+---
+
+```{r, message=FALSE, warning=FALSE, echo=FALSE}
+# If you need to install any package while knitting the document
+r <- getOption("repos")
+r["CRAN"] <- "https://cran.rstudio.com/"
+options(repos = r)
+```
+
+### Manuscript Title: 
+
+\noindent Vigilantism and Institutions: Understanding Attitudes toward Lynching in Brazil
+
+### Authors:
+
+\noindent Danilo Freire: Senior Lecturer, School of Social and Political Sciences,
+  University of Lincoln, Brayford Pool, Lincoln, Lincolnshire LN6 7TS, United Kingdom, \texttt{+44 077-630-647-58}, <dfreire@lincoln.ac.uk>, <https://danilofreire.github.io>.
+  Corresponding author.
+
+\vspace{.4cm}
+
+\noindent David Skarbek, Associate Professor, Department of Political Science, Brown
+  University, 111 Thayer Street, Third Floor, Providence, RI 02912, United States of America, `+1 401-863-2825`, <david_skarbek@brown.edu>, <http://davidskarbek.com>, <https://twitter.com/davidskarbek>.
+

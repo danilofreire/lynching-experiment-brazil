@@ -67,10 +67,10 @@ conflict of interest, financial or otherwise.
 Author names, affiliation and contact details:
 
 * Danilo Freire: Senior Lecturer, School of Social and Political Sciences,
-  University of Lincoln, <dfreire@lincoln.ac.uk>,
-  <https://danilofreire.github.io>. Corresponding author.
+  University of Lincoln, Brayford Pool, Lincoln, Lincolnshire LN6 7TS, United Kingdom, `+44 077-630-647-58`, <dfreire@lincoln.ac.uk>, <https://danilofreire.github.io>.
+  Corresponding author.
 
 * David Skarbek, Associate Professor, Department of Political Science, Brown
-  University, <david_skarbek@brown.edu>, <http://davidskarbek.com>.
+  University, 111 Thayer Street, Third Floor, Providence, RI 02912, United States of America, `+1 401-863-2825`, <david_skarbek@brown.edu>, <http://davidskarbek.com>, <https://twitter.com/davidskarbek>.
 
 \vspace{1cm}
