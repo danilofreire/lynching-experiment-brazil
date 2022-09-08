@@ -1,0 +1,76 @@
+---
+author: 
+    - Danilo Freire
+opening: Dear Editors of Research & Politics,
+closing: Sincerely,
+address:
+    - \textbf{The Editors}
+    - Research & Politics
+return-address: 
+    - Danilo Freire
+    - University of Lincoln
+    - Brayford Pool, Lincoln LN6 7TS
+    - United Kingdom
+    - dfreire@lincoln.ac.uk
+urlcolor: darkblue
+linkcolor: Mahogany
+citecolor: Mahogany
+spacing: onehalf
+margin: 2cm
+papersize: a4paper
+fontsize: 12pt
+inline-links: true
+colorlinks: true
+output: 
+    pdf_document:
+        template: letter-template.latex
+---
+
+\doublespacing
+
+I am writing to submit our research note entitled "Vigilantism and
+Institutions: Understanding Attitudes toward Lynching in Brazil" for
+consideration as a _Research & Politics_ research article. We use two survey
+experiments and collect primary quality evidence to examine in which
+circumstances individuals perceive lynchings as a justified extrajudicial
+punishment and whether providing different types of information about lynching
+reduces support for it. Our results show that respondents strongly support
+lynchings perpetrated by the family of a victim of sexual abuse or murder. We
+also find that that popular support for lynchings can be substantially reduced
+by reminding individuals of the penalties for lynching and of the risk of
+sparking vendettas, but not by emphasizing human rights protections.
+
+We believe out findings sheds new light on what drives attitudes towards
+vigilantism, particularly in a country that has been affected by a sharp rise
+in lynching episodes. Our paper should appeal especially to researchers in
+Comparative Politics and in Development Studies, particularly those interested
+in extralegal violence and in Latin America. We incentivize scholars to
+investigate whether other forms of vigilante violence enjoy similar levels of
+popular support, as well as to study which factors increase the likelihood that
+citizens will actually engage in vigilante violence. 
+
+We also provide extensive supplementary materials with data, replication code,
+and additional analyses for consultation at
+<https://github.com/danilofreire/lynching-experiment-brazil>. The appendix
+describes the survey procedures in detail and contains further information on
+the qualitative evidence we gathered from respondents. 
+
+Each of the authors confirms that this manuscript has not been previously
+published and is not currently under consideration by any other journal. All of
+the authors have approved the contents of this paper and have agreed to
+_Research & Politics_' submission policies. 
+
+Each named author has equally contributed to conducting the underlying research
+and drafting this manuscript. To the best of our knowledge, the authors have no
+conflict of interest, financial or otherwise.
+
+Author names, affiliation and contact details:
+
+* Danilo Freire: Senior Lecturer, School of Social and Political Sciences,
+  University of Lincoln, <dfreire@lincoln.ac.uk>,
+  <https://danilofreire.github.io>. Corresponding author.
+
+* David Skarbek, Associate Professor, Department of Political Science, Brown
+  University, <david_skarbek@brown.edu>, <http://davidskarbek.com>.
+
+\vspace{1cm}

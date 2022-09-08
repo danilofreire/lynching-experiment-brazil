@@ -2,9 +2,6 @@
 title: |
        | Supplementary Material for "Vigilantism and Institutions: Understanding Attitudes toward Lynching in Brazil"
 author:
-- "Danilo Freire[^freire]"
-- "David Skarbek[^skarbek]"
-date: \today
 fontfamily: libertine
 fontawesome: yes
 fontsize: 12pt
@@ -24,10 +21,6 @@ output:
     keep_tex: no
     template: template.latex
 ---
-
-[^freire]: School of Social and Political Sciences, University of Lincoln, <danilofreire@gmail.com>, <http://danilofreire.github.io>.
-
-[^skarbek]: The Department of Political Science and the Political Theory Project, Brown University, <davidskarbek@brown.edu>, <http://davidskarbek.com>.
 
 \newpage
 
@@ -49,7 +42,8 @@ Portuguese into English.
 ```{r loading, warning=F, message=F, error=F, cache=T}
 # Install and load required packages
 packages <- c("bartCause", "cjoint", "cregg", "estimatr", "kableExtra",
-              "janitor", "quanteda", "seededlda", "stargazer", "tidyverse")
+              "janitor", "quanteda", "quanteda.textmodels", "quanteda.textplots",
+              "quanteda.textstats", "seededlda", "stargazer", "tidyverse")
 installed_packages <- packages %in% rownames(installed.packages())
 if (any(installed_packages == FALSE)) {
   install.packages(packages[!installed_packages])
