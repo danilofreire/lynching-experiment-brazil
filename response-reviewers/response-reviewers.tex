@@ -23,11 +23,8 @@
 \usepackage{rotating}
 \usepackage{pdflscape}
 \usepackage{pdflscape}
-\newcommand{\blandscape}{\begin{landscape}}
-\newcomman{\elandscape}{\end{landscape}}
 \usepackage{ifthen}
 \usepackage{graphicx}
-\usepackage{markdown}
 \usepackage[usenames,dvipsnames]{xcolor}
 \definecolor{darkblue}{rgb}{0.0,0.0,0.55}
 \usepackage{tikz}
@@ -91,19 +88,24 @@
 We would like to thank you for the opportunity to revise our manuscript,
 ``Vigilantism and Institutions: Understanding Attitudes toward Lynching in
 Brazil'' (Ms. No. RAP-22-0164). Following the comments and suggestions of the
-editors and reviewers, we have thoroughly revised our research letter and we
-believe it has improved significantly as a result. 
+editors and reviewers, we have thoroughly revised our article and we believe it
+has improved significantly as a result. 
 
-
-
-
-We were especially committed to increasing the appeal of our research note to BJPolS's readership, emphasising the dialogue between our findings and those in the literature. We did this by extensively editing the Introduction and Discussion sections. We expand the literature review and add more references to the original theory as recommended by the editor and Reviewers 1 \& 2. We detail how the latest papers on the relationship between legislative size and public expenditure frame that debate and attempt to resolve it. We have also moved the references to our methodology from the Introduction to the Data and Methods section, as per the suggestion of Reviewer 2, to dedicate more space to theoretical issues. In the Discussion, having presented our results, we further specify the reasons why we believe past results have been highly heterogeneous. Lastly, we recommend possible avenues for further research that follow from our analyses, such as testing combinations of variables that we did not find in our search or measuring how domestic factors like gerrymandering or party effects influence the dynamics of the "law of $1/n$".
-
-Following Reviewer 3's proposition, we conducted two new paper searches to broaden the scope of our previous query. In the first search, we ran a keyword-based query on Google Search to look for articles that discuss the "law of $1/n$" but do not cite \citet{weingast1981political}. We also checked the personal websites of the authors we had previously included in the paper in order to find unpublished research on our topic of interest. We thank Reviewer 3 for their insightful comment, as we included 2 new articles in our analysis as a result.
-
-Throughout the paper, we clarify all of Reviewer 1 \& 2's questions about our independent variables, coding procedures, and modelling techniques. We have also changed our model specifications to more properly account for effect size independence, following Reviewer 2's critique. We identified the sources of dependence in our sample and adopted multilevel random effects models in all of our estimations. We are extremely appreciative of this recommendation, as it is now an important methodological strength in our paper.
-
-When it comes to our results, we follow Reviewer 2's insight on how to interpret the evolution of research designs, toning down the idea that most of the variation in our estimates derives from methodological choices. We also present new results by adding a moderator for unicameralism, following Reviewer 1's reference. 
+We were especially committed to discussing the scope conditions of our article
+and to clarifying some technical questions about our experiments as highlighted
+by Reviewers 1 and 2. We did this by editing the Introduction, adding a new
+paragraph to the Conclusion, and including more details about our methodology
+in section two and in the Supplementary Materials. We also removed the
+significance tests from the manuscript, as per the suggestion of Reviewer 2,
+and added a footnote in the Supplementary Materials indicating that we
+randomized the order of the experiments to reduce the risk of order effects.
+Moreover, we now show how the findings we report in the article compare with
+those found in other contexts, as suggested by Reviewer 1. We also discuss the
+results of our subgroup analyses in the Supplementary Materials, again
+following the recommendation of Reviewer 1. Lastly, we include all references
+suggested by Reviewer 1 and 2 in the main body of the manuscript. We are
+extremely appreciative of these recommendations and agree that the manuscript
+is now stronger and appeals to a broader readership.
 
 Below we discuss these changes in further detail, as well as the other
 improvements we have done to the paper in response to the editors' and
@@ -113,74 +115,205 @@ our manuscript, and the reviewers for their immensely valuable comments.
 
 \vspace{.5cm}
 
-\noindent Yours Truly, 
+\noindent Sincerely yours,
 
 \vspace{.5cm}
 
 \noindent The Authors
 
+\newpage
+
 \section*{Editor Comments and Responses}
 
-\textbf{1)} The editor writes: ``The Reviewers provide helpful comments. Specifically, Reviewer 1 suggests that you re-frame the paper to acknowledge that the inconsistency of the results has long been understood in the literature, and that the search for explanations of that inconsistency is an important driver of that literature. Please give further thought to the key contribution of your meta-analysis against that background, as Reviewers 1 and 2 suggest, and discuss the theoretical contribution and its meaning more fully in the introduction and conclusion.''
+\textbf{1)} The editor writes: ``I agree with R2 that the framing of the study
+could be improved. You currently cite a number of interesting figures and basic
+facts about lynching in Brazil in the start of the conclusion. I think this
+would fit better in the introduction. R2 also argues that the reference to the
+Blair et al study on greater costs of local violence is imprecise. I am
+guessing you mean something along the lines of likely to affect a greater
+number directly than terrorism or civil war, which I think is reasonable but
+could be said more directly.''
 
 \vspace{.3cm}
 
 \noindent \textbf{Response:} 
 \begin{quote}
-    We have completely restructured the Introduction and Discussion sections to establish a better dialogue with the literature. We better contextualise our motivation to write this piece and more concretely demonstrate the implications of our results regarding previous findings. To illustrate the theory, we have provided the reader with a brief summary of the "law of $1/n$" model in Section A of the Supplementary Materials. We have also expanded the literature review in the Introduction. In the Discussion section, our hypotheses on the sources of heterogeneity are more clearly connected with the themes previously explored in the literature.
-    
-    We refer to these changes more specifically in our responses to Reviewer 1 in page 3, and to Reviewer 2 in page 7 of this document.
+
+We have moved the facts about lynchings in Brazil to the Introduction and we
+agree that the section now provides more context for our experiments. The
+second paragraph of the Introduction is as follows: ``\textit{One of the most
+serious forms of extrajudicial violence is lynching. Lynching can be defined
+as ``incidents of physical violence committed by large numbers of private
+citizens against one or more individuals accused of having committed a
+``criminal'' offense, whether or not this violence resulted in the death of
+the victim(s)'' \citep[645]{godoy2004justice}. Although lynchings occur in
+more than one hundred countries in all regions of the world
+\citep{jung2020lynching,smith2019contradictions}, Latin America has been
+particularly affected by a sharp increase in vigilante violence. Lynching
+episodes have been reported in Guatemala, Mexico, Peru, Venezuela and other
+countries in the region \citep{barbara2015vigilantes, cruz2019determinants,
+godoy2004justice}. From 2011 to 2015, Brazil registered about 2,500 lynching
+episodes, and 173 people were killed by angry mobs in 2015 alone---nearly one
+execution every two days \citep{barbara2015vigilantes, oliveira2016mob}.
+According to José de Souza Martins \citeyearpar{martins2015linchamentos}, who
+has studied lynchings in Brazil for more than thirty years, these figures are
+not only the highest in the country's history, but among the highest in the
+world. The people who participate in lynchings are typically young men, but
+they also sometimes include teenage women and girls, elderly women, and even
+members of the local police \citep{moura2017linchamentos}.}
+
+We have also changed the sentence in which we cite \citet{blair2017predicting}
+to make our claims more explicit. The last sentence in the first paragraph now
+reads: ``\textit{This omission is significant not only because local violence
+is pervasive in weak states, but also because it often comes at a greater
+social cost than terrorism or civil wars \citep{blair2017predicting}}.''
+
 \end{quote}
 
 \vspace{.3cm}
 
-\noindent \textbf{2)} The editor writes: ``All Reviewers also provide detailed comments on your empirical analysis. Reviewer 3 has useful suggestions regarding your sampling strategy; Reviewers 1 and 2 focus on your dependent and explanatory variable. Please address these comments.'' 
+\noindent \textbf{2)} The editor writes: ``The manuscript is focused primarily
+on the empirical approach, but I agree with R1 that you could say a bit more
+about the rationale for the covariates considered, perhaps drawing out why more
+``novel'' features such as family or type of crime is likely to be important.'' 
 
 \vspace{.3cm}
 
 \noindent \textbf{Response:} 
 \begin{quote}
-    We have followed Reviewer 3's suggestion and nearly tripled the amount of records we assessed for eligibility, seeking articles within the distributive politics literature through broader criteria. Thanks to this review, we added two new articles to our meta-analysis.
-    
-    The main methodological adaptation we made was in response to Reviewer 2's extremely valuable comment on the need for using multilevel models. We are extremely grateful for this comment, and we thank Reviewer 2 for pointing out this crucial aspect in our empirical strategy.
-    
-    We also added a series of clarifications regarding our coding procedures, specially regarding the independent variables. We specify where these explanations can be found in the main article along this letter, according to each of the specific suggestions the Reviewers made.
+
+We have followed Reviewer 1's suggestion and have extended section two (``When
+Is Lynching Perceived as More Justified?'')  to provide further information
+about our choice of covariates. The third paragraph of that section now reads:
+``\textit{In addition to our knowledge of the Brazilian case, we also chose our
+attributes based partly on existing work on crime, vigilantism, and
+extrajudicial violence. From the prison violence literature, we know that the
+relative age differences and the genders of perpetrators and victims affect
+how it is perceived \citep{fleisher2009myth}. We likewise know that certain
+offenses are seen as especially reprehensible \citep{skarbek2014social}, so
+we included such offenses, like molestation, alongside less serious offenses.
+We include race because, in the United States, violent lynchings have often
+been wielded for racist reasons \citep{dray2003hands}. Likewise, we include
+residency because extrajudicial violence is often used against people ``who
+don't belong'' or are ``outsiders'' in some respect. Finally, in honor
+cultures that value retaliatory violence, people believe that victims and the
+family of victims have a special right (and often an obligation) to enact
+retribution \citep{weiner2013rule}.}
+
+As we show below, we have also included an additional paragraph in the
+Conclusion to discuss how our findings relate to the literature on extralegal
+violence.
+
 \end{quote}
 
 \vspace{.3cm}
 
-\noindent \textbf{3)} The editor writes: ``Reviewers 1 and 2 also ask you to make better use of the Supplementary Materials (SI). In your main text, please refer to specific sections in the SI, please explain your results in the SI, and leave out the R code, which should be made publicly available separately from the SI with the replication materials.''
+\noindent \textbf{3)} The editor writes: ``On the presentation of the results,
+I agree with R2 that the discussion of the results does not need to re-report
+all the significance tests, and the full tables could be included in the text
+or appendix.''
 
 \vspace{.3cm}
 
 \noindent \textbf{Response:} 
 \begin{quote}
-    We have made the changes requested by Reviewers 1 and 2 accordingly. The ``Supplementary Materials'' we refer to hereinafter contain only a discussion of the \citet{weingast1981political} and \citet{primo2008distributive} models in Section A, a detailed description of the search and eligibility procedures for study inclusion (Sections B and C), a guide to how we built the meta-analysis dataset from our pool of diverse coefficients (Section D), a presentation of the descriptive statistics of the included articles (Sections E and F), and the results for the binomials tests, meta-analyses, and meta-regressions (Sections G through K). The R scripts we previously presented along with this information are now in a different document referred to as ``Replication Materials''. For the purpose of reproducibility, the full datasets listing all the records we assessed and the stage and reason for each exclusion are also available online for consultation in the article's GitHub repository. 
+
+We have deleted the statistical details from the main text to improve the
+readability of the manuscript. All significance tests are now reported only in
+the Supplementary Materials.
+
 \end{quote}
 
 \vspace{.3cm}
 
-We would like to thank the editors for their helpful comments and suggestions.
+\noindent \textbf{4)} The editor writes: ``It would be useful to add a bit more
+discussion of Brazil in comparative perspective. I wonder if the results for
+Brazil are likely to be more general and that the US could be an outlier, for
+example.''
+
+\vspace{.3cm}
+
+\noindent \textbf{Response:} 
+\begin{quote}
+
+We have made the changes requested by the editor and Reviewer 1 and our
+Conclusion section has been significantly expanded. We are especially grateful
+for this suggestion, as it has allowed us to better situate our article in the
+broader literate on vigilantism. Paragraph three of the Conclusion, the longest
+in the section, is now exclusively dedicated to the scope conditions of our
+research. We have linked our findings to important works in the literature and
+have also discussed how a culture of honor may explain some of our main
+findings. 
+
+The paragraph reads: ``\textit{These findings have implications that extend
+well beyond Brazil. In particular, our experiments indicate that lynchings
+have a crucial gendered aspect, which has also been documented in other
+contexts. Using data from 18 Latin American countries,
+\citet{nivette2016institutional} also finds that respondents are most likely
+to support lynchings when the criminal raped a child, and studies about
+lynchings in the American South point out that several episodes resulted from
+accusations of sexual assault \citep{jacquet2013giles, smaangs2020race}. We
+believe that a culture of honor may explain these results. Individuals in
+honor societies view crime as an attack on their personal reputation and, in
+turn, are more likely to take revenge to defend their status and that of
+people perceived as deserving protection, such as women and children
+\citep{nisbett2018culture}. A culture of honor may also explain why
+Brazilians see lynchings carried out by the family of the victim as more
+justified, as well as refraining from using extralegal violence if it can
+trigger vendettas. We expect similar results in societies which share those
+cultural norms. Lastly, the fact that race does not appear to be a major
+motivation behind lynchings also reflects the experience of places like Haiti
+or Southern Africa, where popular violence was mainly driven by other social
+factors \citep{berg2011globalizing, jung2020lynching}. Even in the American
+South, Whites and Blacks also lynched people of their own race
+\citep{beck1997race}. In this respect, our paper also highlights that
+lynchings in the Global South may be more strongly connected with the idea of
+``popular justice'' than with racial animus \citep{martins2015linchamentos}.}''
+
+\end{quote}
+
+\vspace{.3cm}
+
+\noindent \textbf{5)} The editor writes: ``Finally, in order to ensure any
+delays on a decision on the resubmission I would encourage you to make sure
+that the final manuscript follows the journal guidelines,
+\url{https://journals.sagepub.com/author-instructions/rap}. For example, the
+sections should not be numbered, and the references should have first initial
+only rather than full names and books should have location before publisher
+(please ensure that all references are complete – Grimm looks incomplete to me,
+for example).''
+
+\noindent \textbf{Response:} 
+\begin{quote}
+
+We have completed the references according to Research \& Politics' guidelines
+and the sections are unnumbered as requested.
+
+\end{quote}
+
+\vspace{.3cm}
+
+We would like to thank the editor Kristian Skrede Gleditsch for his very
+helpful comments and suggestions.
 
 \section*{Reviewer 1 Comments and Responses}
 
-\noindent \textbf{1)} Reviewer 1 writes: ``It has long been known that the empirical results are inconsistent in this literature. To wit, a major theme in the empirical literature -- at least for the last decade or so -- has been to try to explain the previously inconsistent findings, especially between upper and lower chambers; papers like Chen and Malhotra, Crowley, Lee, etc. take it as a main motivation to explain these inconsistencies. There have also been theoretical contributions in this vein, such as Pecorino's 2018 piece in Public Choice. In other words, these various approaches the authors note have been evolving not just as new techniques have been made available, but precisely *because* of the inconsistency in the findings the authors are discussing here. While I understand this paper is endeavoring to be concise, some service should be paid to a fuller discussion of the trends in the literature--noting that the previous authors in this literature were well aware of its inconsistent results--beyond just changes in methodology.''
+\noindent \textbf{1)} Reviewer 1 writes: ``The empirical approach is presented
+as offering many benefits---I would also acknowledge the drawbacks. And many of
+these results do not seem to square with other parts of the world (which is a
+feature and I would ask the authors for a little bit of speculation as to why!)
+but I would suggest the authors think about the scope conditions imposed by the
+setting and how well they seem to extend (the gendered aspect, yes, the race
+aspect, perhaps there are some conditions).''
 
 \vspace{.3cm}
 
-\noindent \textbf{Response:} 
-\begin{quote}
-    Reviewer 1 makes an excellent point. We agree that we had not properly expressed how more recent works identified and searched for strategies that solved the discrepancies in the literature. We have changed the framing of the paper so it is clear that scholars were well aware of the heterogeneity, and that our contribution in this sense is to quantitatively find the sources of such variation. While this idea permeates the Introduction section, here is one sentence we added that specifically addresses this point (p.2): 
-    
-    ``\textit{In this respect, scholars have long been aware of the theoretical and empirical limitations of the ``law of $1/n$'', and the proliferation of new studies reflect a conscious attempt to assess the robustness of the theory.}''
-    
-    As mentioned above, we have also expanded the literature review from paragraphs 1 through 3 in the Introduction section (p.2) as follows:
-    
-    ``\textit{Early studies that empirically tested the "law of $1/n$", as the theory is currently known, indeed found a positive correlation between the number of legislature seats and different measures of government spending, although these first results were mainly based on US state legislatures and the effect was often limited to one house (e.g., \citet{baqir2002districting, gilligan1995deviations, gilligan2001fiscal}).} 
+\noindent \textbf{Response:} \begin{quote}
+  
+Reviewer 1 makes an excellent point. We agree that we had not properly
+explained the scope conditions of our research and, as mentioned above, we have
+included a long paragraph in the Conclusion to detail 
 
-    \textit{Later research, however, has questioned the validity of the "law of $1/n$". \citet{primo2008distributive} affirm that, due to spatial spillovers, a collection of small districts can supply public goods more efficiently than the central government. The authors conclude that a "reverse law of $1/n$" may hold, wherein a higher number of legislators in small constituencies decrease the overall public spending. Similarly, \citet{primo2006stop} and \citet{chen2007law} find that lower and upper chambers may have mixed effects on government spending, while \citet{petterssonlidbom2012size} argues that the impact of larger chamber sizes is negative when using data from Finland and Sweden.}
-
-    \textit{Since many empirical tests of the "law of $1/n$" have produced conflicting results, scholars have expanded this research agenda and closely investigated how institutional factors condition the original formulation of the theory. For instance, authors such as \citet{crowley2019law} and \citet{pecorino2018supermajority} accurately point out that collective action problems have been overlooked in the literature, and recent findings indicate that bicameralism \citep{maldonado2013legislatures}, intergovernmental competition \citep{crowley2015local}, redistricting \citep{lee2018court}, and party ideology \citep{bjedov2014impact} strongly influence the relationship between seats and spending. Moreover, the literature has increasingly applied causal inference methods to estimate the effect of the "law of $1/n$", and in contrast to previous studies using panel data, regression discontinuity designs generally indicate that more legislators decrease public expenditures \citep{debenedetto2018effect, hohmann2017effect, lewis2019legislature, petterssonlidbom2012size}.}''
 \end{quote}
 
 \vspace{.3cm}
@@ -226,7 +359,7 @@ We would like to thank the editors for their helpful comments and suggestions.
 
 \noindent \textbf{Response:} 
 \begin{quote}
-    As noted above, we agree that important details about data collection and coding were missing. Unicameral legislature sizes were coded under lower chamber size or natural logarithm of lower chamber size. Many studies consider lower chambers and unicameral legislatures as analogous institutions for quantitative purposes. An example is one of the papers in our meta-analysis \citep{stein1998institutional}. We expand the explanations surrounding the treatment of independent variables in the first paragraph of the Data and Methods section. A specific clarification on unicameral legislatures is in Footnote \#2. It reads: ``\textit{There are a few important nuances concerning coding of these variables. Unicameralism, for example, is captured both by lower chamber size ($n = 7$) and by log lower chamber size ($n = 5$).}''
+    As noted above, we agree that important details about data collection and coding were missing. Unicameral legislature sizes were coded under lower chamber size or natural logarithm of lower chamber size. Many studies consider lower chambers and unicameral legislatures as analogous institutions for quantitative purposes. An example is one of the papers in our meta-analysis. We expand the explanations surrounding the treatment of independent variables in the first paragraph of the Data and Methods section. A specific clarification on unicameral legislatures is in Footnote \#2. It reads: ``\textit{There are a few important nuances concerning coding of these variables. Unicameralism, for example, is captured both by lower chamber size ($n = 7$) and by log lower chamber size ($n = 5$).}''
     
     Upon reading this comment, we also acknowledged that although the differences between upper and lower chambers were so relevant to the discussion, we had not given enough attention to unicameral legislatures. Inspired by this remark, we coded a new moderator for institutional design. The categories were `Unicameral', for coefficients from purely unicameral systems; `Bicameral', for coefficients from purely bicameral systems; and `Mixed', for coefficients from studies that used samples which contained a mix of unicameral and bicameral systems. Examples of the latter were all the papers that used country-level data. Our findings confirm the Reviewer's insight: in the meta-regressions that aggregate all coefficients, unicameralism is a significant positive predictor of the $1/n$ effect. 
     
@@ -260,7 +393,7 @@ We would like to thank Reviewer 1 for her/his helpful comments and suggestions.
 
 \noindent \textbf{Response:} 
 \begin{quote}
-    We agree that the technical discussion in the introductory section was misplaced. We have restructured the Introduction to fit Reviewer 1 and Reviewer 2's recommendations. As displayed above (p.4 of this letter), we expanded the literature review to capture the main points in the debate that dialogue with our findings. We have also made our critiques of the scholarship more clear, explicitly pointing to which we thought were the sources of heterogeneity in previous work in the Discussion section. Moreover, in Section A of the Supplementary Materials, we added a brief discussion of the theory developed by \citet{weingast1981political}, and also the "reverse law of $1/n$" by \citet{primo2008distributive}. 
+    We agree that the technical discussion in the introductory section was misplaced. We have restructured the Introduction to fit Reviewer 1 and Reviewer 2's recommendations. As displayed above (p.4 of this letter), we expanded the literature review to capture the main points in the debate that dialogue with our findings. We have also made our critiques of the scholarship more clear, explicitly pointing to which we thought were the sources of heterogeneity in previous work in the Discussion section. 
 \end{quote}
 
 \vspace{.3cm}
@@ -271,9 +404,7 @@ We would like to thank Reviewer 1 for her/his helpful comments and suggestions.
 
 \noindent \textbf{Response:} 
 \begin{quote}
-    In our restricted sample, a study can supply more than one coefficient if it employs more than one dependent or independent variable. Studies that analyse bicameral systems use upper chamber size and lower chamber size as independent variables, and thus supply two coefficients each. These studies are \citet{chen2007law, crowley2019law, gilligan2001fiscal, lee2015supermajority, lee2016supermajority, lee2018court, maldonado2013legislatures, ricciuti2003trading, ricciuti2004legislatures, primo2006stop}. The paper by \citet{bradbury2001legislative} alone supplies four coefficients, as they use two independent variables (upper chamber size and lower chamber size) and two dependent variables (expenditure as share of the GDP and per capita expenditure). Two other papers \citep{bjedov2014impact, erler2007termlimits} also use both of these dependent variables and only one independent (lower chamber size), supplying two coefficients each.
-    
-    To the extended sample, each paper can supply several coefficients because studies usually submit their data to a series of models where they include or exclude different controls or interaction terms, or perform slightly different tests. For instance, we drew twelve coefficients from \citet{fiorino2007legislature}. From a single table (Table 4) in their paper, we extracted four coefficients for the same variable combination (lower chamber size and per capita expenditure).
+    In our restricted sample, a study can supply more than one coefficient if it employs more than one dependent or independent variable. Studies that analyse bicameral systems use upper chamber size and lower chamber size as independent variables, and thus supply two coefficients each. 
 \end{quote}
 
 \vspace{.3cm}
@@ -286,7 +417,7 @@ Furthermore, since there were several studies focusing on the same country (e.g.
 
 \noindent \textbf{Response:} 
 \begin{quote}
-    As Reviewer 2 correctly notes, the coefficient extraction procedure we just presented in the previous response is the main source of effect size dependence in our extended sample analyses. An additional source of dependence is the fact that many studies analyse the same cases, sometimes even using the same data sources. The Reviewer is also correct to point out that separating the effect sizes into a restricted and an extended sample does not properly address the dependence of the coefficients within the extended sample. We followed the Reviewer's suggestion rigorously by employing multilevel random effect models \citep{cheung2014modeling, matthes2019meta} in all of our estimations. A thorough explanation of how we identified, grouped the studies that constitute the new levels, and coded them can be found in section H.1 of the Supplementary Materials. We describe the procedure more succinctly in the Data and Methods section in the main paper (last paragraph on page 7):
+    As Reviewer 2 correctly notes, the coefficient extraction procedure we just presented in the previous response is the main source of effect size dependence in our extended sample analyses. An additional source of dependence is the fact that many studies analyse the same cases, sometimes even using the same data sources. The Reviewer is also correct to point out that separating the effect sizes into a restricted and an extended sample does not properly address the dependence of the coefficients within the extended sample. We followed the Reviewer's suggestion rigorously by employing multilevel random effect models in all of our estimations. A thorough explanation of how we identified, grouped the studies that constitute the new levels, and coded them can be found in section H.1 of the Supplementary Materials. We describe the procedure more succinctly in the Data and Methods section in the main paper (last paragraph on page 7):
     
     ``\textit{We add two extra levels to the regular meta-analysis, one including a unique publication ID for each paper, and another indicating the data source used in the original study. By adding these two levels, we account for within- and between-study variation, thus removing these sources of effect size dependency and improving the accuracy of the results.}''
     
@@ -303,7 +434,7 @@ Furthermore, since there were several studies focusing on the same country (e.g.
 \begin{quote}
     We have included a paragraph in the Data and Methods section (p.7) to clarify the coefficient standardisation procedure. It reads:
     
-    ``\textit{We use Hedges' $g$ to calculate effect sizes in our meta-analysis \citep{hedges1981distribution}. While there are other methods to standardise coefficients in meta-analytic studies, Hedges' $g$ corrects for upward bias in small sample sizes and is considered more robust than measures such as Cohen's $d$ \citep{lakens2013calculating}. We estimate the Standardised Mean Difference (SMD), which represents the effect size in each study relative to the variability observed in that study, by extracting the coefficients and the standard errors from all articles included in our sample and converting them to Hedges' $g$. In cases where authors did not report the standard errors for their estimates, we computed them using the t-statistic presented in the original tables.}''
+    ``\textit{We use Hedges' $g$ to calculate effect }''
 \end{quote}
 
 \vspace{.3cm}
@@ -316,7 +447,7 @@ Furthermore, since there were several studies focusing on the same country (e.g.
 \begin{quote}
     We have adapted the language when referring to the effects of estimation methods according to the Reviewer's suggestions throughout the paper. For instance, paragraph 6 of the Introduction (p.3) reads:
     
-    ``\textit{However, when we look only at articles that employ regression discontinuity designs, we see that all four papers included in our sample suggest that a higher number of legislators leads to lower public spending \citep{debenedetto2018effect, hohmann2017effect, lewis2019legislature, petterssonlidbom2012size}. In this regard, it is possible that methodological choices partially explain the divergent results observed in the literature, as studies that use causal inference methods consistently point to the same direction. One limitation of this finding is that these studies only test the impact of lower house size on the natural logarithm of expenditure per capita, thus it remains unclear whether the results hold with other variables.}''
+    ``\textit{However, when we look only at articles that employ regression discontinuity designs, we see that all four papers included in our sample suggest that a hi}''
     
     The Results and Discussion sections present these findings more objectively. On page 14, we report the following conclusion regarding estimation methods: ``\textit{The meta-regressions confirm that modern estimation methods such as RDDs and panel/fixed-effects models decrease effects more frequently than OLS regressions.}''
 \end{quote}
@@ -333,7 +464,7 @@ Furthermore, since there were several studies focusing on the same country (e.g.
     
     We present and partly interpret our results in the Introduction section, reporting back to elements from the literature and to the theory. The last paragraph in the Introduction (p.3) reads:
     
-    ``\textit{The meta-regressions provide additional evidence that our study sample is highly heterogeneous and that effect sizes differ substantially according to study specifications. When using an extended sample of 162 coefficients, we find that unicameralism is associated with higher public spending, as predicted by the ``law of $1/n$''. Since most unicameral legislatures in our sample are local governments (municipalities or districts), this result supports the predictions of \citet{weingast1981political}. Moreover, our meta-regressions indicate that larger upper chambers spend more in terms of per capita expenditure than lower chambers, a result that also appears in the binomial tests. Overall, non-majoritarian voting systems seem to decrease government spending, following the idea that the $1/n$ effect grows weaker as the empirical cases distance from the original definition of the law. Finally, meta-regression results confirm that regression discontinuity designs reduce public spending estimates.}''
+    ``\textit{The meta-regressions provide additional evidence that our study sample is highly heterogeneous and that effect sizes differ substantially according to study specifications. When using an extended sample of 162 coefficients, we find that unicameralism is associated with higher public spending, as predicted by the ``law of $1/n$''. Since most unicameral legislatures in our sample are local governments (municipalities or districts), this result supports the predictions of Moreover, our meta-regressions indicate that larger upper chambers spend more in terms of per capita expenditure than lower chambers, a result that also appears in the binomial tests. Overall, non-majoritarian voting systems seem to decrease government spending, following the idea that the $1/n$ effect grows weaker as the empirical cases distance from the original definition of the law. Finally, meta-regression results confirm that regression discontinuity designs reduce public spending estimates.}''
     
     The Discussion section has also increased both in size and scope. Now, we more aptly establish the dialogue between our electoral system findings and the original theory and literature. For instance, in page 15, the following reads:
     
@@ -401,41 +532,8 @@ Furthermore, since there were several studies focusing on the same country (e.g.
 
 We would like to thank Reviewer 2 for her/his helpful comments and suggestions.
 
-\section*{Reviewer 3 Comments and Responses}
-
-\noindent \textbf{1)} Reviewer 3 writes: ``First, I am concerned about the first criterion for inclusion in the meta-analysis. Studies could only be included if they cited the Weingast et al. (1981) study. While I don't doubt that this work is foundational to the distributive politics literature, it is an unnecessary restriction. Are there any studies that fit the other two inclusion criteria but do NOT cite Weingast? Maybe there aren't any, but if there are, they should be included since they are still just as relevant to the question at hand. The second inclusion criterion is the most important: a study that quantitatively analyzes the variables of interest. This of course makes the literature search more difficult, but also more comprehensive, which is a main benefit of good meta-analyses.''
-
-\vspace{.3cm}
-
-\noindent \textbf{Response:} 
-\begin{quote}
-    The concern Reviewer 3 expresses is one we share. We address this comment by conducing a second round of record collection. We increased our breadth by using a search string with key terms on Google Scholar. We meant to capture all articles that approached the relationship between legislature size and public spending. The search string we used is the following:
-    
-    \texttt{\justify ("upper chamber size" OR "lower chamber size" OR "council size" OR "parliament size" OR "legislature size" OR "number of legislators" OR "legislative size") AND ("spending" OR "expenditure" OR "government size")}
-    
-    We fuzzy matched the resulting database with the one we had originally analysed to remove all entries we had already covered. As part of this eligibility analysis, we assessed an additional 3,042 records. The exclusion criteria and procedures were the exact same as those performed in the first round (for the original manuscript the Reviewers and Editors read). They are fully detailed in Sections B and C of the Supplementary Materials. The full dataset of excluded records is available for online consultation in the article's GitHub repository.
-    
-    Resulting from this second round of surveying the literature, we found two articles that satisfied all the criteria. They were thus included in our analysis. The new papers are \citet{coate2011government} and \citet{debenedetto2018effect}. We thank Reviewer 3 for this comment, as it has effectively made our survey more comprehensive. 
-\end{quote}
-
-\vspace{.3cm}
-
-\noindent \textbf{2)} Reviewer 3 writes: ``Second, another main benefit of meta-analyses is to assess the possibility of publication bias. Studies are often more likely to be published if they find statistically significant effects in the direction that is expected, but a comprehensive search of ongoing studies allows meta-analysts to check this. In the current sample, only 4 papers are unpublished, but I also wonder if this is due to the restricted inclusion criteria. For example, if one uses the Google Scholar feature to find articles citing Weingast et al, that would only pick up papers that are already published in a journal or otherwise online, but it may miss any working papers that are not shared publicly. A more comprehensive search may result in more unpublished studies. Either way, can the authors include some sort of formal tests or visualizations for publication bias, such as funnel plots? I think if these two revisions could be made this paper would make a strong contribution.''
-
-\vspace{.3cm}
-
-\noindent \textbf{Response:} 
-\begin{quote}
-    We understand the Reviewer's concern with publication bias, and we accept both of her/his suggestions in this comment. First, so as not to miss any papers that have not been circulated as Working Papers, we seek after those that have been shared as ongoing projects. We looked into the personal webpages of the scholars who wrote all of the papers in our original sample of studies. In their personal platforms, we scouted for pieces of research about distributive politics. We targeted specifically those that had not been uploaded to large repositories and open archives such as SocArXiv, as those tend to appear in Google Scholar searches. We gathered 15 pieces of work with titles potentially related to our research topic and submitted them to the eligibility criteria. None of these papers were included in the final sample. This procedure is also explained in Section B of the Supplementary Materials, and a dataset displaying all records assessed and their reason for exclusion is available for online consultation as well.
-    
-    Attending to the Reviewer's second request, we add \citet{egger1997bias} funnel plots to assess publication bias in all of our meta-analyses. Funnel plots display the possibility of having a file-drawer effect, meaning they can indicate whether null results are under-represented in our sample or not. The funnel plots are available in the Supplementary Materials below the forest plot for each variable combination in the restricted and in the extended samples (Sections H and I). All but one of our \citet{egger1997bias} tests reject the hypothesis of publication bias.
-\end{quote}
-
-We would like to thank Reviewer 3 for her/his helpful comments and suggestions.
-
-
 \newpage
-\bibliography{references.bib}
+\bibliography{../article/references.bib}
 \bibliographystyle{apalike}
 
 \end{document}d
