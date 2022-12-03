@@ -1264,7 +1264,7 @@ subjects' level of support for such practice.[^carryover-effects]
 
 [^carryover-effects]: To prevent eventual carryover effects caused by the
 conjoint, we randomized the order of the conjoint and the information provision
-experiments.
+experiments [@perreault1975controlling].
 
 The experiment has three treatment conditions and a control group. In all of
 them we present respondents with a short statement affirming that some
