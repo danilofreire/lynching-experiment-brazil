@@ -1671,7 +1671,7 @@ minutes to complete and respondents received 2.5 USD, therefore subjects
 received a monetary compensation that was 6 times higher than the local minimum
 wage. Third, we do not see any potential or perceived conflicts of interest in
 carrying out this research. We received a grant of USD 10,000 to conduct this
-research from the Centre for the Study of Governance & Society at King’s College
+research from the Centre for the Study of Governance & Society at King's College
 London, which in turn receives support from the Templeton Foundation. We are not
 aware of any conflicts of interest from either source. All of the code and data
 used in this article have already been made publicly available. 
