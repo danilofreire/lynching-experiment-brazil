@@ -1,7 +1,7 @@
 ---
 title: |
        | Supplementary Material for "Vigilantism and Institutions: Understanding Attitudes toward Lynching in Brazil"
-author: 
+author:
   - Danilo Freire[^danilo]
   - David Skarbek[^david]
 date: \today
@@ -810,7 +810,7 @@ table_mm_by(mm_senior, capt = "Marginal Means -- 55+ Years Old")
 ### Race
 
 Below are our results when we disaggregate the data by race. We find that they are
-almost identical is all dimensions except for offense. Asian respondents are
+almost identical in all dimensions except for offense. Asian respondents are
 much less likely to select profiles that contain pickpocketing as a crime.
 
 \footnotesize
