@@ -8,7 +8,7 @@ This GitHub repository contains data and documented R code for ["Vigilantism and
 
 You can cite the article as: 
 
-> Freire, D. and Skarbek, D. 2022. "Vigilantism and Institutions: Understanding Attitudes toward Lynching in Brazil". URL: <https://github.com/danilofreire/lynching-experiment-brazil>.
+> Freire, D. and Skarbek, D. 2022. "Vigilantism and Institutions: Understanding Attitudes toward Lynching in Brazil". Forthcoming, _Research & Politics_, pp. 1--15.
 
 BibTeX entry:
 
@@ -16,8 +16,10 @@ BibTeX entry:
 @misc{freire2022lynching,
   title={{Vigilantism and Institutions: Understanding Attitudes toward Lynching in Brazil}},
   author={Freire, Danilo and Skarbek, David},
+  journal={Research \& Politics},
   pages={1--15},
   year={2022},
-  howpublished = {\url{https://github.com/danilofreire/lynching-experiment-brazil}}
+  howpublished={\url{https://github.com/danilofreire/lynching-experiment-brazil}},
+  pubstat={Forthcoming}
 }
 ```

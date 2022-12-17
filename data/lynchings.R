@@ -1,7 +1,9 @@
-#########################################################################################
-## "Vigilantism and Institutions: Understanding Attitudes towards Lynching in Brazil"  ##
-## January 2021                                                                        ##
-#########################################################################################
+########################################################################################
+## "Vigilantism and Institutions: Understanding Attitudes toward Lynching in Brazil"  ##
+##                                                                                    ##
+## Danilo Freire and David Skarbek                                                    ##
+## January 2021                                                                       ##
+########################################################################################
 
 # Record output log
 sink("./lynchings-log.txt")

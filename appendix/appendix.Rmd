@@ -38,7 +38,7 @@ output:
 # Introduction
 
 This appendix contains the `R` code required to replicate the results we present
-in "_Vigilantism and Institutions: Understanding Attitudes towards Lynching in
+in "_Vigilantism and Institutions: Understanding Attitudes toward Lynching in
 Brazil_". This file also includes the descriptive statistics of our sample, the
 average marginal component effects (AMCEs) for our conjoint experiment, and
 additional subgroup analyses for the two experiments included in the main
