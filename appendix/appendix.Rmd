@@ -4,7 +4,7 @@ title: |
 author:
   - Danilo Freire[^danilo]
   - David Skarbek[^david]
-date: \today
+date: December 16, 2022
 fontfamily: libertine
 fontawesome: yes
 fontsize: 12pt
@@ -21,7 +21,7 @@ output:
     highlight: haddock
     toc: true
     toc_depth: 3
-    keep_tex: no
+    keep_tex: yes
     template: template.latex
 ---
 
