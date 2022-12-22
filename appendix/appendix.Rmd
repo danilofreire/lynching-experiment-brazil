@@ -21,7 +21,7 @@ output:
     highlight: haddock
     toc: true
     toc_depth: 3
-    keep_tex: yes
+    keep_tex: no
     template: template.latex
 ---
 
